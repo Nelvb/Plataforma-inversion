@@ -19,7 +19,7 @@ branch_labels = None
 depends_on = None
 
 # Ruta al archivo JSON
-JSON_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'articles.json')
+JSON_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'app', 'data', 'articles.json')
 
 # Crear la app con contexto Flask
 app = create_app()
@@ -27,26 +27,37 @@ app = create_app()
 def import_articles():
     """Importa los artículos desde el JSON si no existen en la base de datos."""
     with app.app_context():
-        with open(JSON_PATH, 'r', encoding='utf-8') as f:
-            articles_data = json.load(f)
+        try:
+            # Verificar si la tabla articles existe
+            from sqlalchemy import inspect
+            inspector = inspect(db.engine)
+            if 'articles' not in inspector.get_table_names():
+                print("Tabla 'articles' no existe aún, saltando importación.")
+                return
 
-        for item in articles_data:
-            # Verificar si el artículo ya existe en la base de datos
-            existing = Article.query.filter_by(slug=item['slug']).first()
-            if existing:
-                print(f"Artículo ya existe: {item['slug']} — ignorado.")
-                continue  # Si el artículo ya existe, no lo agregamos
+            with open(JSON_PATH, 'r', encoding='utf-8') as f:
+                articles_data = json.load(f)
 
-            # Convertir 'related' de lista a texto si existe
-            if 'related' in item and isinstance(item['related'], list):
-                item['related'] = ','.join(item['related'])
+            for item in articles_data:
+                # Verificar si el artículo ya existe en la base de datos
+                existing = Article.query.filter_by(slug=item['slug']).first()
+                if existing:
+                    print(f"Artículo ya existe: {item['slug']} — ignorado.")
+                    continue  # Si el artículo ya existe, no lo agregamos
 
-            # Crear el artículo y agregarlo a la sesión
-            article = Article(**item)
-            db.session.add(article)
+                # Convertir 'related' de lista a texto si existe
+                if 'related' in item and isinstance(item['related'], list):
+                    item['related'] = ','.join(item['related'])
 
-        db.session.commit()
-        print("Artículos importados correctamente.")
+                # Crear el artículo y agregarlo a la sesión
+                article = Article(**item)
+                db.session.add(article)
+
+            db.session.commit()
+            print("Artículos importados correctamente.")
+        except Exception as e:
+            print(f"Error importando artículos: {e}")
+            db.session.rollback()
 
 def upgrade():
     """Aplica la migración: modifica la tabla y agrega artículos si es necesario."""

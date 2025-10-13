@@ -37,114 +37,317 @@ Plataforma web de inversión inmobiliaria diseñada para ofrecer transparencia, 
 
 ```bash
 Plataforma-inversion/
-├── .env.example, .env.docker.example      # Plantillas de configuración backend
-├── docker-compose.yml                     # Configuración Docker
-├── package-lock.json, pyproject.toml     # Dependencias
-├── README.md                              # Documentación principal
+├── .env                                   # Configuración backend (creado)
+├── .env.docker                           # Configuración Docker (creado)
+├── .env.example                          # Plantilla configuración backend
+├── .env.docker.example                   # Plantilla configuración Docker
+├── docker-compose.yml                    # Configuración Docker
+├── Dockerfile.backend                    # Dockerfile backend
+├── Dockerfile.frontend                    # Dockerfile frontend
+├── global.d.ts                          # Tipos globales TypeScript
+├── LICENSE                               # Licencia MIT
+├── middleware.ts                         # Middleware Next.js
+├── package.json                          # Dependencias Node.js
+├── package-lock.json                     # Lock file Node.js
+├── pyproject.toml                        # Configuración Python
+├── README.md                             # Documentación principal
 ├── src/
 │   ├── frontend/
-│   │   ├── .env.local.example, .env.test.example  # Plantillas frontend
-│   │   ├── app/                           # App Router de Next.js
-│   │   │   ├── (auth)/                    # Rutas de login y signup
-│   │   │   ├── (public)/                  # Rutas públicas (reset-password)
-│   │   │   ├── admin/                     # Panel de administración
-│   │   │   ├── blog/                      # Blog público
-│   │   │   ├── dashboard/                 # Área privada de usuario
-│   │   │   ├── contacto/                  # Página de contacto
-│   │   │   ├── nosotros/                  # Página sobre nosotros
-│   │   │   ├── preguntas-frecuentes/      # FAQ
-│   │   │   └── page.tsx                   # Landing principal
-│   │   ├── components/                    # Componentes React
-│   │   │   ├── admin/                     # Componentes del panel admin
-│   │   │   │   ├── blog/                  # Editor de artículos
-│   │   │   │   ├── layout/                # Layout admin
-│   │   │   │   └── sideMenu/              # Menú lateral admin
-│   │   │   ├── auth/                      # Formularios de autenticación
-│   │   │   │   ├── LoginForm.tsx
-│   │   │   │   ├── SignupForm.tsx
+│   │   ├── .env.local                    # Configuración desarrollo (creado)
+│   │   ├── .env.test                     # Configuración tests (creado)
+│   │   ├── .env.local.example            # Plantilla desarrollo
+│   │   ├── .env.test.example             # Plantilla tests
+│   │   ├── .next/                        # Build Next.js (generado)
+│   │   ├── app/                          # App Router de Next.js
+│   │   │   ├── (auth)/                   # Rutas de autenticación
+│   │   │   │   ├── login/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── signup/
+│   │   │   │       └── page.tsx
+│   │   │   ├── (user_private)/           # Rutas privadas usuario
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   └── perfil/
+│   │   │   │       ├── layout.tsx
+│   │   │   │       └── page.tsx
+│   │   │   ├── admin/                    # Panel de administración
+│   │   │   │   ├── blog/
+│   │   │   │   │   ├── editar/
+│   │   │   │   │   │   └── [slug]/
+│   │   │   │   │   │       ├── layout.tsx
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   ├── new-article/
+│   │   │   │   │   │   ├── NewArticle.tsx
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── perfil/
+│   │   │   │       ├── layout.tsx
+│   │   │   │       └── page.tsx
+│   │   │   ├── blog/                     # Blog público
+│   │   │   │   ├── [slug]/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── contact/
+│   │   │   │   └── page.tsx
+│   │   │   ├── recuperar-contrasena/
+│   │   │   │   └── page.tsx
+│   │   │   ├── reset-password/
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx                  # Landing principal
+│   │   ├── components/                   # Componentes React
+│   │   │   ├── admin/                    # Componentes del panel admin
+│   │   │   │   ├── blog/
+│   │   │   │   │   ├── BlogArticleForm.tsx
+│   │   │   │   │   └── helpers/
+│   │   │   │   │       └── htmlFormatter.ts
+│   │   │   │   ├── layout/
+│   │   │   │   │   └── AdminPageContent.tsx
+│   │   │   │   └── ui/
+│   │   │   │       ├── AdminCard.tsx
+│   │   │   │       └── blog/
+│   │   │   │           ├── ArticlePreview.tsx
+│   │   │   │           ├── ArticlesSelector.tsx
+│   │   │   │           ├── BlogArticleCard.tsx
+│   │   │   │           ├── EditorContentArticle.tsx
+│   │   │   │           └── WordCounter.tsx
+│   │   │   ├── articles/                 # Componentes de artículos
+│   │   │   │   ├── ArticleContent.tsx
+│   │   │   │   ├── ArticleHeader.tsx
+│   │   │   │   └── ArticleRelated.tsx
+│   │   │   ├── auth/                     # Formularios de autenticación
 │   │   │   │   ├── ForgotPasswordForm.tsx
-│   │   │   │   └── ResetPasswordForm.tsx
-│   │   │   ├── Home/                      # Secciones de landing
-│   │   │   │   ├── HeroSection.tsx
-│   │   │   │   ├── ValueProposition.tsx
-│   │   │   │   ├── InvestorSupport.tsx
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   ├── ResetPasswordForm.tsx
+│   │   │   │   └── SignupForm.tsx
+│   │   │   ├── blog/                     # Componentes del blog
+│   │   │   │   ├── BlogArticleCard.tsx
+│   │   │   │   └── BlogHeader.tsx
+│   │   │   ├── common/                   # Componentes comunes
+│   │   │   │   ├── MainMenuLinks.tsx
+│   │   │   │   └── SideMenuHeader.tsx
+│   │   │   ├── contact/                  # Formulario de contacto
+│   │   │   │   └── ContactForm.tsx
+│   │   │   ├── Home/                     # Secciones de landing
+│   │   │   │   ├── ActiveProjects.tsx
 │   │   │   │   ├── CompanyValues.tsx
-│   │   │   │   └── ActiveProjects.tsx
-│   │   │   ├── layout/                    # Navbar, Footer, etc.
-│   │   │   ├── shared/                    # Componentes compartidos
+│   │   │   │   ├── ContactCTA.tsx
+│   │   │   │   ├── HeroSection.tsx
+│   │   │   │   ├── InvestmentProcess.tsx
+│   │   │   │   ├── InvestorSupport.tsx
+│   │   │   │   └── ValueProposition.tsx
+│   │   │   ├── layout/                   # Componentes de layout
+│   │   │   │   ├── ClientLayout.tsx
+│   │   │   │   ├── Footer.tsx
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   ├── NavbarLinks.tsx
+│   │   │   │   └── UiGlobalLayer.tsx
+│   │   │   ├── shared/                   # Componentes compartidos
+│   │   │   │   ├── DashboardHeader.tsx
 │   │   │   │   ├── ProfileForm.tsx
-│   │   │   │   ├── ProfileView.tsx
-│   │   │   │   └── DashboardHeader.tsx
-│   │   │   ├── ui/                        # Componentes básicos (Button, Input)
-│   │   │   └── user/                      # Componentes del área de usuario
-│   │   ├── stores/                        # Zustand stores
+│   │   │   │   └── ProfileView.tsx
+│   │   │   ├── sideMenus/                # Menús laterales
+│   │   │   │   ├── AdminSideMenu.tsx
+│   │   │   │   ├── SideMenu.tsx
+│   │   │   │   ├── SideMenuAuthSection.tsx
+│   │   │   │   └── UserSideMenu.tsx
+│   │   │   ├── ui/                       # Componentes básicos
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Card.tsx
+│   │   │   │   ├── ImageUpload.tsx
+│   │   │   │   ├── Input.tsx
+│   │   │   │   └── Spinner.tsx
+│   │   │   └── user/                     # Componentes del área de usuario
+│   │   │       ├── DeleteAccountModal.tsx
+│   │   │       └── layout/
+│   │   │           └── UserPageContent.tsx
+│   │   ├── stores/                       # Zustand stores
 │   │   │   ├── useAuthStore.ts            # Estado de autenticación
-│   │   │   └── useUiStore.ts              # Estado de UI
-│   │   ├── lib/
+│   │   │   └── useUiStore.ts             # Estado de UI
+│   │   ├── lib/                          # Servicios y utilidades
 │   │   │   ├── api/                       # Servicios de API
 │   │   │   │   ├── authService.ts
-│   │   │   │   ├── userService.ts
-│   │   │   │   ├── blogService.ts
-│   │   │   │   └── contactService.ts
-│   │   │   └── utils/                     # Utilidades (fetchWithAuth)
+│   │   │   │   ├── contactService.ts
+│   │   │   │   ├── imageService.ts
+│   │   │   │   └── userService.ts
+│   │   │   ├── blogService.ts
+│   │   │   ├── utils.ts
+│   │   │   └── utils/
 │   │   │       ├── fetchWithAuth.ts
 │   │   │       └── string-utils.ts
-│   │   ├── types/                         # TypeScript interfaces
+│   │   ├── types/                        # TypeScript interfaces
 │   │   │   ├── auth.ts
 │   │   │   ├── blog.ts
+│   │   │   ├── index.ts
 │   │   │   └── user.ts
-│   │   ├── constants/                     # Constantes y validaciones
+│   │   ├── constants/                    # Constantes y validaciones
+│   │   │   ├── privateRoutes.ts
+│   │   │   ├── publicRoutes.ts
 │   │   │   └── validation.ts
-│   │   ├── styles/                        # CSS global
-│   │   ├── __mocks__/                     # Mocks reutilizables para tests
+│   │   ├── hooks/                        # Custom hooks
+│   │   │   ├── useArticle.ts
+│   │   │   └── useStaticArticles.ts
+│   │   ├── styles/                       # CSS global
+│   │   │   ├── globals.css
+│   │   │   └── output.css
+│   │   ├── __mocks__/                    # Mocks reutilizables para tests
+│   │   │   ├── blogService.ts
+│   │   │   ├── fetchMock.ts
+│   │   │   ├── mockedArticles.ts
 │   │   │   ├── useAuthStore.ts
 │   │   │   ├── userService.ts
-│   │   │   ├── blogService.ts
-│   │   │   └── fetchMock.ts
-│   │   └── __tests__/                     # Tests organizados por categoría (187 tests)
-│   │       ├── auth/                      # Tests de formularios de autenticación
-│   │       ├── admin/                     # Tests del panel de administración
-│   │       ├── lib/                       # Tests de servicios y utilidades
-│   │       ├── ui/                        # Tests de componentes UI
-│   │       ├── shared/                    # Tests de componentes compartidos
-│   │       └── utils/                     # Utilidades de testing
+│   │   │   └── useUiStore.ts
+│   │   ├── __tests__/                    # Tests organizados por categoría (187 tests)
+│   │   │   ├── admin/                    # Tests del panel de administración
+│   │   │   │   ├── blog/
+│   │   │   │   │   ├── ArticlesSelector.test.tsx
+│   │   │   │   │   ├── BlogArticleForm.test.tsx
+│   │   │   │   │   └── EditorContentArticle.test.tsx
+│   │   │   │   └── layout/
+│   │   │   │       └── AdminPageContent.test.tsx
+│   │   │   ├── auth/                     # Tests de formularios de autenticación
+│   │   │   │   ├── ForgotPasswordForm.test.tsx
+│   │   │   │   ├── LoginForm.test.tsx
+│   │   │   │   ├── ResetPasswordForm.test.tsx
+│   │   │   │   └── SignupForm.test.tsx
+│   │   │   ├── blog/                     # Tests del blog
+│   │   │   │   └── ArticlePage.test.tsx
+│   │   │   ├── common/                   # Tests de componentes comunes
+│   │   │   │   ├── MainMenuLinks.test.tsx
+│   │   │   │   └── SideMenuHeader.test.tsx
+│   │   │   ├── contact/                  # Tests de contacto
+│   │   │   │   └── ContactForm.test.tsx
+│   │   │   ├── layout/                   # Tests de layout
+│   │   │   │   ├── Navbar.test.tsx
+│   │   │   │   └── NavbarLinks.test.tsx
+│   │   │   ├── lib/                      # Tests de servicios y utilidades
+│   │   │   │   ├── authService.test.ts
+│   │   │   │   ├── blogService.test.ts
+│   │   │   │   ├── contactService.test.ts
+│   │   │   │   ├── userService.test.ts
+│   │   │   │   └── utils/
+│   │   │   │       └── fetchWithAuth.test.ts
+│   │   │   ├── shared/                   # Tests de componentes compartidos
+│   │   │   │   ├── DashboardHeader.test.tsx
+│   │   │   │   ├── ProfileForm.test.tsx
+│   │   │   │   └── ProfileView.test.tsx
+│   │   │   ├── sideMenus/                # Tests de menús laterales
+│   │   │   │   ├── AdminSideMenu.test.tsx
+│   │   │   │   ├── SideMenu.test.tsx
+│   │   │   │   ├── SideMenuAuthSection.test.tsx
+│   │   │   │   └── UserSideMenu.test.tsx
+│   │   │   ├── stores/                   # Tests de stores
+│   │   │   │   ├── useAuthStore.test.ts
+│   │   │   │   └── useUiStore.test.ts
+│   │   │   ├── ui/                       # Tests de componentes UI
+│   │   │   │   ├── Button.test.tsx
+│   │   │   │   ├── Card.test.tsx
+│   │   │   │   ├── ImageUpload.test.tsx
+│   │   │   │   └── Input.test.tsx
+│   │   │   ├── user/                     # Tests de usuario
+│   │   │   │   ├── DeleteAccountModal.test.tsx
+│   │   │   │   └── layout/
+│   │   │   │       └── UserPageContent.test.tsx
+│   │   │   └── utils/                     # Utilidades de testing
+│   │   │       └── test-utils.tsx
+│   │   ├── components.json               # Configuración shadcn/ui
+│   │   ├── jest.config.ts                # Configuración Jest
+│   │   ├── jest.env.setup.ts             # Setup Jest
+│   │   ├── next.config.js                # Configuración Next.js
+│   │   ├── next-env.d.ts                 # Tipos Next.js
+│   │   ├── package.json                   # Dependencias frontend
+│   │   ├── package-lock.json             # Lock file frontend
+│   │   ├── postcss.config.js             # Configuración PostCSS
+│   │   ├── setupTests.ts                 # Setup tests
+│   │   ├── tailwind.config.js             # Configuración Tailwind
+│   │   └── tsconfig.json                 # Configuración TypeScript
 │   └── backend/
-│       ├── admin/                         # Comandos CLI como create_admin
+│       ├── admin/                        # Comandos CLI
 │       │   ├── __init__.py
 │       │   └── manage.py
 │       ├── app/
-│       │   ├── api/                       # Endpoints REST
-│       │   │   ├── auth.py                # Login, logout, signup
-│       │   │   ├── account.py             # Perfil, contacto, reset password
-│       │   │   ├── articles.py            # CRUD artículos blog
-│       │   │   ├── images.py              # Upload Cloudinary
-│       │   │   └── users.py               # Gestión usuarios admin
-│       │   ├── config.py                  # Config por entorno
-│       │   ├── data/                      # JSON estáticos (articles.json)
+│       │   ├── api/                      # Endpoints REST
+│       │   │   ├── __init__.py
+│       │   │   ├── account.py            # Perfil, contacto, reset password
+│       │   │   ├── articles.py           # CRUD artículos blog
+│       │   │   ├── auth.py               # Login, logout, signup
+│       │   │   ├── images.py             # Upload Cloudinary
+│       │   │   ├── routes.py             # Rutas generales
+│       │   │   └── users.py              # Gestión usuarios admin
+│       │   ├── config.py                 # Config por entorno
+│       │   ├── data/                     # JSON estáticos
+│       │   │   └── articles.json
 │       │   ├── extensions.py              # Inicialización de extensiones Flask
-│       │   ├── models/                    # Modelos SQLAlchemy
-│       │   │   ├── user.py
-│       │   │   └── article.py
-│       │   ├── schemas/                   # Validación y serialización
-│       │   │   ├── user.py
+│       │   ├── models/                   # Modelos SQLAlchemy
+│       │   │   ├── __init__.py
+│       │   │   ├── article.py
+│       │   │   └── user.py
+│       │   ├── schemas/                  # Validación y serialización
+│       │   │   ├── __init__.py
 │       │   │   ├── article_schema.py
-│       │   │   └── contact_schema.py
-│       │   ├── scripts/                   # Scripts como import_static_articles.py
-│       │   ├── services/                  # Lógica de negocio
+│       │   │   ├── contact_schema.py
+│       │   │   └── user.py
+│       │   ├── scripts/                  # Scripts de utilidad
+│       │   │   ├── import_service.py
+│       │   │   └── import_static_articles.py
+│       │   ├── services/                 # Lógica de negocio
+│       │   │   ├── __init__.py
 │       │   │   ├── article_service.py
 │       │   │   ├── email_service.py
 │       │   │   ├── image_service.py
 │       │   │   └── import_service.py
-│       │   └── utils/                     # Funciones auxiliares
-│       ├── migrations/                    # Alembic
-│       └── tests/                         # Tests del backend (83 tests, 93% coverage)
-│           ├── api/                       # Test de endpoints
-│           ├── config/                    # Test de configuración y extensiones
-│           ├── models/                    # Test unitarios de modelos
-│           ├── schemas/                   # Test de validación con Marshmallow
-│           ├── scripts/                   # Test de comandos Flask CLI
-│           ├── services/                  # Test de lógica de negocio
-│           └── test_db.py                 # Test de conexión DB
+│       │   ├── utils/                    # Funciones auxiliares
+│       │   │   ├── __init__.py
+│       │   │   └── utils.py
+│       │   └── __init__.py
+│       ├── migrations/                   # Alembic
+│       │   ├── alembic.ini
+│       │   ├── env.py
+│       │   ├── README
+│       │   ├── script.py.mako
+│       │   └── versions/
+│       │       ├── 02644fa8bb55_add_last_name_to_users.py
+│       │       ├── 2404c81b8c0d_migración_inicial_con_postgresql.py
+│       │       ├── 72c144c63040_corrección_de_nombre_de_tabla_users.py
+│       │       ├── 99143f90c755_add_related_field_to_articles.py
+│       │       ├── b15e74568949_add_created_at_field.py
+│       │       ├── f73beb5234cd_add_is_admin_to_users_con_default.py
+│       │       └── import_static_articles.py
+│       ├── tests/                        # Tests del backend (83 tests, 93% coverage)
+│       │   ├── api/                      # Test de endpoints
+│       │   │   ├── test_account.py
+│       │   │   ├── test_articles_api.py
+│       │   │   ├── test_auth.py
+│       │   │   ├── test_images_api.py
+│       │   │   ├── test_routes_api.py
+│       │   │   └── test_users_api.py
+│       │   ├── config/                   # Test de configuración
+│       │   │   ├── test_config.py
+│       │   │   └── test_extensions.py
+│       │   ├── models/                   # Test unitarios de modelos
+│       │   │   ├── test_article_model.py
+│       │   │   └── test_user_model.py
+│       │   ├── schemas/                  # Test de validación con Marshmallow
+│       │   │   ├── test_article_schema.py
+│       │   │   ├── test_contact_schema.py
+│       │   │   └── test_user_schema.py
+│       │   ├── scripts/                  # Test de comandos Flask CLI
+│       │   │   └── test_manage_admin.py
+│       │   ├── services/                 # Test de lógica de negocio
+│       │   │   ├── test_article_service.py
+│       │   │   ├── test_email_service.py
+│       │   │   ├── test_image_service.py
+│       │   │   └── test_import_service.py
+│       │   ├── __init__.py
+│       │   ├── conftest.py
+│       │   └── test_db.py                 # Test de conexión DB
+│       ├── venv/                         # Entorno virtual Python
+│       ├── requirements.txt              # Dependencias Python
+│       └── run.py                        # Punto de entrada Flask
 ```
 
 ## Requisitos Previos
