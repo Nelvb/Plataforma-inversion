@@ -20,7 +20,8 @@ def test_development_config_has_required_fields():
     """Verifica que DevelopmentConfig tenga los campos clave requeridos."""
     config = DevelopmentConfig()
     assert hasattr(config, "SQLALCHEMY_DATABASE_URI")
-    assert config.JWT_COOKIE_SECURE is False
+    assert hasattr(config, "JWT_TOKEN_LOCATION")
+    assert config.JWT_TOKEN_LOCATION == ["headers"]
     assert isinstance(config.JWT_ACCESS_TOKEN_EXPIRES, int)
 
 def test_production_config_fallback_url(monkeypatch):

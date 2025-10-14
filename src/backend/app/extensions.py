@@ -40,11 +40,6 @@ def init_app(app):
     
     mail.init_app(app)
 
-    # Configuración adicional de JWT
-    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]  # Cambiado a cookies si estás usando HttpOnly cookies
-    app.config["JWT_COOKIE_CSRF_PROTECT"] = True
-    app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN"
-
 
 # Asegurándonos de que init_app está exportado correctamente
 __all__ = ["db", "migrate", "jwt", "ma", "cors", "mail", "init_app"]

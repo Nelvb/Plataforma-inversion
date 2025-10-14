@@ -64,7 +64,7 @@ class Article(db.Model):
     image = db.Column(db.String(255), nullable=False)
     image_alt = db.Column(db.String(255), nullable=True)  # NUEVO CAMPO: descripción alt de la imagen
     content = db.Column(db.Text, nullable=False)
-    related = db.Column(JSONEncodedList, nullable=True)
+    related = db.Column(db.JSON, nullable=True)
 
     # Campos para SEO
     meta_description = db.Column(db.String(160), nullable=True)

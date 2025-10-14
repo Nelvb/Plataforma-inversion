@@ -9,6 +9,7 @@ from app.extensions import db
 from app.models.user import User
 from sqlalchemy import text
 from app.config import TestingConfig
+from flask_jwt_extended import create_access_token
 
 
 @pytest.fixture(scope="function")
@@ -60,3 +61,31 @@ def test_user(app):
             "username": user.username,
             "last_name": user.last_name
         }
+
+
+@pytest.fixture
+def admin_token(app, _db):
+    """Crea un usuario admin y devuelve su Bearer token JWT."""
+    with app.app_context():
+        admin = User(username="admin_test", email="admin@test.com", is_admin=True)
+        admin.set_password("admin123")
+        _db.session.add(admin)
+        _db.session.commit()
+        
+        # Generar token JWT directamente
+        token = create_access_token(identity=str(admin.id))
+        return token
+
+
+@pytest.fixture
+def user_token(app, _db):
+    """Crea un usuario regular y devuelve su Bearer token JWT."""
+    with app.app_context():
+        user = User(username="user_test", email="user@test.com", is_admin=False)
+        user.set_password("user123")
+        _db.session.add(user)
+        _db.session.commit()
+        
+        # Generar token JWT directamente
+        token = create_access_token(identity=str(user.id))
+        return token

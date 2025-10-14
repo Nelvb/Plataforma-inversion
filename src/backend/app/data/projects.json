@@ -1,0 +1,24 @@
+[
+    {
+        "title": "FiveRooms Venezuela",
+        "slug": "fiverooms-venezuela",
+        "description": "El proyecto FiveRooms Venezuela consiste en la adquisición y adecuación de un piso de 90 m² para alquiler por habitaciones. Se redistribuirá el espacio para crear 5 habitaciones, 2 baños y una cocina común moderna y funcional. La inversión incluye compra, reforma ligera, gastos e impuestos, mobiliario y puesta en alquiler.",
+        "image_url": "https://res.cloudinary.com/boostaproyect/image/upload/v1728837200/fiverooms_venezuela.jpg",
+        "investment_goal": 110000,
+        "investment_min": 100,
+        "expected_return": 12,
+        "optimistic_return": 16,
+        "location": "Valladolid, España",
+        "investment_type": "Alquiler por habitaciones",
+        "area_m2": 90,
+        "rooms": 5,
+        "bathrooms": 2,
+        "estimated_duration": "2 meses",
+        "status": "Abierto",
+        "financial_structure_text": "Compra del inmueble 85.000 € (77 %), Reforma y adecuación 10.000 € (9 %), Gastos notariales y mobiliario 10.000 € (9 %), Contingencias y gestión 5.000 € (5 %). Total inversión 110.000 € (100 %).",
+        "rentability_projection": "Escenario conservador: 10 % anual | Escenario base: 12 % anual | Escenario optimista: 16 % anual.",
+        "risk_analysis": "Retrasos en la reforma → proveedores locales confirmados. Vacancia temporal → alta demanda en la zona. Sobrecostes → fondo de contingencia incluido. Mantenimiento → gestión Boostaproyect.",
+        "team_description": "Boostaproyect · Empresa especializada en proyectos de inversión inmobiliaria colaborativa. Más de 10 años de experiencia, con enfoque en activos urbanos de alta rentabilidad y transparencia.",
+        "external_link": "https://www.boostaproyect.com/fiverooms-venezuela"
+    }
+]

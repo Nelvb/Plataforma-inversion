@@ -1,6 +1,6 @@
 # Configuración centralizada para diferentes entornos de la aplicación
 # Define ajustes para desarrollo, pruebas y producción con carga dinámica de variables
-# Incluye soporte para JWT en cookies seguras (HttpOnly) con protección CSRF
+# Incluye soporte para JWT con Bearer tokens en headers (compatible con frontend)
 
 import os
 from dotenv import load_dotenv
@@ -17,19 +17,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-
-    # Configuración de cookies para JWT
-    JWT_TOKEN_LOCATION = ["cookies"]
-    JWT_COOKIE_SECURE = False  # True solo en producción HTTPS
-    JWT_COOKIE_SAMESITE = "Lax"
-    JWT_SESSION_COOKIE = False
-    JWT_COOKIE_CSRF_PROTECT = True
-    JWT_ACCESS_COOKIE_PATH = "/"
-    JWT_REFRESH_COOKIE_PATH = "/api/auth/refresh"
-    JWT_CSRF_IN_COOKIES = True
-    JWT_CSRF_METHODS = ["POST", "PUT", "PATCH", "DELETE"]
-    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
-    JWT_REFRESH_COOKIE_NAME = "refresh_token_cookie"
 
     JWT_ACCESS_TOKEN_EXPIRES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES", 3600))
     JWT_REFRESH_TOKEN_EXPIRES = int(os.getenv("JWT_REFRESH_TOKEN_EXPIRES", 86400))
@@ -57,6 +44,11 @@ class DevelopmentConfig(Config):
     DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres")
     DB_NAME = os.getenv("DB_NAME", "starter_template")
     SQLALCHEMY_DATABASE_URI = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+    
+    # Configuración JWT con Bearer tokens en headers (compatible con frontend)
+    JWT_TOKEN_LOCATION = ["headers"]
+    JWT_HEADER_NAME = "Authorization"
+    JWT_HEADER_TYPE = "Bearer"
 
 
 class TestingConfig(Config):
@@ -68,7 +60,11 @@ class TestingConfig(Config):
     SECRET_KEY = "test-secret-key"
     JWT_SECRET_KEY = "test-jwt-secret"
     MAIL_SUPPRESS_SEND = True
-
+    
+    # Configuración JWT con Bearer tokens en headers (igual que desarrollo)
+    JWT_TOKEN_LOCATION = ["headers"]
+    JWT_HEADER_NAME = "Authorization"
+    JWT_HEADER_TYPE = "Bearer"
 
 
 class ProductionConfig(Config):
@@ -82,6 +78,11 @@ class ProductionConfig(Config):
         "DATABASE_URL_PROD",
         f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
     )
+    
+    # Configuración JWT con Bearer tokens en headers (igual que desarrollo)
+    JWT_TOKEN_LOCATION = ["headers"]
+    JWT_HEADER_NAME = "Authorization"
+    JWT_HEADER_TYPE = "Bearer"
 
 # Determinar el entorno
 env = os.getenv("FLASK_ENV", "development")
