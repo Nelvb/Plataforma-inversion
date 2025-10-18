@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Project } from '@/types/project'
-import ProjectCard from './ProjectCard'
+import ProjectCardAdmin from './ProjectCardAdmin'
 
 interface ProjectListProps {
   projects: Project[]
@@ -21,7 +21,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onDelete }) => {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <ProjectCard
+        <ProjectCardAdmin
           key={project.slug}
           project={project}
           onDelete={onDelete}

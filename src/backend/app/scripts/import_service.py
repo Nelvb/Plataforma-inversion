@@ -1,7 +1,7 @@
 # import_service.py
 # -----------------------------------------------------------------------------
-# Servicio para importar artículos desde un archivo JSON a la base de datos.
-# Esta función puede usarse tanto desde CLI como en tests con mocking.
+# Servicio para importar artículos y proyectos desde archivos JSON a la base de datos.
+# Compatible con el modelo flexible de Project (investment_data, content_sections).
 # Maneja creación o actualización según si el slug ya existe.
 # -----------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ def importar_articulos_desde_json(articles_data):
             db.session.commit()
             resultados.append(f"Artículo actualizado: {item['slug']}")
         else:
-            item.pop("id", None)  # Si el JSON trae ID, ignorarlo
+            item.pop("id", None)
             nuevo = Article(**item)
             db.session.add(nuevo)
             db.session.commit()
@@ -47,10 +47,13 @@ def importar_articulos_desde_json(articles_data):
 
 def importar_proyectos_desde_json(data: list) -> list[str]:
     """
-    Importa proyectos desde una lista de diccionarios (parsed JSON).
-    - Verifica si el proyecto ya existe por slug o título.
-    - Si no existe, crea una nueva instancia del modelo Project.
-    - Maneja campos opcionales y errores de forma robusta.
+    Importa/actualiza proyectos desde una lista de diccionarios (parsed JSON).
+    Compatible con el modelo flexible de Project v2.0 (investment_data, content_sections).
+    
+    - Actualiza proyectos existentes por slug.
+    - Crea nuevos si no existen.
+    - Maneja campos JSON (gallery, investment_data, content_sections).
+    
     Devuelve una lista con mensajes por cada acción realizada.
     """
     resultados = []
@@ -58,52 +61,63 @@ def importar_proyectos_desde_json(data: list) -> list[str]:
     try:
         for item in data:
             try:
-                # Verificar si ya existe por slug o título
-                existing_by_slug = Project.query.filter_by(slug=item.get('slug')).first()
-                existing_by_title = Project.query.filter_by(title=item.get('title')).first()
-                
-                if existing_by_slug or existing_by_title:
-                    resultados.append(f"Proyecto '{item.get('slug', item.get('title'))}' ya existe.")
+                slug = item.get('slug')
+                if not slug:
+                    resultados.append("Proyecto sin slug - omitido")
                     continue
                 
-                # Mapear campos del JSON a los campos del modelo
-                project_data = {
-                    'title': item.get('title'),
-                    'slug': item.get('slug'),
-                    'description': item.get('description'),
-                    'image_url': item.get('image_url'),
-                    'investment_goal': item.get('investment_goal'),
-                    'location': item.get('location'),
-                    'investment_type': item.get('investment_type'),
-                    'surface_m2': item.get('area_m2'),  # Mapear area_m2 a surface_m2
-                    'rooms': item.get('rooms'),
-                    'bathrooms': item.get('bathrooms'),
-                    'min_investment': item.get('investment_min'),  # Mapear investment_min a min_investment
-                    'expected_return': str(item.get('expected_return', '')),  # Convertir a string
-                    'optimistic_return': str(item.get('optimistic_return', '')) if item.get('optimistic_return') else None,
-                    'estimated_duration': item.get('estimated_duration'),  # Campo ya coincide
-                    'status': item.get('status', 'Abierto'),
-                    'financial_structure_text': item.get('financial_structure_text'),
-                    'rentability_projection': item.get('rentability_projection'),
-                    'risk_analysis': item.get('risk_analysis'),
-                    'team_description': item.get('team_description'),
-                    'external_link': item.get('external_link')
-                }
+                existing = Project.query.filter_by(slug=slug).first()
                 
-                # Filtrar valores None para campos opcionales
-                project_data = {k: v for k, v in project_data.items() if v is not None}
-                
-                # Crear nueva instancia del proyecto
-                nuevo_proyecto = Project(**project_data)
-                db.session.add(nuevo_proyecto)
-                
-                resultados.append(f"Proyecto '{item.get('title')}' importado correctamente.")
+                if existing:
+                    # ACTUALIZAR proyecto existente
+                    existing.title = item.get('title', existing.title)
+                    existing.subtitle = item.get('subtitle', existing.subtitle)
+                    existing.description = item.get('description', existing.description)
+                    existing.status = item.get('status', existing.status)
+                    existing.category = item.get('category', existing.category)
+                    existing.featured = item.get('featured', existing.featured)
+                    existing.priority = item.get('priority', existing.priority)
+                    
+                    # Imágenes
+                    existing.main_image_url = item.get('main_image_url', existing.main_image_url)
+                    existing.gallery = item.get('gallery', existing.gallery)
+                    
+                    # Campos JSON principales (modelo flexible)
+                    existing.investment_data = item.get('investment_data', existing.investment_data)
+                    existing.content_sections = item.get('content_sections', existing.content_sections)
+                    
+                    existing.updated_at = sa.func.now()
+                    
+                    resultados.append(f"Proyecto actualizado: {slug}")
+                    
+                else:
+                    # CREAR proyecto nuevo
+                    nuevo_proyecto = Project(
+                        slug=slug,
+                        title=item.get('title'),
+                        subtitle=item.get('subtitle'),
+                        description=item.get('description'),
+                        status=item.get('status', 'open'),
+                        category=item.get('category'),
+                        featured=item.get('featured', False),
+                        priority=item.get('priority', 0),
+                        main_image_url=item.get('main_image_url'),
+                        gallery=item.get('gallery'),
+                        investment_data=item.get('investment_data'),
+                        content_sections=item.get('content_sections'),
+                        views=0
+                    )
+                    
+                    db.session.add(nuevo_proyecto)
+                    
+                    resultados.append(f"Proyecto creado: {slug}")
                 
             except Exception as e:
-                resultados.append(f"Error importando proyecto '{item.get('title', 'desconocido')}': {str(e)}")
+                resultados.append(f"Error con proyecto '{item.get('title', 'desconocido')}': {str(e)}")
+                db.session.rollback()
                 continue
         
-        # Commit único al final
+        # Commit único al final si todo fue bien
         db.session.commit()
         
     except Exception as e:

@@ -15,6 +15,7 @@ import { useState, FormEvent } from "react";
 import { contactService } from "@/lib/api/contactService";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import LoadingState from '@/components/ui/LoadingState';
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Shield, Clock, MessageSquare, Phone, CheckCircle } from "lucide-react";
 
@@ -289,10 +290,7 @@ const ContactForm = () => {
                                 disabled={status === "sending"}
                             >
                                 {status === "sending" ? (
-                                    <div className="flex items-center justify-center space-x-2">
-                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                        <span>Enviando mensaje...</span>
-                                    </div>
+                                    <LoadingState message="Enviando mensaje..." size="sm" color="white" />
                                 ) : (
                                     "Enviar mensaje"
                                 )}

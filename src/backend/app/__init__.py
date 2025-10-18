@@ -116,6 +116,11 @@ def create_app(config_object=DevelopmentConfig):
 
     # Registrar comandos CLI
     from app.cli.create_admin import create_admin
+    from app.cli import commands
+    from app.cli import init_data
+
     app.cli.add_command(create_admin)
+    commands.init_app(app)
+    init_data.init_app(app)
 
     return app

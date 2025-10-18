@@ -13,6 +13,7 @@
 import React, { useState, useEffect } from 'react';
 import BlogHeader from '@/components/blog/BlogHeader';
 import BlogArticleCard from '@/components/blog/BlogArticleCard';
+import LoadingState from '@/components/ui/LoadingState';
 import { getArticles } from '@/lib/blogService';
 import { Article } from '@/types';
 
@@ -45,13 +46,9 @@ const BlogPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="relative pt-52 min-h-screen flex justify-center items-center">
-        <div className="absolute inset-0 flex">
-          <div className="w-[30%] bg-[#C2E7DA]" />
-          <div className="w-[70%] bg-[#1A1341]" />
-        </div>
-        <div className="relative z-10 animate-pulse text-white text-xl">
-          Cargando artículos...
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <div className="flex flex-col items-center justify-center py-24">
+          <LoadingState message="Cargando artículos..." size="lg" />
         </div>
       </div>
     );

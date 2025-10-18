@@ -10,7 +10,7 @@
 import { useState, FormEvent } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import Spinner from "@/components/ui/Spinner";
+import LoadingState from "@/components/ui/LoadingState";
 import { userService } from "@/lib/api/userService";
 
 const ForgotPasswordForm = () => {
@@ -67,10 +67,7 @@ const ForgotPasswordForm = () => {
                         disabled={status === "sending"}
                     >
                         {status === "sending" ? (
-                            <div className="flex items-center justify-center space-x-2">
-                                <Spinner />
-                                <span>Enviando...</span>
-                            </div>
+                            <LoadingState message="Enviando..." size="sm" />
                         ) : (
                             "Enviar enlace de recuperación"
                         )}

@@ -20,6 +20,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/useAuthStore';
+import LoadingState from '@/components/ui/LoadingState';
 
 interface AdminPageContentProps {
     children: React.ReactNode;
@@ -48,10 +49,7 @@ const AdminPageContent: React.FC<AdminPageContentProps> = ({ children }) => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1A1341]"></div>
-                    <p className="text-gray-600 text-sm">Verificando acceso de administrador...</p>
-                </div>
+                <LoadingState message="Verificando acceso de administrador..." size="lg" />
             </div>
         );
     }

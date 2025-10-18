@@ -14,6 +14,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import LoadingState from '@/components/ui/LoadingState';
 import { getArticleBySlug, getArticles } from '@/lib/blogService';
 import { Article } from '@/types';
 import { ArrowLeft } from 'lucide-react';
@@ -72,15 +73,9 @@ const ArticlePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="relative min-h-screen pt-20">
-        <div className="absolute inset-0 flex">
-          <div className="w-[30%] bg-[#C2E7DA]" />
-          <div className="w-[70%] bg-[#1A1341]" />
-        </div>
-        <div className="relative z-10 flex justify-center items-center min-h-screen">
-          <div className="animate-pulse text-white text-xl">
-            Cargando artículo...
-          </div>
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <div className="flex flex-col items-center justify-center py-24">
+          <LoadingState message="Cargando artículo..." size="lg" />
         </div>
       </div>
     );

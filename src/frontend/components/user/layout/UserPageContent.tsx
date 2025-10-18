@@ -20,6 +20,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/useAuthStore';
+import LoadingState from '@/components/ui/LoadingState';
 
 interface UserPageContentProps {
     children: React.ReactNode;
@@ -48,10 +49,7 @@ const UserPageContent: React.FC<UserPageContentProps> = ({ children }) => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#F7FAFF]">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1A1341]"></div>
-                    <p className="text-gray-600 text-sm">Verificando autenticación...</p>
-                </div>
+                <LoadingState message="Verificando autenticación..." size="lg" />
             </div>
         );
     }

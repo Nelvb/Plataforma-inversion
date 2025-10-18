@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react'
 import ProjectForm from '@/components/admin/projects/ProjectForm'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
+import LoadingState from '@/components/ui/LoadingState'
 import { getProjectBySlug, updateProject } from '@/lib/api/projectService'
 import { useRouter, useParams } from 'next/navigation'
 import { Project } from '@/types/project'
@@ -56,7 +57,7 @@ const EditProject = () => {
   if (isLoading) {
     return (
       <div className="container mx-auto py-12 px-4">
-        <p className="text-center text-[#1A1341]">Cargando proyecto...</p>
+        <LoadingState message="Cargando proyecto..." size="lg" />
       </div>
     )
   }

@@ -10,8 +10,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ProjectCard from "@/components/admin/projects/ProjectCard";
+import ProjectCard from "@/components/admin/projects/ProjectCardAdmin";
 import Button from "@/components/ui/Button";
+import LoadingState from "@/components/ui/LoadingState";
 import { getProjects, deleteProject } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
 
@@ -67,7 +68,7 @@ const ProjectsAdminPage: React.FC = () => {
       </div>
 
       {isLoading ? (
-        <p className="text-center text-[#1A1341]">Cargando proyectos...</p>
+        <LoadingState message="Cargando proyectos..." size="lg" />
       ) : projects.length === 0 ? (
         <div className="text-center py-16 bg-[#F1FFEF] rounded-lg border border-[#6290C3]">
           <p className="text-[#1A1341] text-xl mb-4">Aún no has creado ningún proyecto</p>

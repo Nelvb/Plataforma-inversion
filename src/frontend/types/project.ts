@@ -1,29 +1,48 @@
+export interface GalleryImage {
+    id: number
+    type: string
+    category: 'before' | 'after'
+    url: string
+    alt: string
+    title: string
+    order: number
+}
+
 export interface Project {
     id: number
-    title: string
     slug: string
-    description: string
-    image_url?: string
-    investment_goal: number
-    location: string
-    investment_type?: string
-    surface_m2?: number
-    rooms?: number
-    bathrooms?: number
-    min_investment?: number
-    expected_return: string
-    optimistic_return?: string
-    estimated_duration?: string
+    title: string
+    subtitle?: string
+    description?: string
     status: string
-    financial_structure?: any[]
-    risk_mitigations?: string[]
-    gallery?: string[]
-    // Campos adicionales para formulario avanzado
-    financial_structure_text?: string
-    rentability_projection?: string
-    risk_analysis?: string
-    team_description?: string
-    external_link?: string
+    category?: string
+    featured?: boolean
+    priority?: number
+    main_image_url?: string
+    gallery?: GalleryImage[]
+    investment_data?: {
+        total_investment?: number
+        currency?: string
+        min_investment?: number
+        expected_return?: string
+        optimistic_return?: string
+        conservative_return?: string
+        execution_time?: string
+        investment_type?: string
+        financial_breakdown?: any[]
+        property_specs?: {
+            surface_m2?: number
+            rooms?: number
+            bathrooms?: number
+            floor?: string
+            address?: string
+            neighborhood?: string
+        }
+        income_scenarios?: any
+        annual_expenses?: any
+    }
+    content_sections?: any[]
+    views?: number
     created_at?: string
     updated_at?: string
 }

@@ -1,0 +1,1016 @@
+{
+    "slug": "fiverooms-venezuela",
+    "title": "FiveRooms Venezuela",
+    "subtitle": "Coliving en Valladolid con rentabilidades del 12-16% anual",
+    "description": "Proyecto de inversión inmobiliaria colaborativa que transforma un piso de 90m² en Valladolid en un espacio de coliving moderno y rentable con 5 habitaciones, generando retornos superiores al alquiler tradicional.",
+    "status": "open",
+    "category": "inmobiliario",
+    "featured": true,
+    "priority": 1,
+    
+    "main_image_url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624551/salon-despues_yaoc5r.webp",
+    
+    "gallery": [
+      {
+        "id": 1,
+        "type": "main",
+        "category": "after",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624551/salon-despues_yaoc5r.webp",
+        "alt": "Salón reformado con diseño moderno y luminoso - FiveRooms Venezuela",
+        "title": "Salón reformado",
+        "order": 1
+      },
+      {
+        "id": 2,
+        "type": "comparison",
+        "category": "before",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624545/salon-antes_rq7szb.webp",
+        "alt": "Salón antes de la reforma - FiveRooms Venezuela",
+        "title": "Salón (antes)",
+        "order": 2
+      },
+      {
+        "id": 3,
+        "type": "room",
+        "category": "after",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624600/habitacion_refomormada-_1_vyokk2.webp",
+        "alt": "Habitación reformada con mobiliario moderno - FiveRooms Venezuela",
+        "title": "Habitación reformada",
+        "order": 3
+      },
+      {
+        "id": 4,
+        "type": "comparison",
+        "category": "before",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624595/dormitorio-1-antes_gnc58r.webp",
+        "alt": "Habitación antes de la reforma - FiveRooms Venezuela",
+        "title": "Habitación (antes)",
+        "order": 4
+      },
+      {
+        "id": 5,
+        "type": "bathroom",
+        "category": "after",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624574/ba%C3%B1o-despues_kv0jqz.webp",
+        "alt": "Baño principal reformado con acabados de calidad - FiveRooms Venezuela",
+        "title": "Baño principal reformado",
+        "order": 5
+      },
+      {
+        "id": 6,
+        "type": "comparison",
+        "category": "before",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624569/ba%C3%B1o-antes_eqsqpq.webp",
+        "alt": "Baño principal antes de la reforma - FiveRooms Venezuela",
+        "title": "Baño principal (antes)",
+        "order": 6
+      },
+      {
+        "id": 7,
+        "type": "bathroom",
+        "category": "after",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624589/aseo-despues_ecrlvg.webp",
+        "alt": "Aseo reformado con diseño funcional - FiveRooms Venezuela",
+        "title": "Aseo reformado",
+        "order": 7
+      },
+      {
+        "id": 8,
+        "type": "comparison",
+        "category": "before",
+        "url": "https://res.cloudinary.com/dfqaatcdy/image/upload/v1760624585/aseo-antes_uryyvf.webp",
+        "alt": "Aseo antes de la reforma - FiveRooms Venezuela",
+        "title": "Aseo (antes)",
+        "order": 8
+      }
+    ],
+    
+    "investment_data": {
+      "total_investment": 110000,
+      "currency": "EUR",
+      "min_investment": 100,
+      "expected_return": "12%",
+      "optimistic_return": "16%",
+      "conservative_return": "10%",
+      "execution_time": "2 meses",
+      "investment_type": "Alquiler por habitaciones",
+      
+      "financial_breakdown": [
+        {
+          "concept": "Compra del inmueble",
+          "amount": 85000,
+          "percentage": 77,
+          "description": "Adquisición del piso de 90m² en Calle Venezuela"
+        },
+        {
+          "concept": "Reforma y adecuación",
+          "amount": 10000,
+          "percentage": 9,
+          "description": "Redistribución interior, instalaciones, pintura, suelos"
+        },
+        {
+          "concept": "Gastos notariales y mobiliario",
+          "amount": 10000,
+          "percentage": 9,
+          "description": "Notaría, registro, impuestos, mobiliario completo"
+        },
+        {
+          "concept": "Contingencias y gestión",
+          "amount": 5000,
+          "percentage": 5,
+          "description": "Fondo de imprevistos y gestión integral"
+        }
+      ],
+      
+      "property_specs": {
+        "surface_m2": 90,
+        "rooms": 5,
+        "bathrooms": 2,
+        "floor": "Primera planta",
+        "address": "Calle Venezuela, Valladolid",
+        "neighborhood": "Parquesol - Huerta del Rey"
+      },
+      
+      "income_scenarios": {
+        "conservative": {
+          "price_per_room": 300,
+          "occupancy_rate": 0.85,
+          "monthly_income": 1275,
+          "annual_income": 15300,
+          "annual_expenses": 2265,
+          "net_income": 13035,
+          "roi_percentage": 11.85
+        },
+        "base": {
+          "price_per_room": 340,
+          "occupancy_rate": 0.95,
+          "monthly_income": 1615,
+          "annual_income": 19380,
+          "annual_expenses": 2469,
+          "net_income": 16911,
+          "roi_percentage": 15.37
+        },
+        "optimistic": {
+          "price_per_room": 380,
+          "occupancy_rate": 0.98,
+          "monthly_income": 1862,
+          "annual_income": 22344,
+          "annual_expenses": 2617,
+          "net_income": 19727,
+          "roi_percentage": 17.93
+        }
+      },
+      
+      "annual_expenses": {
+        "fixed_costs": 1500,
+        "fixed_costs_detail": "Comunidad, seguro, mantenimiento preventivo",
+        "variable_costs_percentage": 5,
+        "variable_costs_detail": "Rotación, reparaciones, marketing"
+      }
+    },
+    
+    "content_sections": [
+      {
+        "id": "hero",
+        "type": "hero",
+        "order": 1,
+        "title": "Invierte en el Futuro de la Vivienda Urbana",
+        "subtitle": "FiveRooms Venezuela - Coliving en Valladolid con rentabilidades del 12-16% anual",
+        "description": "Proyecto de inversión inmobiliaria colaborativa que transforma un piso de 90m² en Valladolid en un espacio de coliving moderno y rentable con 5 habitaciones, generando retornos superiores al alquiler tradicional.",
+        "highlights": [
+          {"label": "Inversión total", "value": "110.000€"},
+          {"label": "Rentabilidad esperada", "value": "12% anual"},
+          {"label": "Habitaciones", "value": "5 privadas"},
+          {"label": "Baños completos", "value": "2"},
+          {"label": "Inversión mínima", "value": "Desde 100€"},
+          {"label": "Plazo ejecución", "value": "2 meses"}
+        ]
+      },
+      
+      {
+        "id": "what-is-fiverooms",
+        "type": "section",
+        "order": 2,
+        "title": "¿Qué es FiveRooms Venezuela?",
+        "paragraphs": [
+          "FiveRooms Venezuela es un proyecto de inversión inmobiliaria colaborativa ubicado en una de las zonas más demandadas de Valladolid. Consiste en la adquisición y transformación integral de un piso de 90 metros cuadrados en la Calle Venezuela para convertirlo en un espacio de coliving profesional con 5 habitaciones privadas.",
+          "El coliving es la evolución del alquiler urbano. A diferencia de un piso compartido tradicional, ofrece habitaciones privadas completamente equipadas con zonas comunes de calidad, gestión profesionalizada y servicios incluidos. Es la forma en que viven hoy estudiantes universitarios, jóvenes profesionales y trabajadores en movilidad.",
+          "Este proyecto permite a inversores particulares participar desde 100€ en un activo inmobiliario real, con retornos del 12-16% anual y gestión integral sin preocupaciones. El inmueble será completamente reformado, amueblado y puesto en alquiler en solo 2 meses."
+        ],
+        "highlight": "El modelo de alquiler por habitaciones genera hasta un 30% más de ingresos por metro cuadrado que el alquiler tradicional. Con 5 inquilinos independientes, el riesgo de vacancia total prácticamente desaparece. Además, Valladolid cuenta con más de 25.000 estudiantes universitarios y una demanda constante de vivienda flexible."
+      },
+      
+      {
+        "id": "coliving-revolution",
+        "type": "section",
+        "order": 3,
+        "title": "El Coliving: Una Revolución en la Vivienda Urbana",
+        "intro": "El coliving ha pasado de ser una tendencia a convertirse en un sector consolidado del mercado inmobiliario español. Nació en grandes capitales europeas y norteamericanas como respuesta al encarecimiento de la vivienda y al cambio de hábitos de las nuevas generaciones.",
+        "subsections": [
+          {
+            "subtitle": "Cómo funciona",
+            "text": "Cada inquilino dispone de una habitación privada completamente amueblada y comparte zonas comunes como cocina equipada, salón y baños de calidad. La gestión es centralizada y profesional, lo que garantiza mantenimiento continuo, limpieza de zonas comunes y resolución rápida de incidencias. La diferencia con un piso compartido tradicional está en la experiencia: servicios incluidos (WiFi de alta velocidad, limpieza, mantenimiento), selección cuidada de perfiles compatibles, contratos individuales por habitación y una comunidad moderna y funcional."
+          },
+          {
+            "subtitle": "Datos del mercado español",
+            "stats": [
+              "El stock de coliving en España alcanzará las 20.000 camas en 2025, duplicando la oferta de 2023",
+              "La inversión en coliving superó los 750 millones de euros en el primer trimestre de 2025",
+              "Las rentabilidades del sector oscilan entre el 8% y el 16% anual, muy superiores al alquiler tradicional (5-7%)",
+              "Madrid y Barcelona concentran el 75% de la oferta actual, pero ciudades medias como Valladolid muestran el mayor potencial de crecimiento"
+            ]
+          },
+          {
+            "subtitle": "Por qué el coliving es más rentable",
+            "reasons": [
+              {
+                "title": "Optimización del espacio",
+                "description": "El alquiler por habitaciones permite obtener ingresos de 5 contratos independientes en lugar de uno solo. Un piso que generaría 800€ mensuales en alquiler tradicional puede alcanzar 1.600-1.900€ con el modelo coliving."
+              },
+              {
+                "title": "Alta ocupación",
+                "description": "Los proyectos bien gestionados mantienen tasas de ocupación del 95-98% anual. La flexibilidad de contratos (6-12 meses) permite adaptarse a la demanda estudiantil y profesional."
+              },
+              {
+                "title": "Diversificación de riesgo",
+                "description": "Si una habitación queda vacía, sigues generando ingresos con las otras cuatro. En el alquiler tradicional, la vacancia significa cero ingresos."
+              },
+              {
+                "title": "Demanda creciente",
+                "description": "El perfil objetivo (estudiantes, jóvenes profesionales, nómadas digitales, trabajadores desplazados) crece cada año en ciudades universitarias y administrativas como Valladolid."
+              }
+            ]
+          }
+        ]
+      },
+      
+      {
+        "id": "valladolid-opportunity",
+        "type": "section",
+        "order": 4,
+        "title": "Por Qué Valladolid es el Mercado Ideal",
+        "intro": "Valladolid es una ciudad universitaria y administrativa de tamaño medio con características únicas que la convierten en un mercado ideal para proyectos de coliving.",
+        "city_context": [
+          "Más de 25.000 estudiantes universitarios repartidos en varios campus de la Universidad de Valladolid, centros de formación profesional y escuelas de negocios. Esta población estudiantil genera una demanda constante durante todo el curso académico.",
+          "Ciudad administrativa con presencia significativa de funcionarios, personal sanitario y trabajadores del sector servicios. La estabilidad laboral de estos perfiles garantiza solvencia y contratos de media-larga duración.",
+          "Población flotante en crecimiento debido a empresas tecnológicas, centros logísticos en la zona industrial y movilidad laboral dentro de Castilla y León.",
+          "Coste de vida moderado comparado con Madrid o Barcelona, pero con todos los servicios de una capital de provincia: transporte público, hospitales, centros comerciales, oferta cultural y ocio."
+        ],
+        "market_prices": {
+          "title": "Precios del mercado de alquiler por habitaciones en Valladolid (2025)",
+          "ranges": [
+            {"range": "Franja baja (habitaciones estándar sin servicios)", "price": "220-280€/mes"},
+            {"range": "Franja media (habitaciones reformadas, algunas zonas incluidas)", "price": "300-350€/mes"},
+            {"range": "Franja superior (coliving profesional, todo incluido, servicios premium)", "price": "380-550€/mes"}
+          ]
+        },
+        "regional_comparison": [
+          {"city": "Salamanca", "price": "350-450€/mes", "note": "ciudad más turística y universitaria"},
+          {"city": "Burgos", "price": "320-360€/mes", "note": "menor oferta estudiantil"},
+          {"city": "León", "price": "200-300€/mes", "note": "ciudad más pequeña"},
+          {"city": "Valladolid", "price": "300-380€/mes", "note": "posicionamiento competitivo en rango medio-alto con alta demanda"}
+        ],
+        "market_trends": "Los precios de alquiler por habitación en Valladolid han crecido entre un 3-7% anual desde 2023. La oferta de coliving profesionalizado es prácticamente inexistente, lo que representa una oportunidad de mercado clara para proyectos bien gestionados. Las plataformas especializadas (Idealista, Fotocasa, Spotahome, Badi) muestran una demanda constante con tasas de ocupación del 93-97% durante el curso universitario (septiembre a junio)."
+      },
+      
+      {
+        "id": "location",
+        "type": "location",
+        "order": 5,
+        "title": "Una Ubicación Estratégica en Zona Consolidada",
+        "address": "Calle Venezuela, primera planta, Valladolid",
+        "neighborhood": "Parquesol - Huerta del Rey",
+        "description": "El proyecto se encuentra en Calle Venezuela, primera planta, en el barrio Parquesol - Huerta del Rey, una de las zonas residenciales más consolidadas y demandadas de Valladolid.",
+        "features": [
+          {
+            "category": "Servicios educativos",
+            "items": [
+              "Frente a un colegio de educación primaria y secundaria",
+              "A 10 minutos en transporte público de los principales campus universitarios (Campus Miguel Delibes, Campus Esgueva)"
+            ]
+          },
+          {
+            "category": "Instalaciones deportivas",
+            "items": [
+              "A pocos metros de un polideportivo municipal con piscina, gimnasio y pistas deportivas"
+            ]
+          },
+          {
+            "category": "Transporte y accesibilidad",
+            "items": [
+              "Acceso directo a la autovía A-62 en 2 minutos, que conecta con Madrid y Portugal",
+              "Paradas de autobús urbano en la misma calle",
+              "A 10 minutos en coche del centro histórico de Valladolid (20 minutos a pie)"
+            ]
+          },
+          {
+            "category": "Comercios y servicios",
+            "items": [
+              "A menos de 5 minutos de los dos centros comerciales más grandes de la ciudad (Vallsur y Río Shopping)",
+              "Supermercados, farmacias, bancos y restauración en un radio de 300 metros"
+            ]
+          }
+        ],
+        "why_ideal_for_coliving": [
+          "Zona tranquila y segura: Entorno residencial familiar con baja conflictividad y buena convivencia vecinal",
+          "Alta demanda de estudiantes: Proximidad a campus universitarios y buena conexión con transporte público",
+          "Perfil profesional: Zona atractiva para jóvenes profesionales que trabajan en empresas de la ciudad o teletrabajan",
+          "Servicios completos: No necesitas desplazarte lejos para nada. Todo lo necesario está a menos de 10 minutos",
+          "Revalorización constante: Barrio consolidado con tendencia alcista en precios de venta y alquiler"
+        ]
+      },
+      
+      {
+        "id": "investment-structure",
+        "type": "financial_breakdown",
+        "order": 6,
+        "title": "Inversión Total: 110.000€ - Distribución Transparente",
+        "reform_includes": {
+          "title": "Qué incluye la reforma (10.000€)",
+          "sections": [
+            {
+              "category": "Redistribución interior",
+              "items": [
+                "Creación de 5 habitaciones privadas optimizadas (12-15m² cada una) mediante tabiquería ligera",
+                "Dos baños completos equipados con plato de ducha, lavabo y WC",
+                "Cocina común moderna con electrodomésticos (frigorífico, lavadora, microondas, vitrocerámica)",
+                "Zona de convivencia (salón-comedor)"
+              ]
+            },
+            {
+              "category": "Instalaciones actualizadas",
+              "items": [
+                "Renovación completa de instalación eléctrica con certificado",
+                "Actualización de fontanería y desagües",
+                "Mejora de aislamiento térmico y acústico entre habitaciones"
+              ]
+            },
+            {
+              "category": "Acabados de calidad",
+              "items": [
+                "Pintura completa con colores neutros y modernos",
+                "Suelos de vinílico o tarima flotante de alta resistencia",
+                "Ventanas con doble acristalamiento si es necesario",
+                "Iluminación LED de bajo consumo en todas las estancias"
+              ]
+            }
+          ]
+        },
+        "furniture_includes": {
+          "title": "Qué incluye mobiliario y equipamiento (incluido en gastos notariales 10.000€)",
+          "by_room": [
+            "Cama individual de 90cm con somier y colchón viscoelástico",
+            "Armario empotrado o independiente de gran capacidad",
+            "Escritorio de estudio con silla ergonómica",
+            "Mesita de noche con lámpara",
+            "Estanterías y perchero"
+          ],
+          "common_areas": [
+            "Sofá cómodo y mesa de centro para el salón",
+            "Mesa de comedor con sillas para 6-8 personas",
+            "Menaje completo de cocina (vajilla, cubertería, ollas, sartenes)",
+            "Textil (cortinas, alfombras)",
+            "Router WiFi profesional de alta velocidad"
+          ]
+        },
+        "contingency_fund": {
+          "amount": 5000,
+          "percentage": 5,
+          "description": "Este 5% está reservado para cubrir imprevistos comunes en proyectos de reforma: sobrecostes de obra por hallazgos inesperados, retrasos en suministro de materiales, ajustes de última hora solicitados por el ayuntamiento, gastos adicionales de gestión. Si no se utiliza, este fondo se distribuye proporcionalmente entre los inversores al final del proyecto o se reinvierte en mejoras adicionales del inmueble."
+        }
+      },
+      
+      {
+        "id": "profitability",
+        "type": "profitability_scenarios",
+        "order": 7,
+        "title": "¿Cuánto Puedes Ganar? Tres Escenarios Basados en Datos Reales",
+        "methodology": "Las proyecciones se basan en datos reales del mercado de alquiler por habitaciones en Valladolid obtenidos de portales inmobiliarios (Idealista, Fotocasa, Pisocompartido) y estadísticas de ocupación de proyectos similares en ciudades universitarias españolas.",
+        "scenarios": [
+          {
+            "name": "Conservador",
+            "annual_return": "10%",
+            "assumptions": {
+              "price_per_room": 300,
+              "occupancy": 85,
+              "monthly_income_gross": 1275,
+              "annual_income_gross": 15300
+            },
+            "expenses": {
+              "fixed": 1500,
+              "variable": 765,
+              "total": 2265
+            },
+            "result": {
+              "annual_net_income": 13035,
+              "roi_percentage": 11.85
+            },
+            "example": {
+              "investment_1k": {
+                "amount": 1000,
+                "year_1_return": 1118
+              },
+              "investment_10k": {
+                "amount": 10000,
+                "year_1_return": 11185
+              }
+            },
+            "note": "Este escenario asume ocupación relativamente baja y precios mínimos de mercado. Incluso así, duplica la rentabilidad del alquiler tradicional y supera productos financieros conservadores."
+          },
+          {
+            "name": "Base",
+            "annual_return": "12%",
+            "most_probable": true,
+            "assumptions": {
+              "price_per_room": 340,
+              "occupancy": 95,
+              "monthly_income_gross": 1615,
+              "annual_income_gross": 19380
+            },
+            "expenses": {
+              "fixed": 1500,
+              "variable": 969,
+              "total": 2469
+            },
+            "result": {
+              "annual_net_income": 16911,
+              "roi_percentage": 15.37
+            },
+            "example": {
+              "investment_1k": {
+                "amount": 1000,
+                "year_1_return": 1154,
+                "year_2_return": 1308
+              },
+              "investment_10k": {
+                "amount": 10000,
+                "year_1_return": 11537,
+                "year_2_return": 13074
+              }
+            },
+            "note": "Este es el escenario más probable basado en datos actuales de Valladolid. La ocupación del 95% es estándar en coliving bien gestionado durante el curso académico. Los precios de 340€/habitación son competitivos y están en línea con el mercado."
+          },
+          {
+            "name": "Optimista",
+            "annual_return": "16%",
+            "assumptions": {
+              "price_per_room": 380,
+              "occupancy": 98,
+              "monthly_income_gross": 1862,
+              "annual_income_gross": 22344
+            },
+            "expenses": {
+              "fixed": 1500,
+              "variable": 1117,
+              "total": 2617
+            },
+            "result": {
+              "annual_net_income": 19727,
+              "roi_percentage": 17.93
+            },
+            "example": {
+              "investment_1k": {
+                "amount": 1000,
+                "year_1_return": 1179,
+                "year_2_return": 1358
+              },
+              "investment_10k": {
+                "amount": 10000,
+                "year_1_return": 11793,
+                "year_2_return": 13586
+              }
+            },
+            "note": "Este escenario es alcanzable con excelente gestión, habitaciones premium, servicios adicionales y aprovechamiento de picos de demanda. Representa el potencial máximo del proyecto."
+          }
+        ],
+        "comparison_other_investments": [
+          {"type": "Alquiler tradicional", "return": "5-7% anual"},
+          {"type": "Depósito bancario", "return": "2-3% anual"},
+          {"type": "Bonos del Estado", "return": "3-4% anual"},
+          {"type": "Fondos indexados", "return": "7-10% anual (con volatilidad)"},
+          {"type": "FiveRooms Venezuela", "return": "12-16% anual"}
+        ]
+      },
+      
+      {
+        "id": "risks",
+        "type": "risk_analysis",
+        "order": 8,
+        "title": "Transparencia Total: Riesgos Identificados y Cómo los Gestionamos",
+        "philosophy": "Todo proyecto inmobiliario conlleva riesgos. La diferencia entre un proyecto profesional y uno amateur está en identificarlos, cuantificarlos y tener planes de mitigación específicos. En Boostaproyect no ocultamos riesgos, los gestionamos.",
+        "risks": [
+          {
+            "id": 1,
+            "name": "Retrasos en la reforma",
+            "probability": "Media",
+            "impact": "Medio",
+            "description": "Las obras de reforma pueden sufrir retrasos por disponibilidad de contratistas, problemas estructurales no detectados inicialmente, retrasos en suministro de materiales o exigencias adicionales del ayuntamiento.",
+            "mitigations": [
+              "Contratistas locales con experiencia previa confirmada y referencias verificadas",
+              "Cronograma detallado con hitos semanales y supervisión presencial continua",
+              "Presupuestos cerrados con penalizaciones contractuales por retraso injustificado",
+              "Margen de seguridad de 2 semanas incluido en el plazo comunicado a inversores",
+              "Proveedores de materiales con stock garantizado o alternativas identificadas"
+            ],
+            "residual_impact": "Incluso con retraso de 4 semanas, el proyecto sigue siendo altamente rentable. La pérdida sería de 1 mes de alquiler (1.600€) que representa solo el 1,5% de la inversión total."
+          },
+          {
+            "id": 2,
+            "name": "Vacancia temporal",
+            "probability": "Baja",
+            "impact": "Medio",
+            "description": "Períodos en los que una o varias habitaciones permanecen vacías sin generar ingresos, especialmente fuera del curso universitario (julio-agosto) o por rotación de inquilinos.",
+            "mitigations": [
+              "Marketing digital anticipado 6 semanas antes de disponibilidad (anuncios en Idealista, Fotocasa, Spotahome, Badi)",
+              "Acuerdos con oficinas de alojamiento de la Universidad de Valladolid",
+              "Precios promocionales para primeros inquilinos o contratos de 12 meses",
+              "Base de datos de candidatos en lista de espera",
+              "Flexibilidad en fechas de entrada adaptadas al calendario académico",
+              "Descuentos para renovaciones (fidelización de inquilinos satisfechos)"
+            ],
+            "market_data": "La demanda en Valladolid mantiene tasas de ocupación del 93-97% en proyectos bien gestionados. Incluso con ocupación del 75%, el proyecto sigue siendo rentable."
+          },
+          {
+            "id": 3,
+            "name": "Impago de rentas",
+            "probability": "Media",
+            "impact": "Medio",
+            "description": "Inquilinos que no pagan la renta mensual, generando pérdida de ingresos y costes legales de reclamación o desahucio.",
+            "mitigations": [
+              "Verificación exhaustiva de solvencia antes de firmar contrato (nómina, aval familiar o bancario, historial de alquileres)",
+              "Fianza de 1 mes depositada legalmente en organismo autonómico",
+              "Seguro de impago opcional por inquilino (coste: 3-5% de la renta anual)",
+              "Protocolo de actuación rápida: recordatorio amistoso día 5, requerimiento formal día 10, inicio procedimiento legal día 15",
+              "Diversificación: 5 inquilinos independientes significan que un impago representa solo el 20% de los ingresos mensuales"
+            ],
+            "statistics": "La tasa de impago en alquiler de habitaciones a estudiantes y jóvenes profesionales con verificación previa es inferior al 2% según estudios del sector."
+          },
+          {
+            "id": 4,
+            "name": "Sobrecostes en la obra",
+            "probability": "Media",
+            "impact": "Medio",
+            "description": "La reforma puede costar más de lo presupuestado por hallazgos inesperados (humedades ocultas, instalaciones en peor estado), cambios normativos o mejoras necesarias no contempladas inicialmente.",
+            "mitigations": [
+              "Inspección técnica detallada del inmueble antes de la compra",
+              "Presupuestos cerrados con proveedores de confianza",
+              "Fondo de contingencia del 5% (5.000€) específicamente reservado para imprevistos",
+              "Supervisión continua para detectar problemas temprano",
+              "Cláusulas contractuales con límite máximo de variación de precio (+10%)"
+            ],
+            "scenario": "Si la reforma cuesta 12.000€ en lugar de 10.000€ (20% más), el fondo de contingencia lo absorbe sin afectar la rentabilidad proyectada."
+          },
+          
+        {
+          "id": 5,
+          "name": "Cambios regulatorios adversos",
+          "probability": "Baja",
+          "impact": "Medio",
+          "description": "Nuevas leyes o normativas que limiten precios de alquiler, impongan requisitos adicionales o cambien la fiscalidad del arrendamiento por habitaciones.",
+          "mitigations": [
+            "Monitorización continua de normativa autonómica y municipal",
+            "Asesoría jurídica especializada en arrendamientos urbanos",
+            "Estructura contractual como arrendamiento residencial (no turístico), menos sujeto a restricciones",
+            "Cumplimiento riguroso de todos los requisitos actuales (habitabilidad, certificados, licencias)",
+            "Flexibilidad para adaptar el modelo si cambia la legislación"
+          ],
+          "current_context": "En Castilla y León no existe regulación específica restrictiva para coliving. El marco legal de la LAU permite este modelo con libertad contractual. Las reformas recientes se centran en vivienda turística, no en arrendamiento residencial."
+        },
+        {
+          "id": 6,
+          "name": "Daños o mantenimiento elevado",
+          "probability": "Media",
+          "impact": "Bajo",
+          "description": "Desperfectos causados por inquilinos, desgaste acelerado de mobiliario o instalaciones, o necesidad de reparaciones imprevistas.",
+          "mitigations": [
+            "Reforma de calidad con materiales duraderos y de fácil mantenimiento",
+            "Mobiliario resistente específico para uso intensivo (no doméstico)",
+            "Inventario detallado con fotografías en cada entrada/salida de inquilino",
+            "Fianza individual de 1 mes para cubrir daños",
+            "Mantenimiento preventivo semestral (revisión de instalaciones, pintura de retoques)",
+            "Póliza de seguro de hogar con cobertura de daños"
+          ],
+          "cost_note": "En proyectos similares, el coste anual de mantenimiento representa un 3-5% de los ingresos brutos (ya contemplado en las proyecciones)."
+        },
+        {
+          "id": 7,
+          "name": "Conflictos de convivencia",
+          "probability": "Baja-Media",
+          "impact": "Bajo",
+          "description": "Disputas entre inquilinos por uso de zonas comunes, ruidos, limpieza o incompatibilidad de perfiles.",
+          "mitigations": [
+            "Reglamento de convivencia claro y firmado por todos (horarios, normas de limpieza, invitados)",
+            "Selección cuidada buscando perfiles compatibles (edad, horarios, estilo de vida)",
+            "Servicio de mediación por parte de Boostaproyect ante conflictos",
+            "Canal de comunicación directo para reportar incidencias",
+            "Cláusulas de resolución de contrato por incumplimiento grave de normas"
+          ],
+          "experience": "Los conflictos serios son raros cuando hay reglas claras desde el inicio y gestión profesional que interviene rápidamente."
+        }
+      ],
+      "sensitivity_analysis": {
+        "title": "Análisis de sensibilidad",
+        "scenarios": [
+          {
+            "question": "¿Qué pasa si la ocupación baja al 75%?",
+            "result": {
+              "annual_income": 15300,
+              "expenses": 2265,
+              "net": 13035,
+              "roi": 11.85,
+              "conclusion": "Sigue siendo rentable"
+            }
+          },
+          {
+            "question": "¿Qué pasa si tenemos que bajar precios un 10%?",
+            "result": {
+              "price_per_room": 306,
+              "annual_income": 17442,
+              "expenses": 2372,
+              "net": 15070,
+              "roi": 13.7,
+              "conclusion": "Sigue superando mercado"
+            }
+          },
+          {
+            "question": "¿Qué pasa si los gastos aumentan un 20%?",
+            "result": {
+              "expenses": 2963,
+              "income": 19380,
+              "net": 16417,
+              "roi": 14.9,
+              "conclusion": "Impacto mínimo"
+            }
+          }
+        ],
+        "conclusion": "El proyecto FiveRooms Venezuela mantiene rentabilidades atractivas incluso en escenarios desfavorables combinados. La diversificación de ingresos (5 habitaciones), el respaldo de un activo tangible con valor patrimonial y la gestión profesional hacen que los riesgos sean controlables y asumibles."
+      }
+    },
+    
+    {
+      "id": "process",
+      "type": "process",
+      "order": 9,
+      "title": "De tu Inversión al Primer Inquilino en Solo 2 Meses",
+      "phases": [
+        {
+          "phase": 1,
+          "name": "Tu inversión",
+          "duration": "Semana 0",
+          "steps": [
+            "Decides cuánto quieres invertir (desde 100€ sin máximo)",
+            "Te registras en la plataforma de Boostaproyect",
+            "Recibes toda la documentación del proyecto para revisarla",
+            "Transfieres tu aportación a cuenta escrow segura",
+            "Recibes confirmación de participación y acceso a área privada"
+          ]
+        },
+        {
+          "phase": 2,
+          "name": "Nosotros compramos y reformamos",
+          "duration": "Semanas 1-6",
+          "steps": [
+            "Semana 1: Firma de escritura de compraventa ante notario e inscripción registral",
+            "Semanas 2-4: Obras estructurales (redistribución, instalaciones eléctricas, fontanería, aislamientos)",
+            "Semanas 5-6: Acabados (pintura, suelos, carpintería) y mobiliario completo"
+          ],
+          "updates": [
+            "Newsletter semanal con fotografías del avance de obra",
+            "Acceso al dashboard online con estado del proyecto",
+            "Transparencia total sobre cualquier incidencia o ajuste"
+          ]
+        },
+        {
+          "phase": 3,
+          "name": "Certificaciones y comercialización",
+          "duration": "Semanas 7-8",
+          "steps": [
+            "Obtención de todos los certificados legales (energético, instalaciones, habitabilidad)",
+            "Fotografía profesional del inmueble terminado",
+            "Publicación en portales inmobiliarios y redes sociales",
+            "Acuerdos con universidades y empresas",
+            "Selección de inquilinos (verificación de solvencia y perfiles)",
+            "Firma de contratos individuales"
+          ]
+        },
+        {
+          "phase": 4,
+          "name": "Empieza a generar rentabilidad",
+          "duration": "Semana 9 en adelante",
+          "steps": [
+            "Primeros inquilinos se mudan (entrega de llaves y bienvenida)",
+            "Inicio de cobro de rentas mensuales",
+            "Primera distribución de beneficios a inversores (aproximadamente mes 3)"
+          ]
+        },
+        {
+          "phase": 5,
+          "name": "Gestión continua",
+          "duration": "Permanente",
+          "boostaproyect_handles": [
+            "Cobro de rentas mensuales",
+            "Mantenimiento preventivo y correctivo",
+            "Limpieza de zonas comunes",
+            "Gestión de incidencias 24/7",
+            "Renovaciones y búsqueda de nuevos inquilinos",
+            "Mediación en conflictos"
+          ],
+          "you_receive": [
+            "Reporting mensual detallado (ingresos, gastos, ocupación)",
+            "Distribuciones periódicas de beneficios",
+            "Acceso permanente a dashboard con datos en tiempo real",
+            "Informes trimestrales y anuales con auditoría externa"
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "legal-framework",
+      "type": "legal",
+      "order": 10,
+      "title": "Marco Legal del Coliving en España",
+      "intro": "El alquiler por habitaciones y el coliving NO están regulados específicamente por una ley propia. Se rigen por:",
+      "regulations": [
+        "Ley de Arrendamientos Urbanos (LAU) en lo que resulte compatible",
+        "Código Civil (libertad contractual entre partes)",
+        "Normativa autonómica de habitabilidad (Castilla y León)",
+        "Ordenanzas municipales de Valladolid"
+      ],
+      "difference_from_tourist": {
+        "title": "Diferencia clave con vivienda turística",
+        "reasons": [
+          "Los contratos son de media-larga duración (mínimo 6 meses)",
+          "Es vivienda habitual del inquilino, no estancias vacacionales",
+          "No se ofrecen servicios hoteleros (recepción, limpieza diaria, cambio de sábanas)"
+        ],
+        "conclusion": "Por tanto, NO requiere licencia VUT ni autorización de la comunidad de propietarios"
+      },
+      "licenses_certificates": {
+        "mandatory_certificates": [
+          "Certificado de Eficiencia Energética (CEE) vigente 10 años",
+          "Cédula de Habitabilidad actualizada",
+          "Certificado de instalación eléctrica (boletín)",
+          "Certificado de instalación de gas (si aplica)"
+        ],
+        "administrative_licenses": [
+          "Licencia de obra menor para redistribución interior",
+          "Comunicación previa al Ayuntamiento de Valladolid (actividad de alquiler)",
+          "Cumplimiento del Código Técnico de Edificación"
+        ]
+      },
+      "tenant_contracts": {
+        "description": "Cada inquilino firma un contrato individual de arrendamiento de habitación que incluye:",
+        "includes": [
+          "Identificación de la habitación específica asignada",
+          "Zonas comunes compartidas y normas de uso",
+          "Renta mensual, forma de pago y servicios incluidos",
+          "Duración (generalmente 6-12 meses prorrogables)",
+          "Fianza de 1 mes depositada legalmente",
+          "Reglamento de convivencia anexo",
+          "Causas de resolución anticipada"
+        ],
+        "legal_status": "Este contrato es legal, válido y exigible. Ha sido revisado por abogados especializados."
+      },
+      "investor_protection": {
+        "documentation_provided": [
+          "Escritura de compraventa del inmueble",
+          "Nota simple registral actualizada",
+          "Todos los certificados energéticos y de instalaciones",
+          "Póliza de seguro multirriesgo",
+          "Contrato de gestión con Boostaproyect",
+          "Contrato de participación o escritura de copropiedad",
+          "Acceso a informes financieros mensuales",
+          "Auditoría anual independiente"
+        ],
+        "legal_structure": "Puedes participar mediante copropiedad (apareces como propietario proporcional en escritura) o mediante sociedad vehículo (tienes participaciones societarias). En ambos casos tus derechos están protegidos legalmente."
+      },
+      "taxation": {
+        "category": "Los rendimientos tributan como rendimientos del capital inmobiliario en tu declaración de la renta (IRPF).",
+        "tax_advantages": [
+          "Reducción del 60% si se cumplen requisitos (vivienda habitual del inquilino, contrato registrado)",
+          "Deducción de gastos proporcionales (intereses si hay financiación, comunidad, seguros, mantenimiento)",
+          "Amortización del inmueble (3% anual deducible)"
+        ],
+        "example": {
+          "gross_annual_income": 19380,
+          "deductible_expenses": 4500,
+          "net_income": 14880,
+          "with_60_reduction": 5952,
+          "tax_range": "1.130 - 2.797€ (según tu tramo IRPF 19-47%)"
+        },
+        "note": "Boostaproyect proporciona toda la documentación fiscal necesaria para tu declaración anual."
+      },
+      "cnmv_status": {
+        "status": "Este proyecto NO está supervisado por la CNMV porque no constituye una oferta pública de valores. Es una inversión privada en activo inmobiliario.",
+        "transparency_principles": [
+          "Información completa y veraz previa a la inversión",
+          "Advertencia clara de riesgos",
+          "Documentación legal accesible",
+          "Reporting periódico auditado",
+          "Prohibición de promesas de rentabilidad garantizada"
+        ]
+      }
+    },
+    
+    {
+      "id": "exit-strategies",
+      "type": "exit_strategies",
+      "order": 11,
+      "title": "Estrategias de Salida",
+      "strategies": [
+        {
+          "id": 1,
+          "name": "Mantenimiento en renta",
+          "recommended_duration": "3-5 años",
+          "description": "Mantén tu inversión generando flujos de caja constantes durante el tiempo que desees. Cada mes o trimestre recibes tu parte proporcional de las rentas netas.",
+          "advantages": [
+            "Ingresos pasivos recurrentes sin esfuerzo",
+            "Beneficio de posibles incrementos de renta (ajuste inflación)",
+            "Exposición a revalorización del inmueble",
+            "Sin necesidad de tomar decisiones ni gestionar nada"
+          ],
+          "ideal_profile": "Inversor que busca rentas pasivas a medio plazo, sin necesidad de liquidez inmediata.",
+          "accumulated_returns": {
+            "year_1": "15.4%",
+            "year_2": "30.8%",
+            "year_3": "46.2%",
+            "year_5": "77%"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Venta completa del inmueble",
+          "recommended_timing": "3-5 años",
+          "description": "Tras 3-5 años de explotación demostrada, se vende el inmueble completo y se reparte el capital entre inversores proporcionalmente.",
+          "optimal_timing": [
+            "Cuando las rentabilidades demostradas incrementen el valor del activo",
+            "Si el mercado inmobiliario está en ciclo alcista",
+            "Cuando la mayoría de inversores desee salir"
+          ],
+          "estimated_value": {
+            "initial_cost": 110000,
+            "post_reform_value": "125.000 - 135.000€",
+            "expected_plusvalia": "15.000 - 25.000€ (13-23%)"
+          },
+          "total_return_example_5_years": {
+            "initial_investment": 10000,
+            "accumulated_returns": 7685,
+            "plusvalia_on_sale": 1800,
+            "total_recovered": 19485,
+            "total_return_percentage": 94.85,
+            "annualized_return": 18.97
+          }
+        },
+        {
+          "id": 3,
+          "name": "Refinanciación con extracción de capital",
+          "recommended_timing": "2-3 años",
+          "description": "Solicitar préstamo hipotecario sobre el inmueble generador de ingresos para extraer capital sin vender.",
+          "how_it_works": [
+            "Tras 2-3 años con ingresos estables demostrables",
+            "Se solicita hipoteca del 60-70% del valor tasado",
+            "Se extrae capital proporcional a cada inversor",
+            "Se mantiene la explotación, cuyas rentas cubren la hipoteca y generan beneficio adicional"
+          ],
+          "practical_example": {
+            "appraised_value_year_3": 130000,
+            "mortgage_70_percent": 91000,
+            "your_initial_investment": 10000,
+            "your_percentage": 9,
+            "capital_you_extract": 8190,
+            "monthly_net_income_continues": "~100€/mes"
+          },
+          "advantages": [
+            "Recuperas gran parte de tu inversión inicial",
+            "Mantienes flujo de ingresos futuros",
+            "Puedes reinvertir en otros proyectos",
+            "Apalancamiento positivo"
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Cesión de participación",
+          "liquidity": "Media",
+          "description": "Vender tu participación a otro inversor sin afectar al proyecto ni vender el inmueble completo.",
+          "process": [
+            "Notificas a Boostaproyect tu intención de vender",
+            "Publicamos tu participación en nuestra red de inversores",
+            "Valoración basada en VAN de flujos futuros + valor proporcional del inmueble",
+            "Negociación directa con comprador interesado",
+            "Transferencia formal de participación"
+          ],
+          "estimated_price": "Inversión inicial + rentabilidades no distribuidas + prima por plusvalía esperada",
+          "example": {
+            "participation": 10000,
+            "years_held": 2,
+            "annual_return": 15,
+            "initial_capital": 10000,
+            "accumulated_returns": 3000,
+            "market_premium": 500,
+            "approximate_sale_price": 13500
+          }
+        }
+      ],
+      "recommendation": {
+        "maximize_profitability": "Mantén la inversión al menos 3 años recibiendo rentas y luego plantea venta cuando el inmueble se haya revalorizado.",
+        "intermediate_liquidity": "Cesión de participación tras 18-24 meses si necesitas el capital.",
+        "optimize": "Refinanciación tras 2-3 años para extraer 70% del capital y seguir generando rentas con el 30% restante."
+      }
+    },
+    
+    {
+      "id": "faq",
+      "type": "faq",
+      "order": 12,
+      "title": "Preguntas Frecuentes sobre FiveRooms Venezuela",
+      "categories": [
+        {
+          "category": "Inversión básica",
+          "questions": [
+            {
+              "q": "¿Cuál es la inversión mínima?",
+              "a": "Puedes invertir desde 100€. No hay inversión máxima. La rentabilidad se distribuye proporcionalmente a la aportación de cada inversor."
+            },
+            {
+              "q": "¿Cuándo empiezo a recibir rentabilidad?",
+              "a": "Aproximadamente 3 meses después de tu inversión inicial, una vez el inmueble esté reformado y con inquilinos. Las distribuciones son mensuales o trimestrales según tu preferencia."
+            },
+            {
+              "q": "¿Cómo recibo mi rentabilidad?",
+              "a": "Mediante transferencia bancaria a la cuenta que indiques. Recibirás un desglose detallado de ingresos, gastos y tu parte proporcional."
+            }
+          ]
+        },
+        {
+          "category": "El proyecto",
+          "questions": [
+            {
+              "q": "¿Puedo visitar el inmueble antes de invertir?",
+              "a": "Sí, organizamos visitas presenciales previo aviso. También puedes ver fotografías actualizadas del estado del inmueble en cualquier momento."
+            },
+            {
+              "q": "¿Puedo visitar el inmueble después de invertir?",
+              "a": "Por supuesto. Coordinamos visitas respetando la privacidad de los inquilinos. Durante la reforma puedes visitarlo libremente. Una vez alquilado, con aviso previo de 48h."
+            },
+            {
+              "q": "¿Qué documentación legal recibiré?",
+              "a": "Acceso completo a: escritura de compraventa, certificados energéticos y de habitabilidad, licencias de obra, contratos tipo de arrendamiento, pólizas de seguro, informes financieros mensuales y auditoría anual."
+            }
+          ]
+        },
+        {
+          "category": "Rentabilidad y riesgos",
+          "questions": [
+            {
+              "q": "¿Está garantizada la rentabilidad del 12%?",
+              "a": "No. Como toda inversión inmobiliaria, los retornos dependen de la ocupación real y la gestión. Las proyecciones del 12-16% se basan en datos reales de mercado, pero no son una garantía. Por eso presentamos tres escenarios (conservador, base y optimista) para que evalúes diferentes posibilidades."
+            },
+            {
+              "q": "¿Qué pasa si no se alquilan las habitaciones?",
+              "a": "El fondo de contingencia del 5% (5.000€) cubre gastos iniciales durante los primeros 3 meses. Si tras 6 meses no se alcanza el 70% de ocupación, se plantea a los inversores la venta del activo."
+            },
+            {
+              "q": "¿Puedo perder mi inversión?",
+              "a": "En el peor escenario, si el proyecto fracasara completamente, se vendería el inmueble. Como está respaldado por un activo tangible (el piso reformado), recuperarías parte o la totalidad de tu inversión dependiendo del valor de mercado. El riesgo de pérdida total es muy bajo."
+            }
+          ]
+        },
+        {
+          "category": "Aspectos legales",
+          "questions": [
+            {
+              "q": "¿Quién es el propietario legal del inmueble?",
+              "a": "Depende de la estructura elegida. Puede ser copropiedad entre todos los inversores (apareces en la escritura) o una sociedad vehículo donde tienes participaciones. En ambos casos tienes derechos proporcionales sobre el inmueble y sus rentas."
+            },
+            {
+              "q": "¿Qué pasa si quiero salir antes de tiempo?",
+              "a": "Tienes varias opciones: vender tu participación a otro inversor en el mercado secundario de Boostaproyect, esperar a la venta completa del inmueble (normalmente tras 3-5 años), o participar en refinanciación para extraer parte del capital manteniendo ingresos futuros."
+            },
+            {
+              "q": "¿Cómo tributan los rendimientos?",
+              "a": "Como rendimientos del capital inmobiliario en tu declaración de la renta (IRPF). Existe una reducción del 60% si se cumplen ciertos requisitos. Boostaproyect proporciona toda la documentación fiscal necesaria anualmente."
+            }
+          ]
+        },
+        {
+          "category": "Gestión operativa",
+          "questions": [
+            {
+              "q": "¿Hay comisiones ocultas?",
+              "a": "No. Todos los costes están incluidos en la inversión de 110.000€. Boostaproyect cobra una comisión de gestión anual del 5-8% de los ingresos brutos, que ya está descontada en las proyecciones de rentabilidad."
+            },
+            {
+              "q": "¿Qué seguros tiene el proyecto?",
+              "a": "Seguro multirriesgo de hogar que cubre incendios, daños por agua, responsabilidad civil y contenido. Opcionalmente, seguro de impago de rentas por inquilino."
+            },
+            {
+              "q": "¿Qué pasa si hay un inquilino problemático?",
+              "a": "Nuestro protocolo incluye: mediación inmediata ante conflictos, aplicación estricta del reglamento de convivencia, y en casos graves, resolución de contrato y desahucio exprés. La fianza cubre daños."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

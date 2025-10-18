@@ -16,7 +16,7 @@ import { useState, FormEvent, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import Spinner from "@/components/ui/Spinner";
+import LoadingState from "@/components/ui/LoadingState";
 import { userService } from "@/lib/api/userService";
 import { Eye, EyeOff } from "lucide-react";
 import { validateUserField } from "@/constants/validation";
@@ -178,10 +178,7 @@ const ResetPasswordForm = () => {
                         disabled={status === "sending"}
                     >
                         {status === "sending" ? (
-                            <div className="flex items-center justify-center space-x-2">
-                                <Spinner />
-                                <span>Restableciendo...</span>
-                            </div>
+                            <LoadingState message="Restableciendo..." size="sm" />
                         ) : (
                             "Restablecer contraseña"
                         )}

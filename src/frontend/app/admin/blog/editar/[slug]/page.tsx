@@ -15,6 +15,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import LoadingState from '@/components/ui/LoadingState'
 import { getArticleBySlug, updateArticleBySlug } from '@/lib/blogService'
 import BlogArticleForm from '@/components/admin/blog/BlogArticleForm'
 import Button from '@/components/ui/Button'
@@ -65,7 +66,7 @@ export default function EditArticlePage() {
             </div>
 
             {isLoading ? (
-                <p>Cargando...</p>
+                <LoadingState message="Cargando artículo..." size="lg" />
             ) : (
                 articleData && <BlogArticleForm initialData={articleData} onSubmit={handleSubmit} />
             )}

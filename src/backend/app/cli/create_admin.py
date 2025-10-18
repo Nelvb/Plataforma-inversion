@@ -33,7 +33,7 @@ def create_admin():
         username="Alberto",
         last_name="Modroño Martín",
         email=email,
-        password=generate_password_hash("Ayb.1981"),
+        password_hash=generate_password_hash("Ayb.1981"),
         is_admin=True,
     )
 

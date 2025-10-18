@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-project.py — Modelo SQLAlchemy para proyectos de inversión inmobiliaria.
+project.py — Modelo flexible para proyectos de inversión (agnóstico al tipo de activo).
 
 Contexto:
-Define la estructura de la tabla `projects` utilizada por el sistema Boost A Project.
-Cada proyecto representa una oportunidad de inversión gestionada por administradores
-desde el panel y mostrada en el frontend público.
+Reemplaza la antigua estructura rígida basada en campos inmobiliarios.
+Permite describir cualquier tipo de proyecto (coliving, restaurante, pádel, energía, etc.)
+mediante bloques dinámicos y datos financieros genéricos en formato JSON.
 
 Notas de mantenimiento:
-- Campo `estimated_term` renombrado a `estimated_duration` para coherencia semántica.
-- Todos los nombres de columnas ahora coinciden con el schema y el frontend.
-- No alterar las longitudes o tipos de columnas sin generar una migración Alembic.
-- Mantiene timestamps automáticos (created_at, updated_at).
+- Totalmente compatible con la arquitectura existente de Flask y Marshmallow.
+- No requiere migraciones adicionales al añadir nuevos tipos de bloques.
+- Los campos "investment_data" y "content_sections" almacenan la estructura completa del proyecto.
+- La galería principal se gestiona como lista JSON de imágenes Cloudinary (src, alt).
+- Campos category, featured y priority permiten organización y destacado de proyectos.
 
 @author Boost A Project Team
-@since v1.0.0
+@since v2.0.0
 """
 
 from datetime import datetime, timezone
@@ -25,34 +26,33 @@ class Project(db.Model):
     __tablename__ = "projects"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), nullable=False)
+
+    # Identidad básica
     slug = db.Column(db.String(150), unique=True, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    image_url = db.Column(db.String(255))
-    investment_goal = db.Column(db.Float, nullable=False)
-    location = db.Column(db.String(120), nullable=False)
-    investment_type = db.Column(db.String(100))
-    surface_m2 = db.Column(db.Integer)
-    rooms = db.Column(db.Integer)
-    bathrooms = db.Column(db.Integer)
-    min_investment = db.Column(db.Float)
-    expected_return = db.Column(db.String(10))
-    optimistic_return = db.Column(db.String(10))
-    estimated_duration = db.Column(db.String(50))  # ← nombre final y profesional
-    status = db.Column(db.String(50), default="Abierto")
-    financial_structure = db.Column(db.JSON)
-    risk_mitigations = db.Column(db.JSON)
-    gallery = db.Column(db.JSON)
+    title = db.Column(db.String(200), nullable=False)
+    subtitle = db.Column(db.String(300))
+    description = db.Column(db.Text)  # resumen corto
+    status = db.Column(db.String(20), default="open")  # open, active, funded, closed
+    
+    # Organización y destacado
+    category = db.Column(db.String(50))  # inmobiliario, hosteleria, deportivo, energia, etc.
+    featured = db.Column(db.Boolean, default=False)  # si se destaca en homepage
+    priority = db.Column(db.Integer, default=0)  # orden de visualización (mayor = más arriba)
 
-    # Campos adicionales para formulario avanzado
-    financial_structure_text = db.Column(db.Text)
-    rentability_projection = db.Column(db.Text)
-    risk_analysis = db.Column(db.Text)
-    team_description = db.Column(db.Text)
-    external_link = db.Column(db.String(255))
+    # Imágenes
+    main_image_url = db.Column(db.String(500))
+    gallery = db.Column(db.JSON)  # [{"src": "...", "alt": "..."}]
 
+    # Datos financieros genéricos
+    investment_data = db.Column(db.JSON)  # total, min_investment, breakdown, escenarios, etc.
+
+    # Contenido libre estructurado
+    content_sections = db.Column(db.JSON)  # lista ordenada de bloques flexibles
+
+    # Métricas y timestamps
+    views = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, onupdate=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
-        return f"<Project {self.title}>"
+        return f"<Project {self.slug}>"

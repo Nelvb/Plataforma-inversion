@@ -43,7 +43,7 @@ Plataforma-inversion/
 ├── .env.docker.example                   # Plantilla configuración Docker
 ├── docker-compose.yml                    # Configuración Docker
 ├── Dockerfile.backend                    # Dockerfile backend
-├── Dockerfile.frontend                    # Dockerfile frontend
+├── Dockerfile.frontend                   # Dockerfile frontend
 ├── global.d.ts                          # Tipos globales TypeScript
 ├── LICENSE                               # Licencia MIT
 ├── middleware.ts                         # Middleware Next.js
@@ -93,6 +93,8 @@ Plataforma-inversion/
 │   │   │   │   └── page.tsx
 │   │   │   ├── contact/
 │   │   │   │   └── page.tsx
+│   │   │   ├── proyectos/                # Página de proyectos
+│   │   │   │   └── page.tsx
 │   │   │   ├── recuperar-contrasena/
 │   │   │   │   └── page.tsx
 │   │   │   ├── reset-password/
@@ -107,6 +109,10 @@ Plataforma-inversion/
 │   │   │   │   │       └── htmlFormatter.ts
 │   │   │   │   ├── layout/
 │   │   │   │   │   └── AdminPageContent.tsx
+│   │   │   │   ├── projects/             # Componentes de gestión de proyectos
+│   │   │   │   │   ├── ProjectForm.tsx
+│   │   │   │   │   ├── ProjectList.tsx
+│   │   │   │   │   └── ProjectCard.tsx
 │   │   │   │   └── ui/
 │   │   │   │       ├── AdminCard.tsx
 │   │   │   │       └── blog/
@@ -173,6 +179,7 @@ Plataforma-inversion/
 │   │   │   │   ├── authService.ts
 │   │   │   │   ├── contactService.ts
 │   │   │   │   ├── imageService.ts
+│   │   │   │   ├── projectService.ts      # Servicio para gestión de proyectos
 │   │   │   │   └── userService.ts
 │   │   │   ├── blogService.ts
 │   │   │   ├── utils.ts
@@ -183,6 +190,7 @@ Plataforma-inversion/
 │   │   │   ├── auth.ts
 │   │   │   ├── blog.ts
 │   │   │   ├── index.ts
+│   │   │   ├── project.ts                 # Tipos para proyectos
 │   │   │   └── user.ts
 │   │   ├── constants/                    # Constantes y validaciones
 │   │   │   ├── privateRoutes.ts
@@ -276,24 +284,30 @@ Plataforma-inversion/
 │       │   │   ├── articles.py           # CRUD artículos blog
 │       │   │   ├── auth.py               # Login, logout, signup
 │       │   │   ├── images.py             # Upload Cloudinary
+│       │   │   ├── projects.py           # CRUD proyectos de inversión
 │       │   │   ├── routes.py             # Rutas generales
 │       │   │   └── users.py              # Gestión usuarios admin
 │       │   ├── config.py                 # Config por entorno
 │       │   ├── data/                     # JSON estáticos
-│       │   │   └── articles.json
+│       │   │   ├── articles.json         # Artículos iniciales
+│       │   │   └── projects/              # Directorio de proyectos
+│       │   │       └── fiverooms-venezuela.json  # Proyecto de ejemplo
 │       │   ├── extensions.py              # Inicialización de extensiones Flask
 │       │   ├── models/                   # Modelos SQLAlchemy
 │       │   │   ├── __init__.py
 │       │   │   ├── article.py
+│       │   │   ├── project.py            # Modelo de proyectos
 │       │   │   └── user.py
 │       │   ├── schemas/                  # Validación y serialización
 │       │   │   ├── __init__.py
 │       │   │   ├── article_schema.py
 │       │   │   ├── contact_schema.py
+│       │   │   ├── project_schema.py     # Schemas para proyectos
 │       │   │   └── user.py
 │       │   ├── scripts/                  # Scripts de utilidad
 │       │   │   ├── import_service.py
-│       │   │   └── import_static_articles.py
+│       │   │   ├── import_static_articles.py
+│       │   │   └── import_static_projects.py  # Importador de proyectos
 │       │   ├── services/                 # Lógica de negocio
 │       │   │   ├── __init__.py
 │       │   │   ├── article_service.py
@@ -310,19 +324,14 @@ Plataforma-inversion/
 │       │   ├── README
 │       │   ├── script.py.mako
 │       │   └── versions/
-│       │       ├── 02644fa8bb55_add_last_name_to_users.py
-│       │       ├── 2404c81b8c0d_migración_inicial_con_postgresql.py
-│       │       ├── 72c144c63040_corrección_de_nombre_de_tabla_users.py
-│       │       ├── 99143f90c755_add_related_field_to_articles.py
-│       │       ├── b15e74568949_add_created_at_field.py
-│       │       ├── f73beb5234cd_add_is_admin_to_users_con_default.py
-│       │       └── import_static_articles.py
+│       │       └── eee17872c641_initial_clean_migration_for_boost_a_.py
 │       ├── tests/                        # Tests del backend (83 tests, 93% coverage)
 │       │   ├── api/                      # Test de endpoints
 │       │   │   ├── test_account.py
 │       │   │   ├── test_articles_api.py
 │       │   │   ├── test_auth.py
 │       │   │   ├── test_images_api.py
+│       │   │   ├── test_projects_api.py  # Tests de API de proyectos
 │       │   │   ├── test_routes_api.py
 │       │   │   └── test_users_api.py
 │       │   ├── config/                   # Test de configuración
@@ -546,11 +555,77 @@ flask create_admin
 
 Esto crea el usuario Alberto con rol de administrador para usar el panel de control.
 
+### Importar datos estáticos
+
+```bash
+# Importar artículos desde JSON
+cd src/backend
+python app/scripts/import_static_articles.py
+
+# Importar proyectos desde directorio JSON
+cd src/backend
+python app/scripts/import_static_projects.py
+```
+
+Estos comandos importan los datos iniciales desde los archivos JSON sin duplicar contenido existente.
+
+## Sistema de Importación de Proyectos
+
+### Arquitectura Modular
+
+El backend utiliza un sistema modular para la gestión de proyectos:
+
+- **Directorio de proyectos:** `src/backend/app/data/projects/`
+- **Archivos individuales:** Cada proyecto en su propio archivo `.json`
+- **Importación inteligente:** Detecta proyectos existentes por `slug` y actualiza campos
+- **Escalabilidad:** Compatible con múltiples proyectos sin conflictos
+
+### Agregar Nuevo Proyecto
+
+1. **Crear archivo JSON:**
+   ```bash
+   # Crear nuevo proyecto
+   touch src/backend/app/data/projects/mi-nuevo-proyecto.json
+   ```
+
+2. **Estructura del archivo:**
+   ```json
+   {
+     "title": "Mi Nuevo Proyecto",
+     "slug": "mi-nuevo-proyecto",
+     "description": "Descripción del proyecto...",
+     "investment_goal": 500000,
+     "location": "Madrid",
+     "status": "Abierto"
+   }
+   ```
+
+3. **Importar a la base de datos:**
+   ```bash
+   cd src/backend
+   python app/scripts/import_static_projects.py
+   ```
+
+4. **Verificar importación:**
+   ```bash
+   # Verificar en la API
+   curl http://localhost:5000/api/projects/mi-nuevo-proyecto
+   ```
+
+### Características del Importador
+
+- **Actualización automática:** Si el proyecto existe, actualiza sus campos
+- **Detección por slug:** Identifica proyectos existentes por `slug` único
+- **Manejo de errores:** Reporta errores individuales sin interrumpir el proceso
+- **Logging detallado:** Muestra qué archivos se cargaron y resultados
+- **Compatibilidad:** Funciona con arrays y objetos individuales
+
 ## Funcionalidades destacadas
 
 * ✅ Login con JWT en cookies + CSRF
 * ✅ Recuperación de contraseña por email con ResetPasswordForm
 * ✅ CRUD completo de artículos desde el panel admin
+* ✅ **Sistema completo de gestión de proyectos de inversión**
 * ✅ Editor HTML manual con slug automático y SEO
 * ✅ Sistema de imágenes con Cloudinary y drag & drop
 * ✅ Dashboard privado para usuarios registrados
@@ -560,6 +635,136 @@ Esto crea el usuario Alberto con rol de administrador para usar el panel de cont
 * ✅ Formularios unificados con validación profesional
 * ✅ Formulario de contacto con envío de emails
 * ✅ Protección de rutas por roles (admin/usuario)
+
+## 🏗️ Sistema de Gestión de Proyectos
+
+### Cómo funciona la subida de proyectos
+
+La plataforma incluye un sistema completo para la gestión de proyectos de inversión inmobiliaria que permite a los administradores crear, editar y gestionar proyectos de manera eficiente.
+
+#### Flujo de Subida de Proyectos
+
+1. **Acceso Administrativo**
+   - Solo usuarios con rol `is_admin = true` pueden crear proyectos
+   - Autenticación JWT requerida para todas las operaciones CRUD
+
+2. **Formulario de Proyecto**
+   - **Campos obligatorios**: título, descripción, meta de inversión, ubicación, retorno esperado
+   - **Campos opcionales**: tipo de inversión, superficie, habitaciones, baños, inversión mínima, retorno optimista, duración estimada
+   - **Campos avanzados**: estructura financiera, proyección de rentabilidad, análisis de riesgos, descripción del equipo, enlace externo
+
+3. **Gestión de Imágenes**
+   - **Subida a Cloudinary**: Las imágenes se procesan y optimizan automáticamente
+   - **Transformaciones**: Redimensionado a 1200px manteniendo proporción, optimización de calidad
+   - **Galería**: Soporte para múltiples imágenes por proyecto
+   - **URLs seguras**: Todas las imágenes se sirven con HTTPS
+
+4. **Validación y Procesamiento**
+   - **Validación con Marshmallow**: Esquemas `ProjectInputSchema` y `ProjectSchema`
+   - **Slug automático**: Generado a partir del título (ej: "FiveRooms Venezuela" → "fiverooms-venezuela")
+   - **Verificación de duplicados**: No se permiten proyectos con el mismo slug
+   - **Campos JSON**: Estructura financiera, mitigaciones de riesgo y galería se almacenan como JSON
+
+#### Estructura de Datos del Proyecto
+
+```typescript
+interface Project {
+  // Campos básicos
+  title: string;                    // Título del proyecto
+  slug: string;                     // URL amigable (generado automáticamente)
+  description: string;              // Descripción detallada
+  image_url?: string;              // Imagen principal (Cloudinary)
+  investment_goal: number;         // Meta de inversión en euros
+  location: string;                // Ubicación del proyecto
+  investment_type?: string;        // Tipo de inversión
+  surface_m2?: number;            // Superficie en m²
+  rooms?: number;                  // Número de habitaciones
+  bathrooms?: number;              // Número de baños
+  min_investment?: number;         // Inversión mínima
+  expected_return: string;         // Retorno esperado (%)
+  optimistic_return?: string;      // Retorno optimista (%)
+  estimated_duration?: string;     // Duración estimada
+  status: string;                  // Estado del proyecto (default: "Abierto")
+  
+  // Campos avanzados
+  financial_structure?: object[];  // Estructura financiera (JSON)
+  risk_mitigations?: string[];     // Mitigaciones de riesgo (JSON)
+  gallery?: string[];              // Galería de imágenes (JSON)
+  financial_structure_text?: string; // Texto de estructura financiera
+  rentability_projection?: string;   // Proyección de rentabilidad
+  risk_analysis?: string;            // Análisis de riesgos
+  team_description?: string;         // Descripción del equipo
+  external_link?: string;            // Enlace externo
+  
+  // Metadatos
+  created_at: Date;
+  updated_at: Date;
+}
+```
+
+#### API Endpoints para Proyectos
+
+```bash
+# Obtener todos los proyectos (público)
+GET /api/projects
+
+# Obtener proyecto específico por slug (público)
+GET /api/projects/{slug}
+
+# Crear nuevo proyecto (solo admin)
+POST /api/projects
+Headers: Authorization: Bearer {jwt_token}
+Body: ProjectInput
+
+# Actualizar proyecto (solo admin)
+PUT /api/projects/{slug}
+Headers: Authorization: Bearer {jwt_token}
+Body: Partial<ProjectInput>
+
+# Eliminar proyecto (solo admin)
+DELETE /api/projects/{slug}
+Headers: Authorization: Bearer {jwt_token}
+```
+
+#### Componentes Frontend
+
+- **`ProjectForm.tsx`**: Formulario completo con validación en tiempo real
+- **`ProjectList.tsx`**: Lista de proyectos con filtros y paginación
+- **`ProjectCard.tsx`**: Tarjeta individual de proyecto
+- **`projectService.ts`**: Servicio para comunicación con la API
+- **`project.ts`**: Tipos TypeScript para proyectos
+
+#### Proyectos Iniciales
+
+El sistema incluye un proyecto de ejemplo en `src/backend/app/data/projects/fiverooms-venezuela.json`:
+
+```json
+{
+  "title": "FiveRooms Venezuela",
+  "slug": "fiverooms-venezuela",
+  "description": "Proyecto de inversión inmobiliaria...",
+  "investment_goal": 110000,
+  "location": "Valladolid, España",
+  "investment_type": "Alquiler por habitaciones",
+  "expected_return": "12%",
+  "status": "Abierto"
+}
+```
+
+#### Seguridad y Validación
+
+- **Autenticación JWT**: Todas las operaciones de escritura requieren token válido
+- **Autorización por roles**: Solo administradores pueden gestionar proyectos
+- **Validación de datos**: Esquemas Marshmallow para validación robusta
+- **Sanitización**: Los datos se limpian antes de almacenar
+- **Rate limiting**: Protección contra abuso de la API
+
+#### Testing
+
+- **83 tests backend** con 93% de cobertura
+- **Tests específicos para proyectos**: `test_projects_api.py`
+- **Validación de esquemas**: Tests para `ProjectSchema` y `ProjectInputSchema`
+- **Tests de autorización**: Verificación de permisos de administrador
 
 ## Arquitectura de Testing
 

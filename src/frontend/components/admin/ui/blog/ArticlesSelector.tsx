@@ -9,6 +9,7 @@
  */
 
 import React, { useEffect, useState } from 'react'
+import LoadingState from '@/components/ui/LoadingState'
 import { getArticleTitles, ArticleListItem } from '@/lib/blogService'
 
 interface ArticlesSelectorProps {
@@ -61,7 +62,7 @@ const ArticlesSelector: React.FC<ArticlesSelectorProps> = ({
 
       <div className={`flex flex-col gap-2 max-h-48 overflow-y-auto border rounded-md p-3 ${error ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-slate-50'}`}>
         {isLoading ? (
-          <p className="text-sm text-gray-500 p-2">Cargando artículos...</p>
+          <LoadingState message="Cargando artículos..." size="sm" />
         ) : fetchError ? (
           <p className="text-sm text-red-500 p-2">{fetchError}</p>
         ) : articles.length === 0 ? (

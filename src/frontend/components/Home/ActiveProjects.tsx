@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import LoadingState from "@/components/ui/LoadingState";
 import { ArrowRight, MapPin, Building, TrendingUp, Clock } from "lucide-react";
 import { getProjects } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
@@ -21,7 +22,7 @@ const ActiveProjects: React.FC = () => {
         const response = await getProjects();
         // Filtrar solo proyectos abiertos y mostrar máximo 2
         const activeProjects = response
-          .filter(project => project.status === 'Abierto')
+          .filter(project => project.status === 'open')
           .slice(0, 2);
         setProjects(activeProjects);
       } catch (err) {
@@ -57,9 +58,7 @@ const ActiveProjects: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-16">
-            <p className="text-[#1A1341] text-lg">Cargando proyectos...</p>
-          </div>
+          <LoadingState message="Cargando proyectos..." size="lg" />
         ) : error ? (
           <div className="text-center py-16">
             <p className="text-red-600 text-lg">{error}</p>
@@ -74,7 +73,7 @@ const ActiveProjects: React.FC = () => {
               <Card key={project.id} className="p-0 overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-100">
                 <div className="relative">
                   <Image
-                    src={project.image_url || "https://res.cloudinary.com/dy1pkrd52/image/upload/v1743073496/estudio_qmgfwg.webp"}
+                    src={project.main_image_url || "https://res.cloudinary.com/dy1pkrd52/image/upload/v1743073496/estudio_qmgfwg.webp"}
                     alt={project.title}
                     width={1200}
                     height={800}
@@ -82,12 +81,15 @@ const ActiveProjects: React.FC = () => {
                   />
                   <div className="absolute top-4 left-4 flex gap-2">
                     <span className="bg-[#1DA1F2] text-white px-3 py-1 rounded-full text-sm font-medium">
-                      {project.investment_type || 'Inversión'}
+                      {project.investment_data?.investment_type || 'Inversión'}
                     </span>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      project.status === "Abierto" ? "bg-[#C2E7DA] text-[#1A1341]" : "bg-white text-[#1A1341]"
+                      project.status === "open" ? "bg-[#C2E7DA] text-[#1A1341]" : "bg-white text-[#1A1341]"
                     }`}>
-                      {project.status}
+                      {project.status === "open" ? "Abierto" : 
+                       project.status === "active" ? "Activo" :
+                       project.status === "funded" ? "Financiado" :
+                       project.status === "closed" ? "Cerrado" : project.status}
                     </span>
                   </div>
                 </div>
@@ -100,21 +102,21 @@ const ActiveProjects: React.FC = () => {
                   <div className="flex flex-col gap-3 mb-4">
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-[#6290C3]" />
-                      <span className="text-gray-700">{project.location}</span>
+                      <span className="text-gray-700">{project.investment_data?.property_specs?.address || project.investment_data?.property_specs?.neighborhood || 'Ubicación no especificada'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Building className="w-4 h-4 text-[#6290C3]" />
                       <span className="text-gray-700">
-                        Inversión mínima: €{project.min_investment?.toLocaleString() || '1,000'}
+                        Inversión mínima: €{project.investment_data?.min_investment?.toLocaleString() || '1,000'}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-4 h-4 text-[#6290C3]" />
-                      <span className="text-gray-700">Rentabilidad: {project.expected_return}%</span>
+                      <span className="text-gray-700">Rentabilidad: {project.investment_data?.expected_return || 'N/A'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-[#6290C3]" />
-                      <span className="text-gray-700">Plazo: {project.estimated_duration || '12-18 meses'}</span>
+                      <span className="text-gray-700">Plazo: {project.investment_data?.execution_time || '12-18 meses'}</span>
                     </div>
                   </div>
                   

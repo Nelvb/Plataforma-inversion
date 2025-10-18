@@ -1,14 +1,26 @@
 'use client'
 
 /**
- * Formulario reutilizable para crear o editar proyectos en el panel de administración.
- *
- * Este componente incluye:
+ * ProjectForm.tsx — Formulario reutilizable para crear o editar proyectos
+ * ------------------------------------------------------------
+ * Contexto: Componente del panel de administración para gestión de proyectos
+ * 
+ * Características:
+ * - Compatible con el modelo flexible del backend
  * - Validaciones inteligentes unificadas (cada campo se auto-valida)
  * - Contador de caracteres en Título y Descripción
  * - Subida de imagen destacada (con vista previa y validación)
  * - Campos específicos para proyectos de inversión
  * - Totalmente responsive con Tailwind CSS
+ * 
+ * Notas de mantenimiento:
+ * - ValidationRules usa customValidator para números (no tiene propiedad 'min')
+ * - Los campos opcionales se envían como undefined si están vacíos
+ * - El formulario no envía si hay errores de validación
+ * - Compatible con el modelo flexible: investment_data, main_image_url, content_sections
+ * 
+ * @author Boost A Project Team
+ * @since v2.0.0
  */
 
 import React, { useState, useEffect } from 'react'
@@ -23,79 +35,91 @@ interface ProjectFormProps {
 }
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
+  // Estados básicos del proyecto
   const [title, setTitle] = useState(initialData?.title || '')
   const [description, setDescription] = useState(initialData?.description || '')
-  const [image_url, setImage_url] = useState(initialData?.image_url || '')
-  const [investment_goal, setInvestment_goal] = useState(initialData?.investment_goal || 0)
-  const [location, setLocation] = useState(initialData?.location || '')
-  const [investment_type, setInvestment_type] = useState(initialData?.investment_type || '')
-  const [surface_m2, setSurface_m2] = useState(initialData?.surface_m2 || 0)
-  const [rooms, setRooms] = useState(initialData?.rooms || 0)
-  const [bathrooms, setBathrooms] = useState(initialData?.bathrooms || 0)
-  const [min_investment, setMin_investment] = useState(initialData?.min_investment || 0)
-  const [expected_return, setExpected_return] = useState(initialData?.expected_return || '')
-  const [optimistic_return, setOptimistic_return] = useState(initialData?.optimistic_return || '')
-  const [estimated_duration, setEstimated_duration] = useState(initialData?.estimated_duration || '')
-  const [status, setStatus] = useState(initialData?.status || 'Abierto')
-  
-  // Campos adicionales para formulario avanzado
-  const [financial_structure_text, setFinancial_structure_text] = useState(initialData?.financial_structure_text || '')
-  const [rentability_projection, setRentability_projection] = useState(initialData?.rentability_projection || '')
-  const [risk_analysis, setRisk_analysis] = useState(initialData?.risk_analysis || '')
-  const [team_description, setTeam_description] = useState(initialData?.team_description || '')
-  const [external_link, setExternal_link] = useState(initialData?.external_link || '')
+  const [mainImageUrl, setMainImageUrl] = useState(initialData?.main_image_url || '')
+  const [status, setStatus] = useState<'open' | 'active' | 'funded' | 'closed'>(
+    (initialData?.status as 'open' | 'active' | 'funded' | 'closed') || 'open'
+  )
+
+  // Estados de investment_data
+  const [totalInvestment, setTotalInvestment] = useState(
+    initialData?.investment_data?.total_investment || 0
+  )
+  const [expectedReturn, setExpectedReturn] = useState(
+    initialData?.investment_data?.expected_return || ''
+  )
+  const [optimisticReturn, setOptimisticReturn] = useState(
+    initialData?.investment_data?.optimistic_return || ''
+  )
+  const [minInvestment, setMinInvestment] = useState(
+    initialData?.investment_data?.min_investment || 0
+  )
+
+  // Estados de ubicación e inversión (campos de nivel superior)
+  const [location, setLocation] = useState(
+    initialData?.investment_data?.property_specs?.address || 
+    initialData?.investment_data?.property_specs?.neighborhood || ''
+  )
+  const [investmentType, setInvestmentType] = useState(
+    initialData?.investment_data?.investment_type || ''
+  )
+  const [surfaceM2, setSurfaceM2] = useState(
+    initialData?.investment_data?.property_specs?.surface_m2 || 0
+  )
+  const [rooms, setRooms] = useState(
+    initialData?.investment_data?.property_specs?.rooms || 0
+  )
+  const [bathrooms, setBathrooms] = useState(
+    initialData?.investment_data?.property_specs?.bathrooms || 0
+  )
 
   // Estados de error para cada campo
   const [titleError, setTitleError] = useState(false)
   const [descriptionError, setDescriptionError] = useState(false)
   const [imageError, setImageError] = useState(false)
-  const [investmentGoalError, setInvestmentGoalError] = useState(false)
+  const [totalInvestmentError, setTotalInvestmentError] = useState(false)
   const [locationError, setLocationError] = useState(false)
   const [expectedReturnError, setExpectedReturnError] = useState(false)
 
   useEffect(() => {
-    if (initialData?.image_url) setImage_url(initialData.image_url)
-  }, [initialData?.image_url])
+    if (initialData?.main_image_url) setMainImageUrl(initialData.main_image_url)
+  }, [initialData?.main_image_url])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     // Si algún campo obligatorio tiene error, no enviar
-    if (titleError || descriptionError || imageError || investmentGoalError || locationError || expectedReturnError) {
+    if (titleError || descriptionError || imageError || totalInvestmentError || locationError || expectedReturnError) {
       return
     }
 
     const projectData: ProjectInput = {
       title,
       description,
-      image_url: image_url || undefined,
-      investment_goal,
-      location,
-      investment_type: investment_type || undefined,
-      surface_m2: surface_m2 || undefined,
-      rooms: rooms || undefined,
-      bathrooms: bathrooms || undefined,
-      min_investment: min_investment || undefined,
-      expected_return,
-      optimistic_return: optimistic_return || undefined,
-      estimated_duration: estimated_duration || undefined,
-      status: status || 'Abierto',
-      financial_structure: initialData?.financial_structure,
-      risk_mitigations: initialData?.risk_mitigations,
-      gallery: initialData?.gallery,
-      // Campos adicionales para formulario avanzado
-      financial_structure_text: financial_structure_text || undefined,
-      rentability_projection: rentability_projection || undefined,
-      risk_analysis: risk_analysis || undefined,
-      team_description: team_description || undefined,
-      external_link: external_link || undefined
+      main_image_url: mainImageUrl || undefined,
+      status,
+      investment_data: {
+        total_investment: totalInvestment || undefined,
+        expected_return: expectedReturn || undefined,
+        optimistic_return: optimisticReturn || undefined,
+        min_investment: minInvestment || undefined,
+        investment_type: investmentType || undefined,
+        property_specs: {
+          address: location || undefined,
+          surface_m2: surfaceM2 || undefined,
+          rooms: rooms || undefined,
+          bathrooms: bathrooms || undefined
+        }
+      }
     }
 
     onSubmit(projectData)
   }
 
   const handleImageUpload = (imageUrl: string) => {
-    setImage_url(imageUrl)
+    setMainImageUrl(imageUrl)
   }
 
   return (
@@ -116,7 +140,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                 label="Título del Proyecto"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Ej: Residencial Premium en Madrid"
+                placeholder="Ej: FiveRooms Venezuela"
                 required
                 validationRules={{
                   minLength: 10,
@@ -149,11 +173,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
               <p className="text-xs text-gray-400">({description.length} caracteres)</p>
             </div>
 
-            {/* IMAGEN */}
+            {/* IMAGEN PRINCIPAL */}
             <div className="mb-4">
               <ImageUpload
                 onImageUpload={handleImageUpload}
-                initialImage={image_url}
+                initialImage={mainImageUrl}
                 onErrorChange={setImageError}
               />
             </div>
@@ -166,18 +190,24 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <Input
-                  label="Objetivo de Inversión (€)"
+                  label="Inversión Total (€)"
                   type="number"
-                  value={investment_goal}
-                  onChange={(e) => setInvestment_goal(Number(e.target.value))}
-                  placeholder="500000"
+                  value={totalInvestment}
+                  onChange={(e) => setTotalInvestment(Number(e.target.value))}
+                  placeholder="110000"
                   required
                   validationRules={{
-                    min: 1000,
-                    required: true
+                    required: true,
+                    customValidator: (value) => {
+                      const num = Number(value)
+                      if (num < 1000) {
+                        return 'La inversión debe ser de al menos €1.000'
+                      }
+                      return null
+                    }
                   }}
                   validateOnChange={true}
-                  onErrorChange={setInvestmentGoalError}
+                  onErrorChange={setTotalInvestmentError}
                 />
               </div>
 
@@ -185,17 +215,17 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                 <Input
                   label="Inversión Mínima (€)"
                   type="number"
-                  value={min_investment}
-                  onChange={(e) => setMin_investment(Number(e.target.value))}
-                  placeholder="1000"
+                  value={minInvestment}
+                  onChange={(e) => setMinInvestment(Number(e.target.value))}
+                  placeholder="100"
                 />
               </div>
 
               <div>
                 <Input
                   label="Retorno Esperado (%)"
-                  value={expected_return}
-                  onChange={(e) => setExpected_return(e.target.value)}
+                  value={expectedReturn}
+                  onChange={(e) => setExpectedReturn(e.target.value)}
                   placeholder="12"
                   required
                   validationRules={{
@@ -209,9 +239,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
               <div>
                 <Input
                   label="Retorno Optimista (%)"
-                  value={optimistic_return}
-                  onChange={(e) => setOptimistic_return(e.target.value)}
-                  placeholder="15"
+                  value={optimisticReturn}
+                  onChange={(e) => setOptimisticReturn(e.target.value)}
+                  placeholder="16"
                 />
               </div>
             </div>
@@ -227,7 +257,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                   label="Ubicación"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Madrid, España"
+                  placeholder="Calle Venezuela, Valladolid, España"
                   required
                   validationRules={{
                     required: true
@@ -240,9 +270,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
               <div>
                 <Input
                   label="Tipo de Inversión"
-                  value={investment_type}
-                  onChange={(e) => setInvestment_type(e.target.value)}
-                  placeholder="Residencial, Comercial, etc."
+                  value={investmentType}
+                  onChange={(e) => setInvestmentType(e.target.value)}
+                  placeholder="Alquiler por habitaciones"
                 />
               </div>
 
@@ -250,9 +280,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                 <Input
                   label="Superficie (m²)"
                   type="number"
-                  value={surface_m2}
-                  onChange={(e) => setSurface_m2(Number(e.target.value))}
-                  placeholder="120"
+                  value={surfaceM2}
+                  onChange={(e) => setSurfaceM2(Number(e.target.value))}
+                  placeholder="90"
                 />
               </div>
 
@@ -262,7 +292,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                   type="number"
                   value={rooms}
                   onChange={(e) => setRooms(Number(e.target.value))}
-                  placeholder="3"
+                  placeholder="5"
                 />
               </div>
 
@@ -273,15 +303,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
                   value={bathrooms}
                   onChange={(e) => setBathrooms(Number(e.target.value))}
                   placeholder="2"
-                />
-              </div>
-
-              <div>
-                <Input
-                  label="Plazo Estimado"
-                  value={estimated_duration}
-                  onChange={(e) => setEstimated_duration(e.target.value)}
-                  placeholder="12-18 meses"
                 />
               </div>
             </div>
@@ -297,88 +318,14 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
               </label>
               <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value as 'open' | 'active' | 'funded' | 'closed')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6290C3] focus:border-transparent"
               >
-                <option value="Abierto">Abierto</option>
-                <option value="Cerrado">Cerrado</option>
-                <option value="En Proceso">En Proceso</option>
-                <option value="Finalizado">Finalizado</option>
+                <option value="open">Abierto</option>
+                <option value="active">Activo</option>
+                <option value="funded">Financiado</option>
+                <option value="closed">Cerrado</option>
               </select>
-            </div>
-          </div>
-
-          {/* ANÁLISIS FINANCIERO Y RIESGOS */}
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold text-[#1A1341] mb-4">Análisis Financiero y Riesgos</h3>
-            
-            <div className="space-y-4">
-              {/* ESTRUCTURA FINANCIERA */}
-              <div>
-                <label className="block text-sm font-medium text-[#1A1341] mb-2">
-                  Estructura Financiera
-                </label>
-                <textarea
-                  value={financial_structure_text}
-                  onChange={(e) => setFinancial_structure_text(e.target.value)}
-                  placeholder="Ejemplo: Compra 77 %, Reforma 9 %, Gastos 9 %, Contingencias 5 %"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6290C3] focus:border-transparent"
-                  rows={3}
-                />
-              </div>
-
-              {/* PROYECCIÓN DE RENTABILIDAD */}
-              <div>
-                <label className="block text-sm font-medium text-[#1A1341] mb-2">
-                  Proyección de Rentabilidad
-                </label>
-                <textarea
-                  value={rentability_projection}
-                  onChange={(e) => setRentability_projection(e.target.value)}
-                  placeholder="Escenario conservador: 10 %, base: 12 %, optimista: 16 %"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6290C3] focus:border-transparent"
-                  rows={3}
-                />
-              </div>
-
-              {/* RIESGOS Y MITIGACIONES */}
-              <div>
-                <label className="block text-sm font-medium text-[#1A1341] mb-2">
-                  Riesgos y Mitigaciones
-                </label>
-                <textarea
-                  value={risk_analysis}
-                  onChange={(e) => setRisk_analysis(e.target.value)}
-                  placeholder="Retrasos → proveedores locales confirmados. Vacancia → alta demanda..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6290C3] focus:border-transparent"
-                  rows={3}
-                />
-              </div>
-
-              {/* EQUIPO PROMOTOR */}
-              <div>
-                <label className="block text-sm font-medium text-[#1A1341] mb-2">
-                  Equipo Promotor
-                </label>
-                <textarea
-                  value={team_description}
-                  onChange={(e) => setTeam_description(e.target.value)}
-                  placeholder="Boostaproyect · Empresa especializada en inversión inmobiliaria colaborativa..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6290C3] focus:border-transparent"
-                  rows={3}
-                />
-              </div>
-
-              {/* ENLACE EXTERNO */}
-              <div>
-                <Input
-                  label="Enlace Externo"
-                  type="url"
-                  value={external_link}
-                  onChange={(e) => setExternal_link(e.target.value)}
-                  placeholder="https://www.boostaproyect.com/fiverooms-venezuela"
-                />
-              </div>
             </div>
           </div>
 
@@ -390,7 +337,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
             <Button
               type="submit"
               variant="primary"
-              disabled={titleError || descriptionError || imageError || investmentGoalError || locationError || expectedReturnError}
+              disabled={titleError || descriptionError || imageError || totalInvestmentError || locationError || expectedReturnError}
             >
               {initialData ? 'Guardar cambios' : 'Crear proyecto'}
             </Button>

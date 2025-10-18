@@ -14,6 +14,7 @@
  */
 
 import React, { useRef, useState, useEffect } from 'react'
+import LoadingState from '@/components/ui/LoadingState'
 import { uploadImage } from '@/lib/api/imageService'
 
 interface ImageUploadProps {
@@ -180,7 +181,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               disabled={isUploading}
               className="px-4 py-2 bg-[#1DA1F2] text-white rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {isUploading ? 'Subiendo...' : 'Subir imagen'}
+              {isUploading ? (
+                <LoadingState message="Subiendo imagen..." size="sm" />
+              ) : (
+                'Subir imagen'
+              )}
             </button>
           )}
           {uploaded && (

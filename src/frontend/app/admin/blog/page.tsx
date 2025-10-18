@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import BlogArticleCard from "@/components/admin/ui/blog/BlogArticleCard";
 import Button from "@/components/ui/Button";
+import LoadingState from "@/components/ui/LoadingState";
 import { getArticles, deleteArticleBySlug } from "@/lib/blogService";
 import { Article } from "@/types";
 
@@ -67,7 +68,7 @@ const BlogAdminPage: React.FC = () => {
       </div>
 
       {isLoading ? (
-        <p className="text-center text-[#1A1341]">Cargando artículos...</p>
+        <LoadingState message="Cargando artículos..." size="lg" />
       ) : articles.length === 0 ? (
         <div className="text-center py-16 bg-[#F1FFEF] rounded-lg border border-[#6290C3]">
           <p className="text-[#1A1341] text-xl mb-4">Aún no has creado ningún artículo</p>

@@ -12,7 +12,7 @@ import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import Spinner from "@/components/ui/Spinner";
+import LoadingState from "@/components/ui/LoadingState";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Eye, EyeOff } from "lucide-react";
 import { validateUserField, USER_VALIDATION } from "@/constants/validation";
@@ -219,10 +219,7 @@ const SignupForm = () => {
             disabled={loading}
           >
             {loading ? (
-              <div className="flex items-center justify-center space-x-2">
-                <Spinner />
-                <span>Creando cuenta...</span>
-              </div>
+              <LoadingState message="Creando cuenta..." size="sm" />
             ) : (
               "Crear cuenta"
             )}
