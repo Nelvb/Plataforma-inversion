@@ -50,6 +50,121 @@ Plataforma-inversion/
 ├── package.json                          # Dependencias Node.js
 ├── package-lock.json                     # Lock file Node.js
 ├── pyproject.toml                        # Configuración Python
+├── README.md                             # Este archivo
+├── src/
+│   ├── backend/                          # Backend Flask
+│   │   ├── app/
+│   │   │   ├── __init__.py               # Factory Flask
+│   │   │   ├── api/                      # Endpoints REST
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── account.py           # Gestión de cuenta
+│   │   │   │   ├── articles.py          # API artículos
+│   │   │   │   ├── auth.py              # Autenticación
+│   │   │   │   ├── images.py            # Subida de imágenes
+│   │   │   │   ├── projects.py          # API proyectos
+│   │   │   │   ├── routes.py            # Rutas principales
+│   │   │   │   └── users.py             # Gestión usuarios
+│   │   │   ├── cli/                     # Comandos Flask CLI
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── commands.py          # Comandos de datos
+│   │   │   │   ├── create_admin.py      # Crear administrador
+│   │   │   │   └── init_data.py         # Inicialización completa
+│   │   │   ├── config.py                # Configuración Flask
+│   │   │   ├── data/                    # Datos estáticos
+│   │   │   │   ├── articles.json        # Artículos iniciales
+│   │   │   │   └── projects/            # Proyectos modulares
+│   │   │   │       └── fiverooms-venezuela.json
+│   │   │   ├── extensions.py            # Extensiones Flask
+│   │   │   ├── models/                  # Modelos SQLAlchemy
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── article.py           # Modelo artículo
+│   │   │   │   ├── project.py           # Modelo proyecto
+│   │   │   │   └── user.py              # Modelo usuario
+│   │   │   ├── schemas/                 # Esquemas Marshmallow
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── article_schema.py    # Serialización artículos
+│   │   │   │   ├── contact_schema.py    # Serialización contacto
+│   │   │   │   ├── project_schema.py    # Serialización proyectos
+│   │   │   │   └── user.py              # Serialización usuarios
+│   │   │   ├── scripts/                 # Scripts de importación
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── import_service.py    # Servicio de importación
+│   │   │   │   ├── import_static_articles.py
+│   │   │   │   └── import_static_projects.py
+│   │   │   ├── services/                # Lógica de negocio
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── article_service.py  # Servicio artículos
+│   │   │   │   ├── email_service.py     # Servicio email
+│   │   │   │   └── image_service.py     # Servicio imágenes
+│   │   │   └── utils/                   # Utilidades
+│   │   │       ├── __init__.py
+│   │   │       └── utils.py
+│   │   ├── migrations/                  # Migraciones Alembic
+│   │   │   ├── alembic.ini
+│   │   │   ├── env.py
+│   │   │   ├── README
+│   │   │   ├── script.py.mako
+│   │   │   └── versions/
+│   │   │       └── 99f0126d0976_create_flexible_project_model.py
+│   │   ├── requirements.txt             # Dependencias Python
+│   │   ├── run.py                       # Punto de entrada
+│   │   ├── tests/                       # Tests backend
+│   │   │   ├── __init__.py
+│   │   │   ├── api/                     # Tests API
+│   │   │   ├── config/                  # Tests configuración
+│   │   │   ├── models/                  # Tests modelos
+│   │   │   ├── schemas/                 # Tests esquemas
+│   │   │   ├── scripts/                 # Tests scripts
+│   │   │   ├── services/                # Tests servicios
+│   │   │   ├── conftest.py              # Configuración pytest
+│   │   │   └── test_db.py               # Tests base de datos
+│   │   └── venv/                        # Entorno virtual Python
+│   └── frontend/                         # Frontend Next.js
+│       ├── __mocks__/                    # Mocks para testing
+│       ├── __tests__/                    # Tests frontend
+│       ├── app/                          # App Router Next.js
+│       │   ├── (auth)/                   # Rutas autenticación
+│       │   ├── (user_private)/           # Rutas usuario
+│       │   ├── admin/                    # Panel administración
+│       │   ├── blog/                     # Blog público
+│       │   ├── contact/                  # Contacto
+│       │   ├── proyectos/                # Proyectos públicos
+│       │   ├── layout.tsx                # Layout principal
+│       │   └── page.tsx                 # Página inicio
+│       ├── components/                   # Componentes React
+│       │   ├── admin/                    # Componentes admin
+│       │   ├── articles/                 # Componentes artículos
+│       │   ├── auth/                     # Componentes autenticación
+│       │   ├── blog/                     # Componentes blog
+│       │   ├── contact/                  # Componentes contacto
+│       │   ├── Home/                     # Componentes homepage
+│       │   ├── layout/                   # Componentes layout
+│       │   ├── projects/                 # Componentes proyectos
+│       │   ├── shared/                   # Componentes compartidos
+│       │   ├── sideMenus/                # Menús laterales
+│       │   ├── ui/                       # Componentes UI base
+│       │   └── user/                     # Componentes usuario
+│       ├── constants/                     # Constantes
+│       ├── coverage/                      # Reportes cobertura
+│       ├── hooks/                         # Custom hooks
+│       ├── lib/                          # Utilidades y servicios
+│       ├── public/                        # Archivos estáticos
+│       ├── stores/                        # Estado global Zustand
+│       ├── styles/                        # Estilos CSS
+│       ├── types/                         # Tipos TypeScript
+│       ├── components.json               # Configuración shadcn/ui
+│       ├── jest.config.ts                 # Configuración Jest
+│       ├── jest.env.setup.ts              # Setup Jest
+│       ├── next.config.js                 # Configuración Next.js
+│       ├── next-env.d.ts                  # Tipos Next.js
+│       ├── package.json                   # Dependencias frontend
+│       ├── package-lock.json              # Lock file frontend
+│       ├── postcss.config.js              # Configuración PostCSS
+│       ├── setupTests.ts                  # Setup tests
+│       ├── tailwind.config.js             # Configuración Tailwind
+│       └── tsconfig.json                  # Configuración TypeScript
+├── package-lock.json                     # Lock file Node.js
+├── pyproject.toml                        # Configuración Python
 ├── README.md                             # Documentación principal
 ├── src/
 │   ├── frontend/
@@ -547,22 +662,43 @@ open htmlcov/index.html   # macOS
 
 ## Comandos CLI
 
+### Inicialización Completa (Recomendado)
+
 ```bash
-# Crear usuario administrador por terminal
+# Inicializar todo el sistema (admin + artículos + proyectos)
 cd src/backend
-flask create_admin
+flask init-data
 ```
 
-Esto crea el usuario Alberto con rol de administrador para usar el panel de control.
+Este comando crea automáticamente:
+- Usuario administrador (Alberto)
+- Importa todos los artículos desde `articles.json`
+- Importa todos los proyectos desde `projects/`
 
-### Importar datos estáticos
+### Comandos Granulares
 
 ```bash
-# Importar artículos desde JSON
+# Solo crear administrador
+cd src/backend
+flask create-admin
+
+# Solo importar artículos
+cd src/backend
+flask data import-articles
+
+# Solo importar proyectos
+cd src/backend
+flask data import-projects
+```
+
+### Scripts de Importación (Alternativos)
+
+```bash
+# Importar artículos manualmente
 cd src/backend
 python app/scripts/import_static_articles.py
 
-# Importar proyectos desde directorio JSON
+# Importar proyectos manualmente
 cd src/backend
 python app/scripts/import_static_projects.py
 ```

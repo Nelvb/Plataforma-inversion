@@ -64,7 +64,8 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, onBackClick }) =
             {article.title}
           </h1>
           
-          <div className="flex justify-center items-center text-white mb-6">
+          <div className="flex justify-center items-center text-white text-lg mb-6">
+
             {article.author && (
               <span className="mr-2">{article.author}</span>
             )}
