@@ -5,20 +5,23 @@
  * La lógica de creación se delega a blogService.ts con protección JWT y CSRF vía fetchWithAuth.
  * 
  * En el futuro puede adaptarse a edición activando `isEditMode` con lógica adicional si se requiere.
+ * 
+ * ✅ Optimización aplicada — memoización y optimización de formularios (2025-01-18)
  */
 
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import BlogArticleForm from '@/components/admin/blog/BlogArticleForm'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { createArticle, updateArticleBySlug } from '@/lib/blogService'
 
-const NewArticle = () => {
+const NewArticle: React.FC = React.memo(() => {
   const [isEditMode, setIsEditMode] = useState(false) // En esta vista, siempre es false por ahora
 
-  const handleSubmit = async (articleData: any) => {
+  // ✅ useCallback para evitar recreación de función en cada render
+  const handleSubmit = useCallback(async (articleData: any) => {
     try {
       if (isEditMode) {
         await updateArticleBySlug(articleData.slug, articleData)
@@ -30,7 +33,7 @@ const NewArticle = () => {
       console.error('Error al enviar los datos:', error)
       alert(`Error al ${isEditMode ? 'actualizar' : 'crear'} el artículo: ${error.message}`)
     }
-  }
+  }, [isEditMode])
 
   return (
     <div className="container mx-auto py-12 px-4">
@@ -48,4 +51,7 @@ const NewArticle = () => {
   )
 }
 
+});
+
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default NewArticle

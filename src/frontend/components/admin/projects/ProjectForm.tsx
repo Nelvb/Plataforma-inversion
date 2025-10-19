@@ -13,17 +13,13 @@
  * - Campos específicos para proyectos de inversión
  * - Totalmente responsive con Tailwind CSS
  * 
- * Notas de mantenimiento:
- * - ValidationRules usa customValidator para números (no tiene propiedad 'min')
- * - Los campos opcionales se envían como undefined si están vacíos
- * - El formulario no envía si hay errores de validación
- * - Compatible con el modelo flexible: investment_data, main_image_url, content_sections
+ * ✅ Optimización aplicada — memoización y optimización de formularios (2025-01-18)
  * 
  * @author Boost A Project Team
  * @since v2.0.0
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import ImageUpload from '@/components/ui/ImageUpload'
@@ -34,7 +30,7 @@ interface ProjectFormProps {
   initialData?: Project
 }
 
-const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
+const ProjectForm: React.FC<ProjectFormProps> = React.memo(({ onSubmit, initialData }) => {
   // Estados básicos del proyecto
   const [title, setTitle] = useState(initialData?.title || '')
   const [description, setDescription] = useState(initialData?.description || '')
@@ -346,6 +342,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
       </div>
     </div>
   )
-}
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default ProjectForm

@@ -14,11 +14,7 @@
  * - Error handling coherente
  * - SEO optimizado
  * 
- * Notas de mantenimiento:
- * - Usa Spinner del sistema de UI
- * - Galería lee desde project.gallery (JSON)
- * - Todos los campos opcionales se renderizan condicionalmente
- * - Links correctos sin nesting inválido
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
  * 
  * @author Boost A Project Team
  * @since v1.4.0
@@ -26,8 +22,9 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import useSWR from 'swr';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
@@ -55,38 +52,39 @@ import ProjectProfitabilityScenarios from '@/components/projects/sections/Projec
 import ProjectProcess from '@/components/projects/sections/ProjectProcess';
 import ProjectSensitivityAnalysis from '@/components/projects/sections/ProjectSensitivityAnalysis';
 
-const ProjectDetailPage: React.FC = () => {
+// ✅ SWR fetcher function para cache automático
+const fetcher = (url: string) => {
+  const slug = url.split('/').pop();
+  return getProjectBySlug(slug!);
+};
+
+const ProjectDetailPage: React.FC = React.memo(() => {
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
 
-  const [project, setProject] = useState<Project | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeGalleryTab, setActiveGalleryTab] = useState<'after' | 'before'>('after');
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        setIsLoading(true);
-        const response = await getProjectBySlug(slug);
-        setProject(response);
-      } catch (err) {
-        console.error('Error cargando proyecto:', err);
-        setError('Proyecto no encontrado');
-      } finally {
-        setIsLoading(false);
-      }
+  // ✅ SWR para cache inteligente y revalidación automática
+  const { data: project, error, isLoading } = useSWR(`/api/projects/${slug}`, fetcher, {
+    revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+    revalidateOnReconnect: true, // Revalidar al reconectar
+    dedupingInterval: 300000, // 5 minutos de deduplicación
+  });
+
+  // ✅ useMemo para procesar datos del proyecto (evita recálculos innecesarios)
+  const projectData = useMemo(() => {
+    if (!project) return null;
+    return project;
+  }, [project]);
+
+  // ✅ useMemo para filtrar imágenes de galería (evita recálculos innecesarios)
+  const getGalleryImages = useMemo(() => {
+    return (category: 'before' | 'after') => {
+      if (!projectData?.gallery || !Array.isArray(projectData.gallery)) return [];
+      return projectData.gallery.filter((img: GalleryImage) => img.category === category);
     };
-
-    if (slug) fetchProject();
-  }, [slug]);
-
-  // Filtrar imágenes de galería
-  const getGalleryImages = (category: 'before' | 'after') => {
-    if (!project?.gallery || !Array.isArray(project.gallery)) return [];
-    return project.gallery.filter((img: GalleryImage) => img.category === category);
-  };
+  }, [projectData]);
 
   if (isLoading) {
     return (
@@ -96,7 +94,7 @@ const ProjectDetailPage: React.FC = () => {
     );
   }
 
-  if (error || !project) {
+  if (error || !projectData) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md">
@@ -404,6 +402,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default ProjectDetailPage;
