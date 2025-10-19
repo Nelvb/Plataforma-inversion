@@ -65,7 +65,7 @@ const BlogArticleCard: React.FC<BlogArticleCardProps> = ({ article }) => {
       <div className="p-6 bg-white flex flex-col justify-between flex-grow min-h-[360">
         <div>
           {/* Fecha y lectura */}
-          <div className="flex justify-between text-sm text-gray-500 mb-3">
+          <div className="flex justify-between text-sm text-[#6290C3] mb-3">
             <time dateTime={formattedDate.machine} itemProp="datePublished">
               {formattedDate.readable}
             </time>
@@ -98,7 +98,7 @@ const BlogArticleCard: React.FC<BlogArticleCardProps> = ({ article }) => {
           aria-label={`Leer artículo completo: ${article.title}`}
         >
           <Button
-            variant="outline"
+            variant="primary"
             className="w-full"
             aria-label="Leer artículo completo"
           >

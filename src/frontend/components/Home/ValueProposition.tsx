@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 
 const ValueProposition: React.FC = () => {
   return (
-    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-24">
+    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20">
       <div className="max-w-screen-2xl mx-auto flex flex-col-reverse md:flex-row items-center gap-16">
         
         {/* Bloque izquierdo: imágenes superpuestas */}
@@ -54,7 +54,7 @@ const ValueProposition: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-snug">
             ¿Buscas invertir en inmobiliaria pero no sabes por dónde empezar?
           </h2>
-          <p className="text-gray-700 text-lg leading-relaxed">
+          <p className="text-[#6290C3] text-lg font-medium leading-relaxed">
             Te acompañamos desde el primer paso. Analizamos tus objetivos, te
             mostramos oportunidades reales y te guiamos durante todo el proceso.
             Invertir en proyectos sólidos ahora es más fácil, transparente y

@@ -5,7 +5,7 @@ import React from "react";
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="w-full relative overflow-hidden">
+    <section className="w-full relative overflow-hidden border-b border-[#6290C3]/20">
       {/* Fondo dividido en 2 colores */}
       <div className="absolute inset-0 flex">
         <div className="w-[30%] bg-[#C2E7DA]" />

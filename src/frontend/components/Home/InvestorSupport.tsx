@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 const InvestorSupport: React.FC = () => {
   return (
-    <section className="w-full bg-[#C2E7DA] py-20 px-4 sm:px-6 lg:px-24">
+    <section className="w-full bg-[#C2E7DA] py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20">
       <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center gap-16">
         {/* Columna izquierda: texto + CTA */}
         <div className="w-full md:w-1/2 flex flex-col gap-6">

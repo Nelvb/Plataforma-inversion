@@ -49,7 +49,7 @@ import ProjectSection from '@/components/projects/sections/ProjectSection';
 import ProjectRiskAnalysis from '@/components/projects/sections/ProjectRiskAnalysis';
 import ProjectLegalInfo from '@/components/projects/sections/ProjectLegalInfo';
 import ProjectExitStrategies from '@/components/projects/sections/ProjectExitStrategies';
-import ProjectFAQ from '@/components/projects/sections/ProjectFAQ';
+import FAQ from '@/components/shared/FAQ';
 import ProjectLocation from '@/components/projects/sections/ProjectLocation';
 import ProjectProfitabilityScenarios from '@/components/projects/sections/ProjectProfitabilityScenarios';
 import ProjectProcess from '@/components/projects/sections/ProjectProcess';
@@ -90,8 +90,8 @@ const ProjectDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <LoadingState message="Cargando proyecto..." size="lg" />
+      <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
+        <LoadingState message="Cargando proyecto..." size="lg" color="white" />
       </div>
     );
   }
@@ -288,7 +288,7 @@ const ProjectDetailPage: React.FC = () => {
                       );
                     case 'faq':
                       return (
-                        <ProjectFAQ
+                        <FAQ
                           key={index}
                           items={section.items}
                           categories={section.categories || section.faq_categories}

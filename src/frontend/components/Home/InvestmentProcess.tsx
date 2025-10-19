@@ -33,21 +33,21 @@ const steps = [
 ];
 
 const colors = [
-  "bg-[#1DA1F2]", // Azul
-  "bg-[#6290C3]", // Azul medio
-  "bg-[#1A1341]", // Morado oscuro
-  "bg-[#1DA1F2]", // Azul de nuevo para cerrar el ciclo
+  "bg-[#1DA1F2]", // Azul brillante
+  "bg-[#1A1341]", // Azul marino oscuro
+  "bg-[#1DA1F2]", // Azul brillante
+  "bg-[#1A1341]", // Azul marino oscuro
 ];
 
 const InvestmentProcess: React.FC = () => {
   return (
-    <section className="w-full bg-[#F7FAFF] py-20 px-4 sm:px-6 lg:px-24 border-t border-b border-gray-100">
+    <section className="w-full bg-[#F7FAFF] py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 border-b border-gray-100">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1341] mb-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-[#1A1341] mb-4">
             Invertir con nosotros es muy sencillo
           </h2>
-          <p className="text-gray-700 text-lg max-w-3xl mx-auto">
+          <p className="text-[#6290C3] text-lg font-medium max-w-3xl mx-auto">
             A diferencia de otras plataformas automatizadas, en Boost A Project 
             creemos en las relaciones personales. Nuestro proceso está diseñado 
             para ofrecerte toda la información y acompañamiento que necesitas.

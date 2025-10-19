@@ -57,6 +57,14 @@ const ProyectosPage: React.FC = () => {
         }
     }, [filter, projects]);
 
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
+                <LoadingState message="Cargando proyectos..." size="lg" color="white" />
+            </div>
+        );
+    }
+
     return (
         <div className="relative min-h-screen pt-52">
             {/* Fondo dividido general */}
@@ -108,13 +116,8 @@ const ProyectosPage: React.FC = () => {
                     </div>
                 </div>
 
-
-                {/* Estados de carga / error / contenido */}
-                {isLoading ? (
-                    <div className="flex flex-col items-center justify-center py-24">
-                        <LoadingState message="Cargando proyectos..." size="lg" />
-                    </div>
-                ) : error ? (
+                {/* Estados de error / contenido */}
+                {error ? (
                     <div className="text-center text-red-700 bg-red-50 p-8 rounded-xl border border-red-200">
                         <h3 className="text-2xl font-bold mb-2">Error al cargar proyectos</h3>
                         <p className="mb-6">{error}</p>

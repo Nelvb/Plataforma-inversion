@@ -73,10 +73,8 @@ const ArticlePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        <div className="flex flex-col items-center justify-center py-24">
-          <LoadingState message="Cargando artículo..." size="lg" />
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
+        <LoadingState message="Cargando artículo..." size="lg" color="white" />
       </div>
     );
   }
