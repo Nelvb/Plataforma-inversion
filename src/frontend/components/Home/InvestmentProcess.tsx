@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Search, CalendarClock, Users, FileSignature } from "lucide-react";
 import Button from "@/components/ui/Button";
 
@@ -117,20 +118,24 @@ const InvestmentProcess: React.FC = () => {
             ¿Estás listo para dar el primer paso?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              variant="primary"
-              size="lg"
-              className="flex items-center gap-2"
-            >
-              Explorar proyectos
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="flex items-center gap-2"
-            >
-              Agendar consulta
-            </Button>
+            <Link href="/proyectos">
+              <Button
+                variant="primary"
+                size="lg"
+                className="flex items-center gap-2"
+              >
+                Explorar proyectos
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button
+                variant="outline"
+                size="lg"
+                className="flex items-center gap-2"
+              >
+                Agendar consulta
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

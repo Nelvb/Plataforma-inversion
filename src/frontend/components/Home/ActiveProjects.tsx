@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProjectCard from "@/components/projects/ProjectCard";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
+import ProjectsBanner from "@/components/shared/ProjectsBanner";
 import { ArrowRight } from "lucide-react";
 import { getProjects } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
@@ -57,11 +58,22 @@ const ActiveProjects: React.FC = () => {
             <p className="text-[#1A1341] text-lg">No hay proyectos disponibles en este momento</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={`grid gap-6 ${
+            projects.length === 1 
+              ? 'grid-cols-1 justify-center max-w-md mx-auto' 
+              : projects.length === 2 
+                ? 'grid-cols-1 md:grid-cols-2 justify-center max-w-2xl mx-auto'
+                : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          }`}>
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
+        )}
+
+        {/* Banner cuando hay menos de 3 proyectos */}
+        {projects.length > 0 && projects.length < 3 && (
+          <ProjectsBanner className="mt-12" />
         )}
 
         <div className="mt-16 flex flex-col items-center text-center">
@@ -71,12 +83,14 @@ const ActiveProjects: React.FC = () => {
           <p className="text-gray-700 max-w-2xl mb-8">
             Explore nuestro catálogo completo de oportunidades de inversión inmobiliaria y encuentre el proyecto perfecto para su cartera.
           </p>
-          <Button 
-            variant="primary" 
-            size="lg"
-          >
-            Ver todos los proyectos
-          </Button>
+          <Link href="/proyectos">
+            <Button 
+              variant="primary" 
+              size="lg"
+            >
+              Ver todos los proyectos
+            </Button>
+          </Link>
         </div>
 
       </div>

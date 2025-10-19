@@ -17,6 +17,7 @@ import { Project } from '@/types/project';
 import ProjectCard from '@/components/projects/ProjectCard';
 import Button from '@/components/ui/Button';
 import LoadingState from '@/components/ui/LoadingState';
+import ProjectsBanner from '@/components/shared/ProjectsBanner';
 import { Filter } from 'lucide-react';
 import ProjectsHeader from '@/components/projects/ProjectsHeader';
 
@@ -133,11 +134,24 @@ const ProyectosPage: React.FC = () => {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredProjects.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-                    </div>
+                    <>
+                        <div className={`grid gap-8 ${
+                            filteredProjects.length === 1 
+                                ? 'grid-cols-1 justify-center max-w-md mx-auto' 
+                                : filteredProjects.length === 2 
+                                    ? 'grid-cols-1 md:grid-cols-2 justify-center max-w-2xl mx-auto'
+                                    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                        }`}>
+                            {filteredProjects.map((project) => (
+                                <ProjectCard key={project.id} project={project} />
+                            ))}
+                        </div>
+                        
+                        {/* Banner cuando hay menos de 3 proyectos */}
+                        {filteredProjects.length > 0 && filteredProjects.length < 3 && (
+                            <ProjectsBanner className="mt-12" variant="dark" />
+                        )}
+                    </>
                 )}
             </div>
         </div>

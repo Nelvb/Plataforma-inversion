@@ -49,13 +49,6 @@ const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({ count }) => {
                         profesionales de rentabilidad, seguridad y transparencia.
                     </p>
 
-                    {/* Mensaje dinámico estilizado como badge */}
-                    {count > 0 && count <= 3 && (
-                        <p className="inline-block px-4 py-2 rounded-full text-sm md:text-base font-semibold backdrop-blur-sm border bg-green-500/80 text-white border-green-400/30 shadow-sm">
-
-                            Próximamente más proyectos disponibles
-                        </p>
-                    )}
                 </div>
             </div>
         </div>

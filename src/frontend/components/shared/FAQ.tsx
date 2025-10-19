@@ -62,7 +62,7 @@ const FAQ: React.FC<FAQProps> = ({
   }
 
   return (
-    <section className="py-16 px-4 bg-[#F7FAFF] border-t border-[#6290C3]/20">
+    <section id="faq" className="py-16 px-4 bg-[#F7FAFF] border-t border-[#6290C3]/20 scroll-mt-36">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-[#1A1341] mb-4">

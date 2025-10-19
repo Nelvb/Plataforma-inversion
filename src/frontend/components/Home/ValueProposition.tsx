@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import Button from "@/components/ui/Button";
 
@@ -50,7 +51,7 @@ const ValueProposition: React.FC = () => {
         </div>
 
         {/* Bloque derecho: texto */}
-        <div className="w-full md:w-1/2 flex flex-col gap-6 px-2 sm:px-0">
+        <div className="w-full md:w-1/2 flex flex-col gap-6 px-2 sm:px-0 text-center md:text-left">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-snug">
             ¿Buscas invertir en inmobiliaria pero no sabes por dónde empezar?
           </h2>
@@ -60,13 +61,17 @@ const ValueProposition: React.FC = () => {
             Invertir en proyectos sólidos ahora es más fácil, transparente y
             personalizado.
           </p>
-          <div className="flex flex-wrap gap-4 mt-4">
-            <Button variant="primary" size="md">
-              Explorar Proyectos
-            </Button>
-            <Button variant="outline" size="md">
-              Solicitar Asesoramiento
-            </Button>
+          <div className="flex flex-wrap gap-4 mt-4 justify-center md:justify-start">
+            <Link href="/proyectos">
+              <Button variant="primary" size="md">
+                Explorar Proyectos
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="outline" size="md">
+                Solicitar Asesoramiento
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
