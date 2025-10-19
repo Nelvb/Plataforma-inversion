@@ -4,36 +4,34 @@
  * Lista todos los artículos existentes con opciones para eliminar o crear nuevos.
  * Muestra tarjetas visuales (BlogArticleCard) y maneja estados de carga y vacío.
  * El diseño y metadatos SEO son gestionados por /app/admin/layout.tsx.
+ * 
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
+import useSWR from "swr";
 import BlogArticleCard from "@/components/admin/ui/blog/BlogArticleCard";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
 import { getArticles, deleteArticleBySlug } from "@/lib/blogService";
 import { Article } from "@/types";
 
-const BlogAdminPage: React.FC = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+// ✅ SWR fetcher function para cache automático
+const fetcher = () => getArticles({ limit: 999 });
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await getArticles({ limit: 999 });
-        setArticles(response.articles);
-      } catch (err) {
-        console.error("Error cargando artículos:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+const BlogAdminPage: React.FC = React.memo(() => {
+  // ✅ SWR para cache inteligente y revalidación automática
+  const { data, error, isLoading, mutate } = useSWR('/api/articles/admin', fetcher, {
+    revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+    revalidateOnReconnect: true, // Revalidar al reconectar
+    dedupingInterval: 300000, // 5 minutos de deduplicación
+  });
 
-    fetchArticles();
-  }, []);
+  // ✅ useMemo para extraer artículos (evita recálculos innecesarios)
+  const articles = useMemo(() => data?.articles || [], [data]);
 
   const handleDelete = async (slug: string) => {
     const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este artículo?");
@@ -41,7 +39,8 @@ const BlogAdminPage: React.FC = () => {
 
     try {
       await deleteArticleBySlug(slug);
-      setArticles((prev) => prev.filter((article) => article.slug !== slug));
+      // ✅ Revalidar cache después de eliminar
+      mutate();
     } catch (err) {
       console.error("Error eliminando artículo:", err);
     }
@@ -69,6 +68,10 @@ const BlogAdminPage: React.FC = () => {
 
       {isLoading ? (
         <LoadingState message="Cargando artículos..." size="lg" />
+      ) : error ? (
+        <div className="text-center py-16">
+          <p className="text-red-600 text-lg">Error al cargar los artículos</p>
+        </div>
       ) : articles.length === 0 ? (
         <div className="text-center py-16 bg-[#F1FFEF] rounded-lg border border-[#6290C3]">
           <p className="text-[#1A1341] text-xl mb-4">Aún no has creado ningún artículo</p>
@@ -95,4 +98,7 @@ const BlogAdminPage: React.FC = () => {
   );
 };
 
+});
+
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default BlogAdminPage;

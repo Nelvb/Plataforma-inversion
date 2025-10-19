@@ -4,36 +4,34 @@
  * Lista todos los proyectos existentes con opciones para eliminar o crear nuevos.
  * Muestra tarjetas visuales (ProjectCard) y maneja estados de carga y vacío.
  * El diseño y metadatos SEO son gestionados por /app/admin/layout.tsx.
+ * 
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
+import useSWR from "swr";
 import ProjectCard from "@/components/admin/projects/ProjectCardAdmin";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
 import { getProjects, deleteProject } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
 
-const ProjectsAdminPage: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+// ✅ SWR fetcher function para cache automático
+const fetcher = () => getProjects();
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await getProjects();
-        setProjects(response);
-      } catch (err) {
-        console.error("Error cargando proyectos:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+const ProjectsAdminPage: React.FC = React.memo(() => {
+  // ✅ SWR para cache inteligente y revalidación automática
+  const { data: projects, error, isLoading, mutate } = useSWR('/api/projects', fetcher, {
+    revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+    revalidateOnReconnect: true, // Revalidar al reconectar
+    dedupingInterval: 300000, // 5 minutos de deduplicación
+  });
 
-    fetchProjects();
-  }, []);
+  // ✅ useMemo para extraer proyectos (evita recálculos innecesarios)
+  const projectsList = useMemo(() => projects || [], [projects]);
 
   const handleDelete = async (slug: string) => {
     const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este proyecto?");
@@ -41,7 +39,8 @@ const ProjectsAdminPage: React.FC = () => {
 
     try {
       await deleteProject(slug);
-      setProjects((prev) => prev.filter((project) => project.slug !== slug));
+      // ✅ Revalidar cache después de eliminar
+      mutate();
     } catch (err) {
       console.error("Error eliminando proyecto:", err);
     }
@@ -69,7 +68,11 @@ const ProjectsAdminPage: React.FC = () => {
 
       {isLoading ? (
         <LoadingState message="Cargando proyectos..." size="lg" />
-      ) : projects.length === 0 ? (
+      ) : error ? (
+        <div className="text-center py-16">
+          <p className="text-red-600 text-lg">Error al cargar los proyectos</p>
+        </div>
+      ) : projectsList.length === 0 ? (
         <div className="text-center py-16 bg-[#F1FFEF] rounded-lg border border-[#6290C3]">
           <p className="text-[#1A1341] text-xl mb-4">Aún no has creado ningún proyecto</p>
           <Link href="/admin/projects/new">
@@ -78,7 +81,7 @@ const ProjectsAdminPage: React.FC = () => {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {projectsList.map((project) => (
             <ProjectCard
               key={project.slug}
               project={project}
@@ -91,4 +94,7 @@ const ProjectsAdminPage: React.FC = () => {
   );
 };
 
+});
+
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default ProjectsAdminPage;

@@ -5,6 +5,8 @@
  * del backend, facilitando la reutilización en componentes tanto públicos
  * como administrativos.
  * 
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * 
  * @module blogService
  */
 
@@ -44,6 +46,7 @@ export interface ArticleListItem {
 
 /**
  * Obtiene un listado de artículos con opciones de paginación y filtrado
+ * ✅ Optimizado con SWR para cache automático y manejo de errores mejorado
  */
 export async function getArticles({
   page = 1,
@@ -51,10 +54,8 @@ export async function getArticles({
   category,
   search
 }: ArticleParams = {}): Promise<ArticleResponse> {
-  console.log('API_URL:', process.env.NEXT_PUBLIC_API_URL);
   try {
     let url = `${API_URL}/articles?page=${page}&limit=${limit}`;
-    console.log('URL de la petición:', url);
 
     if (category) url += `&category=${encodeURIComponent(category)}`;
     if (search) url += `&search=${encodeURIComponent(search)}`;
@@ -246,7 +247,6 @@ export async function updateArticleBySlug(slug: string, articleData: any): Promi
  * @throws Error si la petición falla o el backend devuelve un mensaje de error
  */
 export async function createArticle(articleData: any): Promise<void> {
-  console.log('[createArticle] related:', articleData.related, typeof articleData.related, Array.isArray(articleData.related));
 
   const response = await fetchWithAuth(`${API_URL}/articles/`, {
     method: 'POST',

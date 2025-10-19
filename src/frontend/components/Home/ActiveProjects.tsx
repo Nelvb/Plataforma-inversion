@@ -1,8 +1,10 @@
 // src/frontend/components/Home/ActiveProjects.tsx
+// ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
+import useSWR from "swr";
 import ProjectCard from "@/components/projects/ProjectCard";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
@@ -11,30 +13,24 @@ import { ArrowRight } from "lucide-react";
 import { getProjects } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
 
-const ActiveProjects: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+// ✅ SWR fetcher function para cache automático
+const fetcher = (url: string) => getProjects();
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await getProjects();
-        // Filtrar solo proyectos abiertos y mostrar máximo 2
-        const activeProjects = response
-          .filter(project => project.status === 'open')
-          .slice(0, 2);
-        setProjects(activeProjects);
-      } catch (err) {
-        console.error("Error cargando proyectos:", err);
-        setError("Error al cargar los proyectos");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+const ActiveProjects: React.FC = React.memo(() => {
+  // ✅ SWR para cache inteligente y revalidación automática
+  const { data: allProjects, error, isLoading } = useSWR('/api/projects', fetcher, {
+    revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+    revalidateOnReconnect: true, // Revalidar al reconectar
+    dedupingInterval: 300000, // 5 minutos de deduplicación
+  });
 
-    fetchProjects();
-  }, []);
+  // ✅ useMemo para filtrar proyectos abiertos (evita recálculos innecesarios)
+  const activeProjects = useMemo(() => {
+    if (!allProjects) return [];
+    return allProjects
+      .filter(project => project.status === 'open')
+      .slice(0, 2);
+  }, [allProjects]);
   return (
     <section className="w-full bg-gradient-to-b from-[#F5F8FF] to-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20">
       <div className="max-w-screen-2xl mx-auto">
@@ -51,28 +47,28 @@ const ActiveProjects: React.FC = () => {
           <LoadingState message="Cargando proyectos..." size="lg" />
         ) : error ? (
           <div className="text-center py-16">
-            <p className="text-red-600 text-lg">{error}</p>
+            <p className="text-red-600 text-lg">Error al cargar los proyectos</p>
           </div>
-        ) : projects.length === 0 ? (
+        ) : activeProjects.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-[#1A1341] text-lg">No hay proyectos disponibles en este momento</p>
           </div>
         ) : (
           <div className={`grid gap-6 ${
-            projects.length === 1 
+            activeProjects.length === 1 
               ? 'grid-cols-1 justify-center max-w-md mx-auto' 
-              : projects.length === 2 
+              : activeProjects.length === 2 
                 ? 'grid-cols-1 md:grid-cols-2 justify-center max-w-2xl mx-auto'
                 : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
           }`}>
-            {projects.map((project) => (
+            {activeProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         )}
 
         {/* Banner cuando hay menos de 3 proyectos */}
-        {projects.length > 0 && projects.length < 3 && (
+        {activeProjects.length > 0 && activeProjects.length < 3 && (
           <ProjectsBanner className="mt-12" />
         )}
 
@@ -96,6 +92,7 @@ const ActiveProjects: React.FC = () => {
       </div>
     </section>
   );
-};
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default ActiveProjects;

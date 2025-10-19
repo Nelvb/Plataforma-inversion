@@ -1,36 +1,32 @@
+// ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
+import useSWR from 'swr';
 import { getArticles } from '@/lib/blogService';
 import BlogArticleCard from '@/components/blog/BlogArticleCard';
 import Button from '@/components/ui/Button';
 import LoadingState from '@/components/ui/LoadingState';
 import { Article } from '@/types';
 
-const LatestArticles: React.FC = () => {
-    const [articles, setArticles] = useState<Article[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+// ✅ SWR fetcher function para cache automático
+const fetcher = () => getArticles({ page: 1, limit: 3 });
 
-    useEffect(() => {
-        const fetchArticles = async () => {
-            try {
-                setLoading(true);
-                const data = await getArticles({ page: 1, limit: 3 });
-                setArticles(data.articles);
-            } catch (err) {
-                console.error('Error cargando artículos:', err);
-                setError(true);
-            } finally {
-                setLoading(false);
-            }
-        };
+const LatestArticles: React.FC = React.memo(() => {
+    // ✅ SWR para cache inteligente y revalidación automática
+    const { data, error, isLoading } = useSWR('/api/articles/latest', fetcher, {
+        revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+        revalidateOnReconnect: true, // Revalidar al reconectar
+        dedupingInterval: 300000, // 5 minutos de deduplicación
+    });
 
-        fetchArticles();
-    }, []);
+    // ✅ useMemo para extraer artículos (evita recálculos innecesarios)
+    const articles = useMemo(() => {
+        return data?.articles || [];
+    }, [data]);
 
-    if (loading) {
+    if (isLoading) {
         return (
             <section className="py-16 px-4 sm:px-6 lg:px-24 bg-white border-t border-[#6290C3]/20">
                 <div className="max-w-screen-2xl mx-auto">
@@ -100,6 +96,7 @@ const LatestArticles: React.FC = () => {
             </div>
         </section>
     );
-};
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default LatestArticles;

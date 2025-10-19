@@ -4,45 +4,47 @@
  * Muestra todos los artículos publicados mediante tarjetas (BlogArticleCard),
  * con paginación profesional y diseño responsive. Integra fondo visual dividido,
  * cabecera destacada (BlogHeader), y botón de navegación para cambiar de página.
- * Muestra exactamente 12 artículos por página y oculta el botón “Siguiente”
+ * Muestra exactamente 12 artículos por página y oculta el botón "Siguiente"
  * cuando no hay más contenido según el total paginado del backend.
+ * 
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+import useSWR from 'swr';
 import BlogHeader from '@/components/blog/BlogHeader';
 import BlogArticleCard from '@/components/blog/BlogArticleCard';
 import LoadingState from '@/components/ui/LoadingState';
 import { getArticles } from '@/lib/blogService';
 import { Article } from '@/types';
 
-const BlogPage: React.FC = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+// ✅ SWR fetcher function para cache automático
+const fetcher = (url: string) => {
+  const params = new URLSearchParams(url.split('?')[1]);
+  const page = parseInt(params.get('page') || '1');
+  const limit = parseInt(params.get('limit') || '12');
+  return getArticles({ page, limit });
+};
+
+const BlogPage: React.FC = React.memo(() => {
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+
+  // ✅ SWR para cache inteligente y revalidación automática
+  const { data, error, isLoading } = useSWR(`/api/articles?page=${page}&limit=12`, fetcher, {
+    revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+    revalidateOnReconnect: true, // Revalidar al reconectar
+    dedupingInterval: 300000, // 5 minutos de deduplicación
+  });
+
+  // ✅ useMemo para extraer datos (evita recálculos innecesarios)
+  const articles = useMemo(() => data?.articles || [], [data]);
+  const totalPages = useMemo(() => data?.total_pages || 0, [data]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getArticles({ page, limit: 12 });
-        setArticles(response.articles);
-        setTotalPages(response.total_pages);
-      } catch (error) {
-        console.error('Error fetching articles:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, [page]);
 
   if (isLoading) {
     return (
@@ -99,6 +101,7 @@ const BlogPage: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default BlogPage;

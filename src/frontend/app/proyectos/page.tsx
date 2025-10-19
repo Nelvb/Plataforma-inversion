@@ -5,13 +5,16 @@
  * Integra ProjectsHeader para replicar el mismo diseño de hero con gradiente.
  * Mantiene toda la lógica original (fetch, filtros, estados, errores).
  * 
+ * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * 
  * @author Boost A Project Team
  * @since v1.4.0
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+import useSWR from 'swr';
 import { getProjects } from '@/lib/api/projectService';
 import { Project } from '@/types/project';
 import ProjectCard from '@/components/projects/ProjectCard';
@@ -21,41 +24,31 @@ import ProjectsBanner from '@/components/shared/ProjectsBanner';
 import { Filter } from 'lucide-react';
 import ProjectsHeader from '@/components/projects/ProjectsHeader';
 
-const ProyectosPage: React.FC = () => {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+// ✅ SWR fetcher function para cache automático
+const fetcher = () => getProjects();
+
+const ProyectosPage: React.FC = React.memo(() => {
     const [filter, setFilter] = useState<'all' | 'open' | 'closed'>('all');
 
-    // Cargar proyectos
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                setIsLoading(true);
-                const response = await getProjects();
-                setProjects(response);
-                setFilteredProjects(response);
-            } catch (err) {
-                console.error('Error cargando proyectos:', err);
-                setError('Error al cargar los proyectos. Por favor, intente nuevamente.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // ✅ SWR para cache inteligente y revalidación automática
+    const { data: projects, error, isLoading } = useSWR('/api/projects', fetcher, {
+        revalidateOnFocus: false, // No revalidar al cambiar de pestaña
+        revalidateOnReconnect: true, // Revalidar al reconectar
+        dedupingInterval: 300000, // 5 minutos de deduplicación
+    });
 
-        fetchProjects();
-    }, []);
-
-    // Aplicar filtros
-    useEffect(() => {
+    // ✅ useMemo para filtrar proyectos (evita recálculos innecesarios)
+    const filteredProjects = useMemo(() => {
+        if (!projects) return [];
+        
         if (filter === 'all') {
-            setFilteredProjects(projects);
+            return projects;
         } else if (filter === 'open') {
-            setFilteredProjects(projects.filter(p => p.status === 'open' || p.status === 'active'));
+            return projects.filter(p => p.status === 'open' || p.status === 'active');
         } else if (filter === 'closed') {
-            setFilteredProjects(projects.filter(p => p.status === 'closed' || p.status === 'funded'));
+            return projects.filter(p => p.status === 'closed' || p.status === 'funded');
         }
+        return projects;
     }, [filter, projects]);
 
     if (isLoading) {
@@ -156,6 +149,7 @@ const ProyectosPage: React.FC = () => {
             </div>
         </div>
     );
-};
+});
 
+// ✅ React.memo aplicado para evitar renders innecesarios
 export default ProyectosPage;
