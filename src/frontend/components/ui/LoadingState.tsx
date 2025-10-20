@@ -44,10 +44,17 @@ export default function LoadingState({
     lg: 'text-lg'
   };
   
+  // Map de colores de texto según el color del spinner
+  const textColorClasses = {
+    primary: 'text-[#6290C3]',
+    white: 'text-white',
+    gray: 'text-gray-600'
+  };
+
   return (
     <div className={`flex flex-col items-center justify-center ${spacingClasses[size]} ${className}`}>
       <Spinner size={size} color={color} />
-      <p className={`text-gray-600 ${textSizeClasses[size]}`}>
+      <p className={`${textColorClasses[color]} ${textSizeClasses[size]}`}>
         {message}
       </p>
     </div>

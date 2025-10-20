@@ -399,7 +399,7 @@ const ProjectDetailPage: React.FC = React.memo(() => {
 
                     {/* Sidebar UNIFICADO */}
                     <div className="space-y-6">
-                        <Card className="p-6 sticky top-6 shadow-xl border-2 border-[#6290C3]/20">
+                        <Card className="p-6 sticky top-20 sm:top-24 md:top-16 shadow-xl border-2 border-[#6290C3]/20">
                             {/* Sección 1: Resumen de Inversión (fondo blanco) */}
                             <div className="bg-white">
                                 <h3 className="text-2xl font-bold text-[#1A1341] mb-6">Resumen de Inversión</h3>

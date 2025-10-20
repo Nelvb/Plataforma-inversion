@@ -50,7 +50,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, onBackClick }) =
         <div className="max-w-4xl">
           <Link 
             href="/blog" 
-            className="inline-flex items-center text-white hover:text-[#C2E7DA] transition-colors mb-6"
+            className="inline-flex items-center text-[#C2E7DA] hover:text-white transition-colors mb-6"
             onClick={(e) => {
               e.preventDefault();
               onBackClick();
