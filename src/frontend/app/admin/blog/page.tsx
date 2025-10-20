@@ -5,7 +5,7 @@
  * Muestra tarjetas visuales (BlogArticleCard) y maneja estados de carga y vacío.
  * El diseño y metadatos SEO son gestionados por /app/admin/layout.tsx.
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 "use client";
@@ -19,18 +19,18 @@ import LoadingState from "@/components/ui/LoadingState";
 import { getArticles, deleteArticleBySlug } from "@/lib/blogService";
 import { Article } from "@/types";
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = () => getArticles({ limit: 999 });
 
 const BlogAdminPage: React.FC = React.memo(() => {
-  // ✅ SWR para cache inteligente y revalidación automática
+  // SWR para cache inteligente y revalidación automática
   const { data, error, isLoading, mutate } = useSWR('/api/articles/admin', fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
     revalidateOnReconnect: true, // Revalidar al reconectar
     dedupingInterval: 300000, // 5 minutos de deduplicación
   });
 
-  // ✅ useMemo para extraer artículos (evita recálculos innecesarios)
+  // useMemo para extraer artículos (evita recálculos innecesarios)
   const articles = useMemo(() => data?.articles || [], [data]);
 
   const handleDelete = async (slug: string) => {
@@ -39,7 +39,7 @@ const BlogAdminPage: React.FC = React.memo(() => {
 
     try {
       await deleteArticleBySlug(slug);
-      // ✅ Revalidar cache después de eliminar
+      // Revalidar cache después de eliminar
       mutate();
     } catch (err) {
       console.error("Error eliminando artículo:", err);
@@ -100,5 +100,5 @@ const BlogAdminPage: React.FC = React.memo(() => {
 
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default BlogAdminPage;

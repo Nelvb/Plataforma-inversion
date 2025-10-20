@@ -22,7 +22,7 @@ const formatDate = (dateString: string): string => {
 
 const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, onBackClick }) => {
   return (
-    <div className="relative h-[70vh] min-h-[500px]">
+    <div className="relative h-[70dvh] min-h-[500px] pt-40 sm:pt-44 md:pt-0">
       {/* Fondo dividido */}
       <div className="absolute inset-0 flex z-0">
         <div className="w-[30%] bg-[#C2E7DA]" />

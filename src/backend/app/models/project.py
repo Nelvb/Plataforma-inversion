@@ -38,6 +38,7 @@ class Project(db.Model):
     category = db.Column(db.String(50))  # inmobiliario, hosteleria, deportivo, energia, etc.
     featured = db.Column(db.Boolean, default=False)  # si se destaca en homepage
     priority = db.Column(db.Integer, default=0)  # orden de visualización (mayor = más arriba)
+    free_sections_count = db.Column(db.Integer, default=5, nullable=True)  # Número de secciones visibles sin registro (sistema FREEMIUM)
 
     # Imágenes
     main_image_url = db.Column(db.String(500))

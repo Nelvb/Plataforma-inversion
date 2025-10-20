@@ -1,4 +1,4 @@
-// ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+// Optimización aplicada — caching con SWR y memoización (2025-01-18)
 'use client';
 
 import React, { useMemo } from 'react';
@@ -10,18 +10,18 @@ import Button from '@/components/ui/Button';
 import LoadingState from '@/components/ui/LoadingState';
 import { Article } from '@/types';
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = () => getArticles({ page: 1, limit: 3 });
 
 const LatestArticles: React.FC = React.memo(() => {
-    // ✅ SWR para cache inteligente y revalidación automática
+    // SWR para cache inteligente y revalidación automática
     const { data, error, isLoading } = useSWR('/api/articles/latest', fetcher, {
         revalidateOnFocus: false, // No revalidar al cambiar de pestaña
         revalidateOnReconnect: true, // Revalidar al reconectar
         dedupingInterval: 300000, // 5 minutos de deduplicación
     });
 
-    // ✅ useMemo para extraer artículos (evita recálculos innecesarios)
+    // useMemo para extraer artículos (evita recálculos innecesarios)
     const articles = useMemo(() => {
         return data?.articles || [];
     }, [data]);
@@ -98,5 +98,5 @@ const LatestArticles: React.FC = React.memo(() => {
     );
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default LatestArticles;

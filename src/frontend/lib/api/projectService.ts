@@ -11,7 +11,7 @@
  * Cada función devuelve datos en formato JSON ya parseado
  * y maneja errores HTTP de forma explícita.
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  * ------------------------------------------------------------
  */
 
@@ -22,7 +22,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 /**
  * Obtiene la lista completa de proyectos desde el backend.
- * ✅ Optimizado con SWR para cache automático y manejo de errores mejorado
+ * Optimizado con SWR para cache automático y manejo de errores mejorado
  */
 export const getProjects = async (): Promise<Project[]> => {
     const res = await fetch(`${API_URL}/projects`)

@@ -27,6 +27,7 @@ class ProjectInputSchema(Schema):
     subtitle = fields.Str(allow_none=True)
     description = fields.Str(allow_none=True)
     status = fields.Str(validate=validate.OneOf(["open", "active", "funded", "closed"]))
+    free_sections_count = fields.Int(allow_none=True)
 
     # Campos multimedia y estructurados
     main_image_url = fields.Str(allow_none=True)

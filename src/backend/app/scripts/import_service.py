@@ -77,6 +77,7 @@ def importar_proyectos_desde_json(data: list) -> list[str]:
                     existing.category = item.get('category', existing.category)
                     existing.featured = item.get('featured', existing.featured)
                     existing.priority = item.get('priority', existing.priority)
+                    existing.free_sections_count = item.get('free_sections_count', existing.free_sections_count)
                     
                     # Imágenes
                     existing.main_image_url = item.get('main_image_url', existing.main_image_url)
@@ -101,6 +102,7 @@ def importar_proyectos_desde_json(data: list) -> list[str]:
                         category=item.get('category'),
                         featured=item.get('featured', False),
                         priority=item.get('priority', 0),
+                        free_sections_count=item.get('free_sections_count', 5),
                         main_image_url=item.get('main_image_url'),
                         gallery=item.get('gallery'),
                         investment_data=item.get('investment_data'),

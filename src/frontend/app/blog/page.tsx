@@ -7,7 +7,7 @@
  * Muestra exactamente 12 artículos por página y oculta el botón "Siguiente"
  * cuando no hay más contenido según el total paginado del backend.
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 'use client';
@@ -20,7 +20,7 @@ import LoadingState from '@/components/ui/LoadingState';
 import { getArticles } from '@/lib/blogService';
 import { Article } from '@/types';
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = (url: string) => {
   const params = new URLSearchParams(url.split('?')[1]);
   const page = parseInt(params.get('page') || '1');
@@ -31,14 +31,14 @@ const fetcher = (url: string) => {
 const BlogPage: React.FC = React.memo(() => {
   const [page, setPage] = useState(1);
 
-  // ✅ SWR para cache inteligente y revalidación automática
+  // SWR para cache inteligente y revalidación automática
   const { data, error, isLoading } = useSWR(`/api/articles?page=${page}&limit=12`, fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
     revalidateOnReconnect: true, // Revalidar al reconectar
     dedupingInterval: 300000, // 5 minutos de deduplicación
   });
 
-  // ✅ useMemo para extraer datos (evita recálculos innecesarios)
+  // useMemo para extraer datos (evita recálculos innecesarios)
   const articles = useMemo(() => data?.articles || [], [data]);
   const totalPages = useMemo(() => data?.total_pages || 0, [data]);
 
@@ -55,7 +55,7 @@ const BlogPage: React.FC = React.memo(() => {
   }
 
   return (
-    <div className="relative min-h-screen pt-52">
+    <div className="relative min-h-[100dvh] pt-52">
       <div className="absolute inset-0 flex">
         <div className="w-[30%] bg-[#C2E7DA]" />
         <div className="w-[70%] bg-[#1A1341]" />
@@ -103,5 +103,5 @@ const BlogPage: React.FC = React.memo(() => {
   );
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default BlogPage;

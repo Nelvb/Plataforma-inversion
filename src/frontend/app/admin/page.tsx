@@ -27,7 +27,7 @@ const AdminDashboardPage: React.FC = () => {
   if (!isAuthenticated || !user?.is_admin) return null;
 
   return (
-    <div className="relative min-h-screen pt-52">
+    <div className="relative min-h-[100dvh] pt-52">
       {/* Fondo dividido 30/70 */}
       <div className="absolute inset-0 flex">
         <div className="w-[30%] bg-[#C2E7DA]" />

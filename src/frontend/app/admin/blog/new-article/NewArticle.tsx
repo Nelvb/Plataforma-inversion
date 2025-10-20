@@ -6,7 +6,7 @@
  * 
  * En el futuro puede adaptarse a edición activando `isEditMode` con lógica adicional si se requiere.
  * 
- * ✅ Optimización aplicada — memoización y optimización de formularios (2025-01-18)
+ * Optimización aplicada — memoización y optimización de formularios (2025-01-18)
  */
 
 'use client'
@@ -20,7 +20,7 @@ import { createArticle, updateArticleBySlug } from '@/lib/blogService'
 const NewArticle: React.FC = React.memo(() => {
   const [isEditMode, setIsEditMode] = useState(false) // En esta vista, siempre es false por ahora
 
-  // ✅ useCallback para evitar recreación de función en cada render
+  // useCallback para evitar recreación de función en cada render
   const handleSubmit = useCallback(async (articleData: any) => {
     try {
       if (isEditMode) {
@@ -53,5 +53,5 @@ const NewArticle: React.FC = React.memo(() => {
 
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default NewArticle

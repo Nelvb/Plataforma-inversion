@@ -5,7 +5,7 @@
  * Integra ProjectsHeader para replicar el mismo diseño de hero con gradiente.
  * Mantiene toda la lógica original (fetch, filtros, estados, errores).
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  * 
  * @author Boost A Project Team
  * @since v1.4.0
@@ -24,20 +24,20 @@ import ProjectsBanner from '@/components/shared/ProjectsBanner';
 import { Filter } from 'lucide-react';
 import ProjectsHeader from '@/components/projects/ProjectsHeader';
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = () => getProjects();
 
 const ProyectosPage: React.FC = React.memo(() => {
     const [filter, setFilter] = useState<'all' | 'open' | 'closed'>('all');
 
-    // ✅ SWR para cache inteligente y revalidación automática
+    // SWR para cache inteligente y revalidación automática
     const { data: projects, error, isLoading } = useSWR('/api/projects', fetcher, {
         revalidateOnFocus: false, // No revalidar al cambiar de pestaña
         revalidateOnReconnect: true, // Revalidar al reconectar
         dedupingInterval: 300000, // 5 minutos de deduplicación
     });
 
-    // ✅ useMemo para filtrar proyectos (evita recálculos innecesarios)
+    // useMemo para filtrar proyectos (evita recálculos innecesarios)
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
         
@@ -60,7 +60,7 @@ const ProyectosPage: React.FC = React.memo(() => {
     }
 
     return (
-        <div className="relative min-h-screen pt-52">
+        <div className="relative min-h-[100dvh] pt-52">
             {/* Fondo dividido general */}
             <div className="absolute inset-0 flex">
                 <div className="w-[30%] bg-[#C2E7DA]" />
@@ -151,5 +151,5 @@ const ProyectosPage: React.FC = React.memo(() => {
     );
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default ProyectosPage;

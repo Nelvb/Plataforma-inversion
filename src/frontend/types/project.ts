@@ -18,6 +18,7 @@ export interface Project {
     category?: string
     featured?: boolean
     priority?: number
+    free_sections_count?: number
     main_image_url?: string
     gallery?: GalleryImage[]
     investment_data?: {

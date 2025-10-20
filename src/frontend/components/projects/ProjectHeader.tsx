@@ -40,7 +40,7 @@ interface ProjectHeaderProps {
 
 const ProjectHeader: React.FC<ProjectHeaderProps> = ({ project }) => {
     return (
-        <header className="relative h-[70vh] min-h-[500px] overflow-hidden">
+        <header className="relative h-[70dvh] min-h-[500px] overflow-hidden pt-40 sm:pt-44 md:pt-0">
             {/* Imagen de fondo con overlay azul */}
             {project.main_image_url && (
                 <div className="absolute inset-0">

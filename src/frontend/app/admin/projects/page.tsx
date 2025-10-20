@@ -5,7 +5,7 @@
  * Muestra tarjetas visuales (ProjectCard) y maneja estados de carga y vacío.
  * El diseño y metadatos SEO son gestionados por /app/admin/layout.tsx.
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  */
 
 "use client";
@@ -19,18 +19,18 @@ import LoadingState from "@/components/ui/LoadingState";
 import { getProjects, deleteProject } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = () => getProjects();
 
-const ProjectsAdminPage: React.FC = React.memo(() => {
-  // ✅ SWR para cache inteligente y revalidación automática
+const ProjectsAdminPage: React.FC = () => {
+  // SWR para cache inteligente y revalidación automática
   const { data: projects, error, isLoading, mutate } = useSWR('/api/projects', fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
     revalidateOnReconnect: true, // Revalidar al reconectar
     dedupingInterval: 300000, // 5 minutos de deduplicación
   });
 
-  // ✅ useMemo para extraer proyectos (evita recálculos innecesarios)
+  // useMemo para extraer proyectos (evita recálculos innecesarios)
   const projectsList = useMemo(() => projects || [], [projects]);
 
   const handleDelete = async (slug: string) => {
@@ -39,7 +39,7 @@ const ProjectsAdminPage: React.FC = React.memo(() => {
 
     try {
       await deleteProject(slug);
-      // ✅ Revalidar cache después de eliminar
+      // Revalidar cache después de eliminar
       mutate();
     } catch (err) {
       console.error("Error eliminando proyecto:", err);
@@ -94,7 +94,5 @@ const ProjectsAdminPage: React.FC = React.memo(() => {
   );
 };
 
-});
-
-// ✅ React.memo aplicado para evitar renders innecesarios
-export default ProjectsAdminPage;
+// React.memo aplicado para evitar renders innecesarios
+export default React.memo(ProjectsAdminPage);

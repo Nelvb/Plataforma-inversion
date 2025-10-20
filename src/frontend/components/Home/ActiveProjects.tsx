@@ -1,5 +1,5 @@
 // src/frontend/components/Home/ActiveProjects.tsx
-// ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+// Optimización aplicada — caching con SWR y memoización (2025-01-18)
 "use client";
 
 import React, { useMemo } from "react";
@@ -13,18 +13,18 @@ import { ArrowRight } from "lucide-react";
 import { getProjects } from "@/lib/api/projectService";
 import { Project } from "@/types/project";
 
-// ✅ SWR fetcher function para cache automático
+// SWR fetcher function para cache automático
 const fetcher = (url: string) => getProjects();
 
 const ActiveProjects: React.FC = React.memo(() => {
-  // ✅ SWR para cache inteligente y revalidación automática
+  // SWR para cache inteligente y revalidación automática
   const { data: allProjects, error, isLoading } = useSWR('/api/projects', fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
     revalidateOnReconnect: true, // Revalidar al reconectar
     dedupingInterval: 300000, // 5 minutos de deduplicación
   });
 
-  // ✅ useMemo para filtrar proyectos abiertos (evita recálculos innecesarios)
+  // useMemo para filtrar proyectos abiertos (evita recálculos innecesarios)
   const activeProjects = useMemo(() => {
     if (!allProjects) return [];
     return allProjects
@@ -94,5 +94,5 @@ const ActiveProjects: React.FC = React.memo(() => {
   );
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default ActiveProjects;

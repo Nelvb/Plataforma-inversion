@@ -22,11 +22,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import { Project } from '@/types/project'
-import { 
-  MapPin, 
-  TrendingUp, 
-  Euro, 
-  Calendar, 
+import {
+  MapPin,
+  TrendingUp,
+  Euro,
+  Calendar,
   ArrowRight,
   Building,
   Users,
@@ -40,47 +40,46 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#6290C3]/30 group">
-        {/* Imagen del proyecto */}
-        <div className="relative h-48 overflow-hidden">
-          {project.main_image_url ? (
-            <Image
-              src={project.main_image_url}
-              alt={project.title}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              onError={(e) => {
-                console.error('Error loading project image:', project.main_image_url)
-                e.currentTarget.style.display = 'none'
-                // Mostrar fallback si la imagen falla
-                const fallback = e.currentTarget.parentElement?.querySelector('.image-fallback')
-                if (fallback) {
-                  (fallback as HTMLElement).style.display = 'flex'
-                }
-              }}
-            />
-          ) : null}
-          
-          {/* Fallback cuando no hay imagen o falla */}
-          <div 
-            className={`image-fallback w-full h-full bg-gradient-to-br from-[#6290C3] to-[#1A1341] flex items-center justify-center ${project.main_image_url ? 'hidden' : 'flex'}`}
-          >
-            <Building className="w-16 h-16 text-white/60" />
-          </div>
-        
+      {/* Imagen del proyecto */}
+      <div className="relative h-48 overflow-hidden">
+        {project.main_image_url ? (
+          <Image
+            src={project.main_image_url}
+            alt={project.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={(e) => {
+              console.error('Error loading project image:', project.main_image_url)
+              e.currentTarget.style.display = 'none'
+              // Mostrar fallback si la imagen falla
+              const fallback = e.currentTarget.parentElement?.querySelector('.image-fallback')
+              if (fallback) {
+                (fallback as HTMLElement).style.display = 'flex'
+              }
+            }}
+          />
+        ) : null}
+
+        {/* Fallback cuando no hay imagen o falla */}
+        <div
+          className={`image-fallback w-full h-full bg-gradient-to-br from-[#6290C3] to-[#1A1341] flex items-center justify-center ${project.main_image_url ? 'hidden' : 'flex'}`}
+        >
+          <Building className="w-16 h-16 text-white/60" />
+        </div>
+
         {/* Overlay con estado */}
         <div className="absolute top-4 right-4">
           <span
-            className={`px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border ${
-              project.status === "open" || project.status === "active"
+            className={`px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border ${project.status === "open" || project.status === "active"
                 ? "bg-green-500/90 text-white border-green-400/30"
                 : "bg-gray-500/90 text-white border-gray-400/30"
-            }`}
+              }`}
           >
-            {project.status === "open" ? "Abierto" : 
-             project.status === "active" ? "Activo" :
-             project.status === "funded" ? "Financiado" :
-             project.status === "closed" ? "Cerrado" : project.status}
+            {project.status === "open" ? "Abierto" :
+              project.status === "active" ? "Activo" :
+                project.status === "funded" ? "Financiado" :
+                  project.status === "closed" ? "Cerrado" : project.status}
           </span>
         </div>
 
@@ -126,7 +125,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               €{(project.investment_data?.total_investment || 0).toLocaleString('es-ES')}
             </p>
           </div>
-          
+
           <div className="bg-green-50 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-4 h-4 text-green-600" />
@@ -141,8 +140,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
         {/* CTA */}
         <Link href={`/proyectos/${project.slug}`}>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             className="w-full"
             disabled={project.status === "closed" || project.status === "funded"}
           >

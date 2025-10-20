@@ -13,6 +13,10 @@
 const nextConfig = {
   reactStrictMode: true,
   
+  // Configuración para resolver el warning de múltiples lockfiles
+  // Especifica que el directorio de trabajo es src/frontend
+  outputFileTracingRoot: require('path').resolve(__dirname, '../../'),
+  
   // Configuración para asegurar que SWC se use para todas las transformaciones,
   // incluso cuando existe un archivo de configuración de Babel en el proyecto
   experimental: {

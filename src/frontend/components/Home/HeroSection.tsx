@@ -1,10 +1,10 @@
-// ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+// Optimización aplicada — caching con SWR y memoización (2025-01-18)
 "use client";
 
 import Image from "next/image";
 import React from "react";
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 const HeroSection: React.FC = React.memo(() => {
   return (
     <section className="w-full relative overflow-hidden border-b border-[#6290C3]/20">
@@ -30,7 +30,7 @@ const HeroSection: React.FC = React.memo(() => {
                 width={1200}
                 height={700}
                 className="object-cover w-full h-auto"
-                priority // ✅ Priority solo en imagen principal del hero
+                priority // Priority solo en imagen principal del hero
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
@@ -58,5 +58,5 @@ const HeroSection: React.FC = React.memo(() => {
   );
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default HeroSection;

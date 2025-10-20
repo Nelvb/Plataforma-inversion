@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
     return (
-        <main className="w-full relative min-h-screen overflow-hidden">
+        <main className="w-full relative min-h-[100dvh] overflow-hidden">
             {/* Fondo híbrido: dividido arriba + decorativo abajo */}
             <div className="absolute inset-0">
                 {/* Fondo dividido clásico desde arriba hasta 30% */}

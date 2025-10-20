@@ -4,7 +4,7 @@
  * Esta vista utiliza el componente ProjectForm para recoger los datos del nuevo proyecto.
  * La lógica de creación se delega a projectService.ts con protección JWT vía fetchWithAuth.
  * 
- * ✅ Optimización aplicada — memoización y optimización de formularios (2025-01-18)
+ * Optimización aplicada — memoización y optimización de formularios (2025-01-18)
  */
 
 'use client'
@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation'
 const NewProject: React.FC = React.memo(() => {
   const router = useRouter()
 
-  // ✅ useCallback para evitar recreación de función en cada render
+  // useCallback para evitar recreación de función en cada render
   const handleSubmit = useCallback(async (projectData: any) => {
     try {
       await createProject(projectData)
@@ -49,5 +49,5 @@ const NewProject: React.FC = React.memo(() => {
 
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default NewProject

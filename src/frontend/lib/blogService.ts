@@ -5,7 +5,7 @@
  * del backend, facilitando la reutilización en componentes tanto públicos
  * como administrativos.
  * 
- * ✅ Optimización aplicada — caching con SWR y memoización (2025-01-18)
+ * Optimización aplicada — caching con SWR y memoización (2025-01-18)
  * 
  * @module blogService
  */
@@ -46,7 +46,7 @@ export interface ArticleListItem {
 
 /**
  * Obtiene un listado de artículos con opciones de paginación y filtrado
- * ✅ Optimizado con SWR para cache automático y manejo de errores mejorado
+ * Optimizado con SWR para cache automático y manejo de errores mejorado
  */
 export async function getArticles({
   page = 1,

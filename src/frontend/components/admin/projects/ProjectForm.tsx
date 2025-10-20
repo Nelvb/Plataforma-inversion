@@ -13,7 +13,7 @@
  * - Campos específicos para proyectos de inversión
  * - Totalmente responsive con Tailwind CSS
  * 
- * ✅ Optimización aplicada — memoización y optimización de formularios (2025-01-18)
+ * Optimización aplicada — memoización y optimización de formularios (2025-01-18)
  * 
  * @author Boost A Project Team
  * @since v2.0.0
@@ -344,5 +344,5 @@ const ProjectForm: React.FC<ProjectFormProps> = React.memo(({ onSubmit, initialD
   )
 });
 
-// ✅ React.memo aplicado para evitar renders innecesarios
+// React.memo aplicado para evitar renders innecesarios
 export default ProjectForm
