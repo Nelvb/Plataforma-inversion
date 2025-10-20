@@ -778,6 +778,44 @@ El backend utiliza un sistema modular para la gestión de proyectos:
 
 La plataforma incluye un sistema completo para la gestión de proyectos de inversión inmobiliaria que permite a los administradores crear, editar y gestionar proyectos de manera eficiente.
 
+## 🔒 Sistema FREEMIUM - Control de Contenido Premium
+
+El sistema permite que cada proyecto decida cuántas secciones mostrar públicamente antes de requerir registro.
+
+### Configuración por Proyecto
+
+En el JSON de cada proyecto (`src/backend/app/data/projects/`), añadir el campo:
+```json
+{
+  "slug": "nombre-proyecto",
+  "title": "Título del Proyecto",
+  "free_sections_count": 7,  ← Número de secciones visibles sin registro
+  ...
+}
+```
+
+### Valores Recomendados
+
+- **3-5 secciones**: Proyectos con información muy sensible
+- **7-8 secciones**: Balance entre información pública y premium (recomendado)
+- **10+ secciones**: Proyectos educativos con mucho contenido público
+
+### Ejemplo FiveRooms Venezuela
+
+Con `"free_sections_count": 7`:
+- ✅ **Secciones visibles** (1-7): Hero, ¿Qué es?, Coliving, Valladolid, Ubicación, Inversión, Escenarios de Rentabilidad
+- 🔒 **Secciones premium** (8+): Análisis de Riesgos, Marco Legal, Estrategias de Salida, Proceso, FAQ
+
+### Comportamiento por Defecto
+
+Si no se especifica `free_sections_count`, el sistema usa **5 como valor por defecto**.
+
+### Implementación Técnica
+
+1. **Backend**: Campo en modelo Project + migración de BD
+2. **Frontend**: Lee dinámicamente `project.free_sections_count`
+3. **Componente**: `PremiumContentBlur` muestra banner horizontal para registrarse
+
 #### Flujo de Subida de Proyectos
 
 1. **Acceso Administrativo**
