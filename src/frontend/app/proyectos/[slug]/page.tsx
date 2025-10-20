@@ -398,8 +398,12 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                         )}
                     </div>
 
-                    {/* Sidebar UNIFICADO */}
-                    <ProjectSidebar project={project} />
+                    <aside className="lg:col-span-1 relative">
+  <div className="sticky top-[-182px]">
+    <ProjectSidebar project={project} />
+  </div>
+</aside>
+
                 </div>
             </div>
         </div>
