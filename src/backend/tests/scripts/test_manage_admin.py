@@ -10,7 +10,7 @@ def test_create_admin_command_crea_usuario_admin(runner, app):
     """Ejecuta el comando create_admin desde Flask CLI y verifica el resultado."""
 
     with app.app_context():
-        from admin.manage import create_admin
+        from app.cli.create_admin import create_admin
         app.cli.add_command(create_admin)
 
         existing = User.query.filter_by(email="bapboostaproject@gmail.com").first()
@@ -19,8 +19,8 @@ def test_create_admin_command_crea_usuario_admin(runner, app):
             db.session.delete(existing)
             db.session.commit()
 
-    result = runner.invoke(args=["create_admin"])
-    assert "Usuario administrador creado correctamente." in result.output
+    result = runner.invoke(args=["create-admin"])
+    assert "Administrador creado exitosamente" in result.output
 
 
     # Verificar en base de datos
@@ -28,6 +28,6 @@ def test_create_admin_command_crea_usuario_admin(runner, app):
         user = User.query.filter_by(email="bapboostaproject@gmail.com").first()
         assert user is not None
         assert user.username == "Alberto"
-        assert user.last_name == "Modroño Martin"
+        assert user.last_name == "Modroño Martín"
         assert user.is_admin is True
         assert user.check_password("Ayb.1981")
