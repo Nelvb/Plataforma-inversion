@@ -105,48 +105,314 @@ Plataforma-inversion/
 │   │   │   ├── README
 │   │   │   ├── script.py.mako
 │   │   │   └── versions/
-│   │   │       └── 99f0126d0976_create_flexible_project_model.py
+│   │   │       ├── eee17872c641_initial_clean_migration_for_boost_a_.py
+│   │   │       └── e3f6fb915ba3_add_free_sections_count_to_projects.py
 │   │   ├── requirements.txt             # Dependencias Python
 │   │   ├── run.py                       # Punto de entrada
 │   │   ├── tests/                       # Tests backend
 │   │   │   ├── __init__.py
 │   │   │   ├── api/                     # Tests API
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_account.py
+│   │   │   │   ├── test_articles_api.py
+│   │   │   │   ├── test_auth.py
+│   │   │   │   ├── test_images_api.py
+│   │   │   │   ├── test_projects_api.py
+│   │   │   │   ├── test_routes_api.py
+│   │   │   │   └── test_users_api.py
 │   │   │   ├── config/                  # Tests configuración
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_config.py
+│   │   │   │   └── test_extensions.py
 │   │   │   ├── models/                  # Tests modelos
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_article_model.py
+│   │   │   │   └── test_user_model.py
 │   │   │   ├── schemas/                 # Tests esquemas
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_article_schema.py
+│   │   │   │   ├── test_contact_schema.py
+│   │   │   │   └── test_user_schema.py
 │   │   │   ├── scripts/                 # Tests scripts
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── test_manage_admin.py
 │   │   │   ├── services/                # Tests servicios
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_article_service.py
+│   │   │   │   ├── test_email_service.py
+│   │   │   │   └── test_image_service.py
 │   │   │   ├── conftest.py              # Configuración pytest
 │   │   │   └── test_db.py               # Tests base de datos
 │   │   └── venv/                        # Entorno virtual Python
 │   └── frontend/                         # Frontend Next.js
 │       ├── __mocks__/                    # Mocks para testing
+│       │   ├── blogService.ts
+│       │   ├── fetchMock.ts
+│       │   ├── mockedArticles.ts
+│       │   ├── useAuthStore.ts
+│       │   ├── userService.ts
+│       │   └── useUiStore.ts
 │       ├── __tests__/                    # Tests frontend
+│       │   ├── admin/                    # Tests admin
+│       │   │   ├── blog/                 # Tests blog admin
+│       │   │   │   ├── BlogAdminPage.test.tsx
+│       │   │   │   ├── NewArticle.test.tsx
+│       │   │   │   └── EditArticle.test.tsx
+│       │   │   ├── layout/               # Tests layout admin
+│       │   │   │   └── AdminLayout.test.tsx
+│       │   │   └── projects/             # Tests proyectos admin
+│       │   │       ├── ProjectsAdminPage.test.tsx
+│       │   │       ├── NewProject.test.tsx
+│       │   │       └── EditProject.test.tsx
+│       │   ├── auth/                     # Tests autenticación
+│       │   │   ├── LoginForm.test.tsx
+│       │   │   ├── ResetPasswordForm.test.tsx
+│       │   │   ├── SignupForm.test.tsx
+│       │   │   └── AuthContext.test.tsx
+│       │   ├── blog/                     # Tests blog público
+│       │   │   └── ArticlePage.test.tsx
+│       │   ├── common/                   # Tests componentes comunes
+│       │   │   ├── MainMenuLinks.test.tsx
+│       │   │   └── SideMenuHeader.test.tsx
+│       │   ├── contact/                  # Tests contacto
+│       │   │   └── ContactForm.test.tsx
+│       │   ├── layout/                   # Tests layout
+│       │   │   ├── Navbar.test.tsx
+│       │   │   ├── NavbarLinks.test.tsx
+│       │   │   ├── Footer.test.tsx
+│       │   │   └── ClientLayout.test.tsx
+│       │   ├── lib/                      # Tests librerías
+│       │   │   ├── api/                  # Tests API
+│       │   │   │   ├── authService.test.ts
+│       │   │   │   ├── blogService.test.ts
+│       │   │   │   ├── contactService.test.ts
+│       │   │   │   ├── projectService.test.ts
+│       │   │   │   └── userService.test.ts
+│       │   │   └── utils/                # Tests utilidades
+│       │   │       ├── fetchWithAuth.test.ts
+│       │   │       └── utils.test.ts
+│       │   ├── shared/                   # Tests componentes compartidos
+│       │   │   ├── Button.test.tsx
+│       │   │   ├── Input.test.tsx
+│       │   │   └── LoadingState.test.tsx
+│       │   ├── sideMenus/                # Tests menús laterales
+│       │   │   ├── SideMenu.test.tsx
+│       │   │   ├── SideMenuAuthSection.test.tsx
+│       │   │   ├── AdminSideMenu.test.tsx
+│       │   │   └── UserSideMenu.test.tsx
+│       │   ├── stores/                   # Tests stores
+│       │   │   ├── useAuthStore.test.ts
+│       │   │   └── useUiStore.test.ts
+│       │   ├── ui/                       # Tests UI
+│       │   │   ├── Button.test.tsx
+│       │   │   ├── Input.test.tsx
+│       │   │   ├── LoadingState.test.tsx
+│       │   │   └── Spinner.test.tsx
+│       │   ├── user/                     # Tests usuario
+│       │   │   ├── UserDashboard.test.tsx
+│       │   │   └── UserProfile.test.tsx
+│       │   └── utils/                    # Tests utilidades
+│       │       └── testUtils.tsx
 │       ├── app/                          # App Router Next.js
 │       │   ├── (auth)/                   # Rutas autenticación
+│       │   │   ├── login/
+│       │   │   │   └── page.tsx          # Página login
+│       │   │   └── signup/
+│       │   │       └── page.tsx          # Página registro
 │       │   ├── (user_private)/           # Rutas usuario
+│       │   │   ├── dashboard/
+│       │   │   │   └── page.tsx          # Dashboard usuario
+│       │   │   ├── layout.tsx            # Layout usuario
+│       │   │   └── perfil/
+│       │   │       ├── layout.tsx        # Layout perfil
+│       │   │       └── page.tsx          # Página perfil
 │       │   ├── admin/                    # Panel administración
+│       │   │   ├── blog/                 # Admin blog
+│       │   │   │   ├── editar/
+│       │   │   │   │   └── [slug]/
+│       │   │   │   │       ├── layout.tsx
+│       │   │   │   │       └── page.tsx
+│       │   │   │   ├── new-article/
+│       │   │   │   │   ├── NewArticle.tsx
+│       │   │   │   │   └── page.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── dashboard/            # Dashboard admin
+│       │   │   ├── layout.tsx            # Layout admin
+│       │   │   ├── page.tsx              # Página admin
+│       │   │   ├── perfil/
+│       │   │   │   ├── layout.tsx
+│       │   │   │   └── page.tsx
+│       │   │   └── projects/             # Admin proyectos
+│       │   │       ├── edit/
+│       │   │       │   └── [id]/
+│       │   │       │       ├── EditProject.tsx
+│       │   │       │       └── page.tsx
+│       │   │       ├── new/
+│       │   │       │   ├── NewProject.tsx
+│       │   │       │   └── page.tsx
+│       │   │       └── page.tsx
 │       │   ├── blog/                     # Blog público
+│       │   │   ├── [slug]/
+│       │   │   │   └── page.tsx          # Página artículo
+│       │   │   ├── layout.tsx            # Layout blog
+│       │   │   └── page.tsx              # Lista artículos
 │       │   ├── contact/                  # Contacto
+│       │   │   └── page.tsx              # Página contacto
+│       │   ├── faq/                      # FAQ (vacío)
+│       │   ├── legal/                    # Páginas legales
+│       │   │   ├── aviso/
+│       │   │   │   └── page.tsx          # Aviso legal
+│       │   │   ├── cookies/
+│       │   │   │   └── page.tsx          # Política cookies
+│       │   │   └── privacidad/
+│       │   │       └── page.tsx          # Política privacidad
 │       │   ├── proyectos/                # Proyectos públicos
+│       │   │   ├── [slug]/
+│       │   │   │   └── page.tsx          # Página proyecto
+│       │   │   ├── layout.tsx            # Layout proyectos
+│       │   │   └── page.tsx              # Lista proyectos
+│       │   ├── recuperar-contrasena/
+│       │   │   └── page.tsx              # Recuperar contraseña
+│       │   ├── reset-password/
+│       │   │   └── page.tsx              # Reset contraseña
 │       │   ├── layout.tsx                # Layout principal
-│       │   └── page.tsx                 # Página inicio
+│       │   ├── page.tsx                  # Página inicio
+│       │   ├── robots.ts                 # Robots.txt
+│       │   └── sitemap.ts                # Sitemap.xml
 │       ├── components/                   # Componentes React
 │       │   ├── admin/                    # Componentes admin
+│       │   │   ├── blog/                 # Admin blog
+│       │   │   │   ├── BlogArticleForm.tsx
+│       │   │   │   ├── BlogArticleList.tsx
+│       │   │   │   ├── BlogArticleCard.tsx
+│       │   │   │   └── ui/
+│       │   │   │       └── EditorContentArticle.tsx
+│       │   │   ├── projects/             # Admin proyectos
+│       │   │   │   ├── ProjectCardAdmin.tsx
+│       │   │   │   ├── ProjectForm.tsx
+│       │   │   │   └── ProjectList.tsx
+│       │   │   └── ui/                   # UI admin
+│       │   │       ├── AdminHeader.tsx
+│       │   │       ├── AdminSidebar.tsx
+│       │   │       └── DashboardHeader.tsx
 │       │   ├── articles/                 # Componentes artículos
+│       │   │   ├── ArticleContent.tsx
+│       │   │   ├── ArticleHeader.tsx
+│       │   │   └── ArticleRelated.tsx
 │       │   ├── auth/                     # Componentes autenticación
+│       │   │   ├── LoginForm.tsx
+│       │   │   ├── ResetPasswordForm.tsx
+│       │   │   └── SignupForm.tsx
 │       │   ├── blog/                     # Componentes blog
+│       │   │   ├── BlogArticleCard.tsx
+│       │   │   └── BlogArticleList.tsx
 │       │   ├── contact/                  # Componentes contacto
+│       │   │   └── ContactForm.tsx
 │       │   ├── Home/                     # Componentes homepage
+│       │   │   ├── ActiveProjects.tsx
+│       │   │   ├── CompanyValues.tsx
+│       │   │   ├── ContactCTA.tsx
+│       │   │   ├── FAQ.tsx
+│       │   │   ├── HeroSection.tsx
+│       │   │   ├── InvestmentProcess.tsx
+│       │   │   ├── InvestorSupport.tsx
+│       │   │   ├── LatestArticles.tsx
+│       │   │   ├── ProjectsBanner.tsx
+│       │   │   └── ValueProposition.tsx
 │       │   ├── layout/                   # Componentes layout
+│       │   │   ├── ClientLayout.tsx
+│       │   │   ├── Footer.tsx
+│       │   │   ├── Navbar.tsx
+│       │   │   ├── NavbarLinks.tsx
+│       │   │   └── UiGlobalLayer.tsx
 │       │   ├── projects/                 # Componentes proyectos
+│       │   │   ├── ProjectCard.tsx
+│       │   │   ├── ProjectHeader.tsx
+│       │   │   ├── ProjectSidebar.tsx
+│       │   │   └── sections/             # Secciones proyecto
+│       │   │       ├── ProjectFAQ.tsx
+│       │   │       ├── ProjectFinancialBreakdown.tsx
+│       │   │       ├── ProjectInvestmentData.tsx
+│       │   │       ├── ProjectLegalInfo.tsx
+│       │   │       ├── ProjectLocation.tsx
+│       │   │       ├── ProjectOverview.tsx
+│       │   │       ├── ProjectRiskAnalysis.tsx
+│       │   │       ├── ProjectRentalScenarios.tsx
+│       │   │       └── ProjectTenantContracts.tsx
 │       │   ├── shared/                   # Componentes compartidos
+│       │   │   ├── Button.tsx
+│       │   │   ├── Input.tsx
+│       │   │   └── PremiumContentBlur.tsx
 │       │   ├── sideMenus/                # Menús laterales
+│       │   │   ├── AdminSideMenu.tsx
+│       │   │   ├── SideMenu.tsx
+│       │   │   ├── SideMenuAuthSection.tsx
+│       │   │   └── UserSideMenu.tsx
 │       │   ├── ui/                       # Componentes UI base
+│       │   │   ├── Button.tsx
+│       │   │   ├── Input.tsx
+│       │   │   ├── LoadingState.tsx
+│       │   │   └── Spinner.tsx
 │       │   └── user/                     # Componentes usuario
-│       ├── constants/                     # Constantes
-│       ├── coverage/                      # Reportes cobertura
-│       ├── hooks/                         # Custom hooks
+│       │       ├── UserDashboard.tsx
+│       │       └── UserProfile.tsx
+│       ├── constants/                    # Constantes
+│       │   ├── privateRoutes.ts          # Rutas privadas
+│       │   ├── publicRoutes.ts           # Rutas públicas
+│       │   └── validation.ts             # Validaciones
+│       ├── coverage/                     # Reportes cobertura
+│       │   ├── clover.xml
+│       │   ├── coverage-final.json
+│       │   ├── lcov-report/              # Reportes HTML
+│       │   └── lcov.info
+│       ├── hooks/                        # Custom hooks
+│       │   ├── useArticle.ts
+│       │   └── useStaticArticles.ts
+│       ├── lib/                          # Librerías
+│       │   ├── api/                      # Servicios API
+│       │   │   ├── authService.ts
+│       │   │   ├── blogService.ts
+│       │   │   ├── contactService.ts
+│       │   │   ├── projectService.ts
+│       │   │   └── userService.ts
+│       │   ├── blogService.ts            # Servicio blog
+│       │   ├── swr-config.ts             # Configuración SWR
+│       │   └── utils/                    # Utilidades
+│       │       ├── fetchWithAuth.ts
+│       │       └── utils.ts
+│       ├── stores/                       # Stores Zustand
+│       │   ├── useAuthStore.ts
+│       │   └── useUiStore.ts
+│       ├── styles/                       # Estilos
+│       │   ├── globals.css
+│       │   └── output.css
+│       ├── types/                        # Tipos TypeScript
+│       │   ├── auth.ts
+│       │   ├── blog.ts
+│       │   ├── index.ts
+│       │   ├── project.ts
+│       │   └── user.ts
+│       ├── .next/                        # Build Next.js
+│       ├── components.json               # Configuración shadcn/ui
+│       ├── jest.config.ts                # Configuración Jest
+│       ├── jest.env.setup.ts             # Setup Jest
+│       ├── next.config.js                # Configuración Next.js
+│       ├── next-env.d.ts                 # Tipos Next.js
+│       ├── node_modules/                 # Dependencias
+│       ├── package.json                  # Dependencias frontend
+│       ├── package-lock.json             # Lock file frontend
+│       ├── postcss.config.js             # Configuración PostCSS
+│       ├── public/                       # Archivos públicos
+│       │   ├── android-chrome-192x192.png
+│       │   ├── android-chrome-512x512.png
+│       │   ├── apple-touch-icon.png
+│       │   ├── favicon-16x16.png
+│       │   ├── favicon-32x32.png
+│       │   ├── favicon.ico
+│       │   └── whatsapp.svg
+│       ├── setupTests.ts                 # Setup tests
+│       ├── tailwind.config.js            # Configuración Tailwind
+│       └── tsconfig.json                 # Configuración TypeScript
 │       ├── lib/                          # Utilidades y servicios
 │       ├── public/                        # Archivos estáticos
 │       ├── stores/                        # Estado global Zustand
