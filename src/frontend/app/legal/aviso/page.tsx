@@ -23,7 +23,7 @@ const AvisoLegalPage = () => {
     return (
         <main className="min-h-screen bg-white">
             {/* HEADER */}
-            <section className="bg-gradient-to-r from-[#1A1341] to-[#6290C3] py-16 px-6 lg:px-8">
+            <section className="bg-gradient-to-r from-[#1A1341] to-[#6290C3] pt-40 pb-16 px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center">
                     <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
                         Aviso Legal
