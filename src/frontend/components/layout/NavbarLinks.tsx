@@ -57,7 +57,7 @@ const NavbarLinks: React.FC = () => {
               href="/login"
               className="text-white text-lg font-medium transition-all duration-300 hover:scale-110 transform-gpu"
             >
-              Iniciar Sesión
+              Acceder
             </Link>
           )}
           {!isSignupPage && (

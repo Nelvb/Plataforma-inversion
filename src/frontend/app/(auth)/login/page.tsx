@@ -10,8 +10,8 @@ import Link from "next/link";
 import LoginForm from "@/components/auth/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Iniciar Sesión | Boost a Project",
-  description: "Inicia sesión en tu cuenta en la plataforma de inversión Boost a Project",
+  title: "Acceder | Boost a Project",
+  description: "Accede a tu cuenta en la plataforma de inversión Boost a Project",
 };
 
 export default function LoginPage() {

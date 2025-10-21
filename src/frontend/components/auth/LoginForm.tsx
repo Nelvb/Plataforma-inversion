@@ -56,7 +56,7 @@ const LoginForm = () => {
         className="bg-[#F1FFEF] border border-[#C2E7DA] p-8 rounded-xl shadow-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-center text-[#1A1341]">
-          Iniciar Sesión
+          Acceder
         </h2>
 
         {error && (
@@ -104,7 +104,7 @@ const LoginForm = () => {
             {loading ? (
               <LoadingState message="Iniciando sesión..." size="sm" />
             ) : (
-              "Iniciar Sesión"
+              "Acceder"
             )}
           </Button>
         </div>

@@ -195,7 +195,7 @@ const ResetPasswordForm = () => {
                             className="w-full mt-4"
                             onClick={() => router.push("/login")}
                         >
-                            Iniciar sesión
+                            Acceder
                         </Button>
                     </>
                 )}

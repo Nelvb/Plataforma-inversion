@@ -32,7 +32,7 @@ const SideMenuAuthSection: React.FC<SideMenuAuthSectionProps> = ({ onClose }) =>
         {!isLoginPage && (
           <Link href="/login" onClick={onClose} className="block w-full">
             <Button variant="outline" size="md" className="w-full">
-              Iniciar Sesión
+              Acceder
             </Button>
           </Link>
         )}
