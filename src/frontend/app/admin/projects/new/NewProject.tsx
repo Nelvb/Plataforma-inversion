@@ -16,7 +16,7 @@ import Button from '@/components/ui/Button'
 import { createProject } from '@/lib/api/projectService'
 import { useRouter } from 'next/navigation'
 
-const NewProject: React.FC = React.memo(() => {
+const NewProject: React.FC = () => {
   const router = useRouter()
 
   // useCallback para evitar recreación de función en cada render
@@ -48,4 +48,5 @@ const NewProject: React.FC = React.memo(() => {
 }
 
 // React.memo aplicado para evitar renders innecesarios
-export default React.memo(NewProject);
+const NewProjectMemo = React.memo(NewProject);
+export default NewProjectMemo;

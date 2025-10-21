@@ -17,7 +17,7 @@ import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { createArticle, updateArticleBySlug } from '@/lib/blogService'
 
-const NewArticle: React.FC = React.memo(() => {
+const NewArticle: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false) // En esta vista, siempre es false por ahora
 
   // useCallback para evitar recreación de función en cada render
@@ -52,4 +52,5 @@ const NewArticle: React.FC = React.memo(() => {
 }
 
 // React.memo aplicado para evitar renders innecesarios
-export default React.memo(NewArticle);
+const NewArticleMemo = React.memo(NewArticle);
+export default NewArticleMemo;

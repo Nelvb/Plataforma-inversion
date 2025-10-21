@@ -12,6 +12,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import Link from "next/link";
 import { contactService } from "@/lib/api/contactService";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -300,7 +301,7 @@ const ContactForm = () => {
                         {/* Nota de privacidad */}
                         <p className="text-xs text-gray-500 text-center mt-6 leading-relaxed">
                             Al enviar este formulario, aceptas que procesemos tus datos para contactarte.
-                            Consulta nuestra <span className="text-[#6290C3] hover:underline cursor-pointer">política de privacidad</span>.
+                            Consulta nuestra <Link href="/legal/privacidad" className="text-[#6290C3] hover:underline">política de privacidad</Link>.
                         </p>
                     </div>
                 </div>
