@@ -22,7 +22,7 @@ import { Article } from "@/types";
 // SWR fetcher function para cache automático
 const fetcher = () => getArticles({ limit: 999 });
 
-const BlogAdminPage: React.FC = React.memo(() => {
+const BlogAdminPage: React.FC = () => {
   // SWR para cache inteligente y revalidación automática
   const { data, error, isLoading, mutate } = useSWR('/api/articles/admin', fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
@@ -67,7 +67,9 @@ const BlogAdminPage: React.FC = React.memo(() => {
       </div>
 
       {isLoading ? (
-        <LoadingState message="Cargando artículos..." size="lg" />
+        <div className="py-12">
+          <LoadingState message="Cargando artículos..." size="md" color="primary" />
+        </div>
       ) : error ? (
         <div className="text-center py-16">
           <p className="text-red-600 text-lg">Error al cargar los artículos</p>
@@ -96,9 +98,7 @@ const BlogAdminPage: React.FC = React.memo(() => {
       )}
     </div>
   );
-};
-
-});
+}
 
 // React.memo aplicado para evitar renders innecesarios
-export default BlogAdminPage;
+export default React.memo(BlogAdminPage);

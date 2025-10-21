@@ -67,7 +67,9 @@ const ProjectsAdminPage: React.FC = () => {
       </div>
 
       {isLoading ? (
-        <LoadingState message="Cargando proyectos..." size="lg" />
+        <div className="py-12">
+          <LoadingState message="Cargando proyectos..." size="md" color="primary" />
+        </div>
       ) : error ? (
         <div className="text-center py-16">
           <p className="text-red-600 text-lg">Error al cargar los proyectos</p>

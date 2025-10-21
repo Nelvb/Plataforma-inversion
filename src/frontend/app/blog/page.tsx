@@ -20,11 +20,11 @@ import LoadingState from '@/components/ui/LoadingState';
 import { getArticles } from '@/lib/blogService';
 import { Article } from '@/types';
 
-// SWR fetcher function para cache automático
+// SWR fetcher function optimizado para cache automático
 const fetcher = (url: string) => {
-  const params = new URLSearchParams(url.split('?')[1]);
-  const page = parseInt(params.get('page') || '1');
-  const limit = parseInt(params.get('limit') || '12');
+  const urlObj = new URL(url, 'http://localhost');
+  const page = parseInt(urlObj.searchParams.get('page') || '1');
+  const limit = parseInt(urlObj.searchParams.get('limit') || '12');
   return getArticles({ page, limit });
 };
 
@@ -46,13 +46,6 @@ const BlogPage: React.FC = React.memo(() => {
     setPage(newPage);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
-        <LoadingState message="Cargando artículos..." size="lg" color="white" />
-      </div>
-    );
-  }
 
   return (
     <div className="relative min-h-[100dvh] pt-52">
@@ -64,7 +57,11 @@ const BlogPage: React.FC = React.memo(() => {
       <div className="relative z-10 container mx-auto px-4 pb-16">
         <BlogHeader />
 
-        {articles.length === 0 ? (
+        {isLoading ? (
+          <div className="py-20 text-center">
+            <LoadingState message="Cargando artículos..." size="lg" color="white" />
+          </div>
+        ) : articles.length === 0 ? (
           <div className="text-center text-white py-12">
             <p className="text-2xl font-semibold mb-4">No hay artículos disponibles</p>
             <p className="text-[#C2E7DA]">Próximamente nuevos contenidos</p>

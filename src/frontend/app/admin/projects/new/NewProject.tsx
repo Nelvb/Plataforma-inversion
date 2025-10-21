@@ -47,7 +47,5 @@ const NewProject: React.FC = React.memo(() => {
   )
 }
 
-});
-
 // React.memo aplicado para evitar renders innecesarios
-export default NewProject
+export default React.memo(NewProject);

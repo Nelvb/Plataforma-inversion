@@ -3,7 +3,9 @@
  *
  * Visual unificado con el dashboard de usuario: fondo dividido, cabecera profesional,
  * tarjetas con acceso rápido a funcionalidades clave.
- * Protección de ruta mediante verificación de is_admin usando Zustand.
+ * Protección de ruta mediante middleware existente (compatible con layout client).
+ * 
+ * Optimización aplicada — Client Component optimizado (2025-01-18)
  */
 
 "use client";
@@ -68,3 +70,4 @@ const AdminDashboardPage: React.FC = () => {
 };
 
 export default AdminDashboardPage;
+

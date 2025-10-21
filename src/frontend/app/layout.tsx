@@ -18,6 +18,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SWRConfig } from "swr";
 import "@/styles/globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
+import PageLoader from "@/components/ui/PageLoader";
 import swrConfig from "@/lib/swr-config";
 
 // Configuración de fuentes de Google usando Next.js Font Optimization
@@ -55,6 +56,7 @@ export default function RootLayout({
           bg-white
         `}
       >
+        <PageLoader />
         <SWRConfig value={swrConfig}>
           <ClientLayout>{children}</ClientLayout>
         </SWRConfig>

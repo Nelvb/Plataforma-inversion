@@ -90,14 +90,16 @@ const ProjectDetailPage: React.FC = React.memo(() => {
         };
     }, [projectData]);
 
+    // 1. PRIMERO: Verificar si está cargando
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
+            <header className="relative h-[70dvh] bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
                 <LoadingState message="Cargando proyecto..." size="lg" color="white" />
-            </div>
+            </header>
         );
     }
 
+    // 2. SEGUNDO: Verificar errores o datos faltantes
     if (error || !projectData) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -130,6 +132,46 @@ const ProjectDetailPage: React.FC = React.memo(() => {
     // Helper function para renderizar secciones
     const renderSection = (section: any, index: number) => {
         switch (section.type) {
+            case 'hero':
+                return null; // Ya se renderiza en ProjectHeader
+            case 'financial_breakdown':
+                return (
+                    <Card key={index} className="p-8 hover:shadow-lg transition-shadow duration-300">
+                        <h2 className="text-3xl font-bold text-[#1A1341] mb-6 flex items-center gap-3">
+                            <Building className="w-7 h-7 text-[#6290C3]" />
+                            Desglose Financiero
+                        </h2>
+                        <div className="overflow-x-auto">
+                            <table className="w-full border-collapse">
+                                <thead>
+                                    <tr className="bg-[#F7FAFF]">
+                                        <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-[#1A1341]">
+                                            Concepto
+                                        </th>
+                                        <th className="border border-gray-300 px-4 py-3 text-right font-semibold text-[#1A1341]">
+                                            Importe
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {section.breakdown?.map((item: any, idx: number) => (
+                                        <tr key={idx} className="hover:bg-gray-50">
+                                            <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                                                {item.concept}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-3 text-right font-medium text-[#1A1341]">
+                                                {typeof item.amount === 'number' 
+                                                    ? `€${item.amount.toLocaleString()}` 
+                                                    : item.amount
+                                                }
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </Card>
+                );
             case 'section':
                 return <ProjectSection key={index} data={section} />;
             case 'location':
@@ -183,7 +225,10 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                     />
                 );
             default:
-                console.warn('Tipo de sección no reconocido:', section.type);
+                // No mostrar warning para tipos conocidos que se manejan en otros lugares
+                if (section.type !== 'hero' && section.type !== 'financial_breakdown') {
+                    console.warn('Tipo de sección no reconocido:', section.type);
+                }
                 return null;
         }
     };
@@ -195,8 +240,8 @@ const ProjectDetailPage: React.FC = React.memo(() => {
 
             <div className="container mx-auto px-4 py-12">
                 <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Contenido principal */}
-                    <div className="lg:col-span-2 space-y-8">
+                        {/* Contenido principal */}
+                        <div className="lg:col-span-2 space-y-8">
                         {/* Descripción */}
                         <Card className="p-8 hover:shadow-lg transition-shadow duration-300">
                             <h2 className="text-3xl font-bold text-[#1A1341] mb-6 flex items-center gap-3">

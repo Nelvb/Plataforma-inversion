@@ -39,7 +39,7 @@ const ProyectosPage: React.FC = React.memo(() => {
 
     // useMemo para filtrar proyectos (evita recálculos innecesarios)
     const filteredProjects = useMemo(() => {
-        if (!projects) return [];
+        if (!projects || !Array.isArray(projects)) return [];
         
         if (filter === 'all') {
             return projects;
@@ -51,13 +51,6 @@ const ProyectosPage: React.FC = React.memo(() => {
         return projects;
     }, [filter, projects]);
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-[#1A1341] to-[#6290C3] flex items-center justify-center">
-                <LoadingState message="Cargando proyectos..." size="lg" color="white" />
-            </div>
-        );
-    }
 
     return (
         <div className="relative min-h-[100dvh] pt-52">
@@ -70,7 +63,7 @@ const ProyectosPage: React.FC = React.memo(() => {
             {/* Contenido principal */}
             <div className="relative z-10 container mx-auto px-4 pb-16">
                 {/* Header visual con gradiente (idéntico al BlogHeader) */}
-                <ProjectsHeader count={projects.length} />
+                <ProjectsHeader count={projects?.length || 0} />
 
                 {/* Filtros */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12 bg-white p-4 rounded-lg shadow-md border border-gray-100">
@@ -119,7 +112,11 @@ const ProyectosPage: React.FC = React.memo(() => {
                             Reintentar
                         </Button>
                     </div>
-                ) : filteredProjects.length === 0 ? (
+                ) : isLoading ? (
+                    <div className="py-20 text-center">
+                        <LoadingState message="Cargando proyectos..." size="lg" color="white" />
+                    </div>
+                ) : (filteredProjects?.length || 0) === 0 ? (
                     <div className="text-center text-white py-12">
                         <p className="text-2xl font-semibold mb-4">No hay proyectos disponibles</p>
                         <p className="text-[#C2E7DA]">
@@ -129,19 +126,19 @@ const ProyectosPage: React.FC = React.memo(() => {
                 ) : (
                     <>
                         <div className={`grid gap-8 ${
-                            filteredProjects.length === 1 
+                            (filteredProjects?.length || 0) === 1 
                                 ? 'grid-cols-1 justify-center max-w-md mx-auto' 
-                                : filteredProjects.length === 2 
+                                : (filteredProjects?.length || 0) === 2 
                                     ? 'grid-cols-1 md:grid-cols-2 justify-center max-w-2xl mx-auto'
                                     : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                         }`}>
-                            {filteredProjects.map((project) => (
+                            {(filteredProjects || []).map((project) => (
                                 <ProjectCard key={project.id} project={project} />
                             ))}
                         </div>
                         
                         {/* Banner cuando hay menos de 3 proyectos */}
-                        {filteredProjects.length > 0 && filteredProjects.length < 3 && (
+                        {(filteredProjects?.length || 0) > 0 && (filteredProjects?.length || 0) < 3 && (
                             <ProjectsBanner className="mt-12" variant="dark" />
                         )}
                     </>

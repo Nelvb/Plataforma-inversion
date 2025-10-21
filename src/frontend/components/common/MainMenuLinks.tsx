@@ -23,7 +23,6 @@ const MainMenuLinks: React.FC<MainMenuLinksProps> = ({ onClickLink }) => {
   const links = [
     { href: "/", label: "Inicio" },
     { href: "/proyectos", label: "Proyectos" },
-    { href: "/nosotros", label: "Nosotros" },
     { href: "/blog", label: "Blog" },
     { href: "/#faq", label: "Preguntas Frecuentes" },
     { href: "/contact", label: "Contacto" },

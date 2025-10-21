@@ -51,7 +51,5 @@ const NewArticle: React.FC = React.memo(() => {
   )
 }
 
-});
-
 // React.memo aplicado para evitar renders innecesarios
-export default NewArticle
+export default React.memo(NewArticle);

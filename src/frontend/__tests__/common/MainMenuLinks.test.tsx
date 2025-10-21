@@ -21,7 +21,6 @@ describe("MainMenuLinks", () => {
 
         expect(screen.getByText("Inicio")).toBeInTheDocument();
         expect(screen.getByText("Proyectos")).toBeInTheDocument();
-        expect(screen.getByText("Nosotros")).toBeInTheDocument();
         expect(screen.getByText("Blog")).toBeInTheDocument();
         expect(screen.getByText("Preguntas Frecuentes")).toBeInTheDocument();
         expect(screen.getByText("Contacto")).toBeInTheDocument();

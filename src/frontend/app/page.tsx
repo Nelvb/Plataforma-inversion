@@ -1,4 +1,14 @@
-// src/frontend/app/page.tsx
+/**
+ * page.tsx — Página principal (Home/Landing)
+ * 
+ * Contexto:
+ * Landing page con todas las secciones principales.
+ * Ya no necesita lógica de fade-in propia (ClientLayout lo maneja).
+ * 
+ * @author Boost A Project Team
+ * @since v1.0.0
+ */
+
 import HeroSection from "@/components/Home/HeroSection";
 import ValueProposition from "@/components/Home/ValueProposition";
 import CompanyValues from "@/components/Home/CompanyValues";
