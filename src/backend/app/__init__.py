@@ -98,11 +98,11 @@ def create_app(config_object=config_class):
             admin = User.query.filter_by(email="bapboostaproject@gmail.com").first()
             if not admin:
                 nuevo_admin = User(
-                    name="Alberto",
+                    username="Alberto",
+                    last_name="Admin",
                     email="bapboostaproject@gmail.com",
                     password_hash=generate_password_hash("Ayb.1981"),
-                    role="admin",
-                    is_active=True,
+                    is_admin=True,
                 )
                 db.session.add(nuevo_admin)
                 db.session.commit()
