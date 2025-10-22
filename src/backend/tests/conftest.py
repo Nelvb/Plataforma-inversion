@@ -4,6 +4,7 @@
 # Actualizado para coincidir con UserSchema profesional (nombres reales, contraseñas seguras)
 
 import pytest
+import uuid
 from app import create_app
 from app.extensions import db
 from app.models.user import User
@@ -76,9 +77,15 @@ def test_user(app):
 
 @pytest.fixture
 def admin_token(app, _db):
-    """Crea un usuario admin y devuelve su Bearer token JWT."""
+    """Crea un usuario admin y devuelve su Bearer token JWT.
+    Usa email único para evitar conflictos en tests paralelos."""
     with app.app_context():
-        admin = User(username="admin_test", email="admin@test.com", is_admin=True)
+        unique_id = str(uuid.uuid4())[:8]
+        admin = User(
+            username=f"admin_test_{unique_id}", 
+            email=f"admin_{unique_id}@test.com", 
+            is_admin=True
+        )
         admin.set_password("admin123")
         _db.session.add(admin)
         _db.session.commit()
@@ -90,9 +97,15 @@ def admin_token(app, _db):
 
 @pytest.fixture
 def user_token(app, _db):
-    """Crea un usuario regular y devuelve su Bearer token JWT."""
+    """Crea un usuario regular y devuelve su Bearer token JWT.
+    Usa email único para evitar conflictos en tests paralelos."""
     with app.app_context():
-        user = User(username="user_test", email="user@test.com", is_admin=False)
+        unique_id = str(uuid.uuid4())[:8]
+        user = User(
+            username=f"user_test_{unique_id}", 
+            email=f"user_{unique_id}@test.com", 
+            is_admin=False
+        )
         user.set_password("user123")
         _db.session.add(user)
         _db.session.commit()
