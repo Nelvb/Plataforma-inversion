@@ -8,6 +8,7 @@ flask-cors
 python-dotenv
 psycopg2-binary
 pytest
+pytest-xdist
 Flask-Mail==0.10.0
 cloudinary==1.43.0
 gunicorn

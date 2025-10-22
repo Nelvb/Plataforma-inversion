@@ -1,24 +1,62 @@
 # GitHub Actions workflow para pruebas automáticas del backend
-# Ejecuta todos los tests de pytest en cada push y pull request
-# Configura un entorno Python 3.9 y gestiona las dependencias necesarias
+# Ejecuta tests condicionales solo cuando hay cambios en el backend
+# Configura un entorno Python 3.9 con cache de dependencias y paralelización
 
 name: Backend Tests
 on: [push, pull_request]
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      requirements: ${{ steps.changes.outputs.requirements }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            backend:
+              - 'src/backend/**'
+              - 'src/backend/**/*.py'
+              - 'src/backend/**/*.txt'
+            requirements:
+              - 'src/backend/requirements.txt'
+  
   test:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
+          cache: 'pip'  # ✅ Cache automático de pip
+      
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
       - name: Install dependencies
         run: |
           cd src/backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run tests
+      
+      - name: Run tests with parallelization
         run: |
           cd src/backend
-          python -m pytest
+          python -m pytest -n auto --dist=worksteal
+      
+      - name: Run specific tests if requirements changed
+        if: ${{ needs.detect-changes.outputs.requirements == 'true' }}
+        run: |
+          cd src/backend
+          python -m pytest tests/config/ -v

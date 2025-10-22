@@ -12,17 +12,18 @@ from app.config import TestingConfig
 from flask_jwt_extended import create_access_token
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def app():
-    """Crea y configura una instancia de Flask para las pruebas."""
+    """Crea y configura una instancia de Flask para las pruebas.
+    Optimizado con scope='session' para reutilizar la app entre tests."""
     app = create_app(TestingConfig)
 
     # Establecer el contexto de la aplicación
     with app.app_context():
-        # Crear todas las tablas
+        # Crear todas las tablas una sola vez por sesión
         db.create_all()
         yield app
-        # Limpiar después de la prueba
+        # Limpiar después de todas las pruebas
         db.session.remove()
         db.drop_all()
 
@@ -51,6 +52,16 @@ def test_user(app):
     Actualizado para cumplir con UserSchema profesional: nombre real sin números,
     contraseña segura con complejidad requerida."""
     with app.app_context():
+        # Verificar si el usuario ya existe para evitar duplicados
+        existing_user = User.query.filter_by(email="test@example.com").first()
+        if existing_user:
+            return {
+                "id": existing_user.id,
+                "email": existing_user.email,
+                "username": existing_user.username,
+                "last_name": existing_user.last_name
+            }
+        
         user = User(username="TestUser", last_name="Test García", email="test@example.com")
         user.set_password("SecurePass123!")
         db.session.add(user)
