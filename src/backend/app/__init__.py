@@ -31,7 +31,7 @@ def create_app(config_object=config_class):
     - Inicializa extensiones (DB, JWT, CORS, migraciones, etc.).
     - Inicializa Cloudinary para subir imágenes.
     - Registra todos los blueprints.
-    - Importa artículos y proyectos estáticos si las tablas existen y están vacías.
+    - Inyecta automáticamente artículos y proyectos si la BD está vacía.
     """
 
     # Crear la instancia Flask
@@ -73,49 +73,42 @@ def create_app(config_object=config_class):
     app.register_blueprint(account_bp, url_prefix="/api/account")
     app.register_blueprint(projects_bp, url_prefix="/api/projects")
 
-    # # Importar artículos estáticos si tabla `articles` existe y está vacía
-    # with app.app_context():
-    #     try:
-    #         inspector = inspect(db.engine)
-    #         if "articles" in inspector.get_table_names():
-    #             from app.models.article import Article
-    #             from app.scripts.import_service import importar_articulos_desde_json
+    # ------------------------------------------------------------
+    # INYECCIÓN AUTOMÁTICA DE DATOS EN PRODUCCIÓN (solo si BD vacía)
+    # ------------------------------------------------------------
+    with app.app_context():
+        try:
+            inspector = inspect(db.engine)
+            tables = inspector.get_table_names()
 
-    #             if Article.query.count() == 0:
-    #                 json_path = os.path.join(os.path.dirname(__file__), "data", "articles.json")
-    #                 if os.path.exists(json_path):
-    #                     with open(json_path, "r", encoding="utf-8") as f:
-    #                         articles_data = json.load(f)
-    #                     resultados = importar_articulos_desde_json(articles_data)
-    #                     for msg in resultados:
-    #                         app.logger.info(msg)
-    #                     app.logger.info("Artículos estáticos importados correctamente.")
-    #                 else:
-    #                     app.logger.warning(f"Archivo no encontrado: {json_path}")
-    #     except Exception as e:
-    #         app.logger.warning(f"No se pudo verificar ni importar artículos: {e}")
+            # Inyectar artículos si la tabla existe y está vacía
+            if "articles" in tables:
+                from app.models.article import Article
+                from app.scripts.import_service import importar_articulos_desde_json
 
-    # # Importar proyectos iniciales si tabla `projects` existe y está vacía
-    # with app.app_context():
-    #     try:
-    #         inspector = inspect(db.engine)
-    #         if "projects" in inspector.get_table_names():
-    #             from app.models.project import Project
-    #             from app.scripts.import_service import importar_proyectos_desde_json
+                if Article.query.count() == 0:
+                    json_path = os.path.join(os.path.dirname(__file__), "data", "articles.json")
+                    if os.path.exists(json_path):
+                        with open(json_path, "r", encoding="utf-8") as f:
+                            articles_data = json.load(f)
+                        importar_articulos_desde_json(articles_data)
+                        app.logger.info("✅ Artículos importados automáticamente en producción.")
 
-    #             if Project.query.count() == 0:
-    #                 json_path = os.path.join(os.path.dirname(__file__), "data", "projects.json")
-    #                 if os.path.exists(json_path):
-    #                     with open(json_path, "r", encoding="utf-8") as f:
-    #                         projects_data = json.load(f)
-    #                     resultados = importar_proyectos_desde_json(projects_data)
-    #                     for msg in resultados:
-    #                         app.logger.info(msg)
-    #                     app.logger.info("Proyectos iniciales importados correctamente.")
-    #                 else:
-    #                     app.logger.warning(f"Archivo no encontrado: {json_path}")
-    #     except Exception as e:
-    #         app.logger.warning(f"No se pudo verificar ni importar proyectos: {e}")
+            # Inyectar proyectos si la tabla existe y está vacía
+            if "projects" in tables:
+                from app.models.project import Project
+                from app.scripts.import_service import importar_proyectos_desde_json
+
+                if Project.query.count() == 0:
+                    json_path = os.path.join(os.path.dirname(__file__), "data", "projects.json")
+                    if os.path.exists(json_path):
+                        with open(json_path, "r", encoding="utf-8") as f:
+                            projects_data = json.load(f)
+                        importar_proyectos_desde_json(projects_data)
+                        app.logger.info("✅ Proyectos importados automáticamente en producción.")
+
+        except Exception as e:
+            app.logger.warning(f"⚠️ Error al verificar o importar datos iniciales: {e}")
 
     # Registrar comandos CLI
     from app.cli.create_admin import create_admin
