@@ -30,16 +30,25 @@ def init_app(app):
     
     # Configuración completa de CORS
     cors.init_app(app, 
-            resources={r"/api/*": {
-                    "origins": [
-                        "http://localhost:3000",
-                        "https://boost-a-project.vercel.app"
-                    ],
-                    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                    "allow_headers": ["Content-Type", "Authorization", "X-CSRF-TOKEN"],
-                    "supports_credentials": True
-                }},
-                supports_credentials=True)
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://localhost:3000",
+                    "https://boost-a-project.vercel.app"
+                ],
+                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                "allow_headers": [
+                    "Content-Type", 
+                    "Authorization", 
+                    "X-CSRF-TOKEN",
+                    "X-Requested-With"
+                ],
+                "supports_credentials": True,
+                "expose_headers": ["Content-Type", "X-CSRFToken"]
+            }
+        },
+        supports_credentials=True
+    )
     
     mail.init_app(app)
 

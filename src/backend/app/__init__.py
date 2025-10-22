@@ -42,24 +42,6 @@ def create_app(config_object=config_class):
     # Cargar configuración según entorno
     app.config.from_object(config_object)
 
-    # Configuración global de CORS para el frontend (desarrollo y producción)
-    CORS(
-        app,
-        resources={
-            r"/api/*": {
-                "origins": [
-                    "http://localhost:3000",
-                    "https://boost-a-project.vercel.app"
-                ],
-                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                "allow_headers": ["Content-Type", "Authorization", "X-CSRF-TOKEN"],
-                "supports_credentials": True,
-                "expose_headers": ["Content-Type", "X-CSRFToken"],
-            }
-        },
-        supports_credentials=True,
-    )
-
     # Inicializar extensiones (db, jwt, mail, etc.)
     init_app(app)
 

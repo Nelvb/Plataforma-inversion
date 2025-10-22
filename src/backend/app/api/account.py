@@ -17,7 +17,7 @@ from app.services.email_service import send_email_with_limit
 
 # Definición del blueprint y aplicación de CORS solo a este módulo
 account_bp = Blueprint("account", __name__)
-CORS(account_bp, origins="http://localhost:3000", supports_credentials=True)
+CORS(account_bp, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"], supports_credentials=True)
 
 
 @account_bp.route("/update-profile", methods=["OPTIONS"])

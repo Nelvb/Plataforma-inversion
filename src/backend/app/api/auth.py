@@ -26,7 +26,7 @@ from flask_cors import cross_origin
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/signup", methods=["POST"])
-@cross_origin(supports_credentials=True, origins=["http://localhost:3000"])
+@cross_origin(supports_credentials=True, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"])
 def signup():
     """Registro de usuario con validaciones y almacenamiento seguro de contraseña."""
     try:
@@ -62,7 +62,7 @@ def signup():
         return jsonify({"msg": f"Error: {str(e)}"}), 500
 
 @auth_bp.route("/login", methods=["POST"])
-@cross_origin(supports_credentials=True, origins=["http://localhost:3000"])
+@cross_origin(supports_credentials=True, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"])
 def login():
     """Inicio de sesión. Devuelve JWT (access + refresh) en cookies HttpOnly + token CSRF."""
     try:
@@ -105,7 +105,7 @@ def login():
         return jsonify({"msg": f"Error: {str(e)}"}), 500
 
 @auth_bp.route("/refresh", methods=["POST"])
-@cross_origin(supports_credentials=True, origins=["http://localhost:3000"])
+@cross_origin(supports_credentials=True, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"])
 @jwt_required(refresh=True, locations=["cookies"])
 def refresh():
     """Renueva el access_token usando el refresh_token. Devuelve nuevo CSRF."""
@@ -128,7 +128,7 @@ def refresh():
         return jsonify({"msg": f"Error al renovar token: {str(e)}"}), 500
 
 @auth_bp.route("/logout", methods=["POST"])
-@cross_origin(supports_credentials=True, origins=["http://localhost:3000"])
+@cross_origin(supports_credentials=True, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"])
 def logout():
     """Cierra la sesión del usuario eliminando las cookies JWT."""
     response = make_response(jsonify({"msg": "Sesión cerrada correctamente"}), 200)
