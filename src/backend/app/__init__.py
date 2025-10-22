@@ -16,7 +16,7 @@ from app.api.articles import articles_bp
 from app.api.images import images_bp
 from app.api.account import account_bp
 from app.api.projects import projects_bp
-from app.config import DevelopmentConfig
+from app.config import config_class
 from app.extensions import cors, db, init_app, jwt, ma, migrate
 from app.services.image_service import ImageService
 import os
@@ -24,7 +24,7 @@ import json
 from sqlalchemy import inspect
 
 
-def create_app(config_object=DevelopmentConfig):
+def create_app(config_object=config_class):
     """
     Función fábrica para crear la aplicación Flask.
     - Carga configuración según entorno.

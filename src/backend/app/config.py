@@ -70,29 +70,32 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    """Configuración para producción."""
+    """
+    Configuración para entorno de producción (Render + Neon).
+
+    - Usa la variable DATABASE_URL de Render (proporcionada por Neon).
+    - HTTPS y cookies seguras activadas.
+    - No incluye valores por defecto a localhost.
+    """
+
     DEBUG = False
-    DB_HOST = os.getenv("DB_HOST", "localhost")
-    DB_USER = os.getenv("DB_USER", "postgres")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
-    DB_NAME = os.getenv("DB_NAME", "starter_template")
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL_PROD",
-        f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
-    )
-    
-    # Configuración JWT con tokens en cookies HttpOnly (igual que desarrollo)
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+
+    # Configuración JWT con cookies seguras (HTTPS)
     JWT_TOKEN_LOCATION = ["cookies"]
-    JWT_COOKIE_SECURE = True  # True en producción con HTTPS
+    JWT_COOKIE_SECURE = True
     JWT_COOKIE_CSRF_PROTECT = True
     JWT_CSRF_IN_COOKIES = True
 
-# Determinar el entorno
+
+# Determinar el entorno activo y cargar la configuración correspondiente
 env = os.getenv("FLASK_ENV", "development")
+
 config = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig,
-    "default": DevelopmentConfig,
 }
-config_class = config.get(env, config["default"])
+
+config_class = config.get(env, DevelopmentConfig)
+
