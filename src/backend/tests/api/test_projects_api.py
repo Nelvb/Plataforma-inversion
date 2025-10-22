@@ -1,5 +1,6 @@
 import json
 import pytest
+import uuid
 from app.models.project import Project
 
 
@@ -64,8 +65,9 @@ def test_create_project_unauthorized(client):
 
 def test_create_project_as_user(client, user_token):
     """Test creating a project as regular user (should fail)"""
+    unique_id = str(uuid.uuid4())[:8]
     data = {
-        "slug": "test-project",
+        "slug": f"test-project-{unique_id}",
         "title": "Test Project",
         "description": "Test description",
         "status": "open",
@@ -99,8 +101,9 @@ def test_get_project_not_found(client):
 def test_update_project_as_admin(client, admin_token):
     """Test updating a project as admin"""
     # First create a project
+    unique_id = str(uuid.uuid4())[:8]
     create_data = {
-        "slug": "test-project",
+        "slug": f"test-project-{unique_id}",
         "title": "Test Project",
         "description": "Original description",
         "status": "open",
@@ -125,7 +128,7 @@ def test_update_project_as_admin(client, admin_token):
         }
     }
     res = client.put(
-        "/api/projects/test-project",
+        f"/api/projects/test-project-{unique_id}",
         data=json.dumps(update_data),
         content_type="application/json"
     )
