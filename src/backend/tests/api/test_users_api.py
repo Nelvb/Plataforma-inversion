@@ -79,11 +79,15 @@ def test_get_user_by_id(client, app):
 
 def test_update_user(client, app):
     """Prueba actualizar información de usuario."""
+    import uuid
+    unique_id = str(uuid.uuid4())[:8]
+    
     with app.app_context():
-        User.query.filter_by(email="carlos@example.com").delete()
+        User.query.filter_by(email=f"carlos_{unique_id}@example.com").delete()
+        User.query.filter_by(username=f"Carlos_{unique_id}").delete()
         db.session.commit()
 
-        user = User(username="Carlos", last_name="González Original", email="carlos@example.com")
+        user = User(username=f"Carlos_{unique_id}", last_name="González Original", email=f"carlos_{unique_id}@example.com")
         user.set_password("SecurePass123!")
         db.session.add(user)
         db.session.commit()
@@ -91,7 +95,7 @@ def test_update_user(client, app):
 
     login_response = client.post(
         "/api/auth/login",
-        json={"email": "carlos@example.com", "password": "SecurePass123!"},
+        json={"email": f"carlos_{unique_id}@example.com", "password": "SecurePass123!"},
     )
     assert login_response.status_code == 200
     csrf_token = login_response.json["csrf_token"]
