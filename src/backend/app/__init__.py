@@ -68,7 +68,7 @@ def create_app(config_object=DevelopmentConfig):
     app.register_blueprint(articles_bp, url_prefix="/api/articles")
     app.register_blueprint(images_bp, url_prefix="/api/images")
     app.register_blueprint(account_bp, url_prefix="/api/account")
-    app.register_blueprint(projects_bp)
+    app.register_blueprint(projects_bp, url_prefix="/api/projects")
 
     # # Importar artículos estáticos si tabla `articles` existe y está vacía
     # with app.app_context():
