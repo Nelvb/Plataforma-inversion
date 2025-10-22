@@ -81,6 +81,7 @@ def create_app(config_object=config_class):
     with app.app_context():
         from app.models.user import User
         from app.scripts.import_service import importar_articulos_desde_json, importar_proyectos_desde_json
+        from werkzeug.security import generate_password_hash
 
         try:
             # Esperar a que las tablas estén creadas (Render puede tardar unos segundos)
@@ -91,7 +92,7 @@ def create_app(config_object=config_class):
                     break
                 app.logger.info("Esperando que las tablas se creen en la base de datos...")
                 sleep(3)
-                inspector = inspect(db.engine)  # volver a inspeccionar
+                inspector = inspect(db.engine)
 
             # Crear admin si no existe
             admin = User.query.filter_by(email="bapboostaproject@gmail.com").first()
@@ -99,16 +100,18 @@ def create_app(config_object=config_class):
                 nuevo_admin = User(
                     name="Alberto",
                     email="bapboostaproject@gmail.com",
-                    password="Ayb.1981",
+                    password_hash=generate_password_hash("Ayb.1981"),
                     role="admin",
+                    is_active=True,
                 )
                 db.session.add(nuevo_admin)
                 db.session.commit()
-                app.logger.info("Usuario admin creado automáticamente.")
+                app.logger.info("✅ Usuario admin creado automáticamente.")
             else:
                 app.logger.info("Usuario admin ya existe, no se recrea.")
 
             # Importar artículos si tabla vacía
+            articulos_cargados = 0
             if "articles" in tables:
                 from app.models.article import Article
                 if Article.query.count() == 0:
@@ -117,13 +120,16 @@ def create_app(config_object=config_class):
                         with open(json_path, "r", encoding="utf-8") as f:
                             articles_data = json.load(f)
                         importar_articulos_desde_json(articles_data)
-                        app.logger.info("Artículos importados automáticamente.")
+                        articulos_cargados = len(articles_data)
+                        app.logger.info("✅ Artículos importados automáticamente.")
                     else:
-                        app.logger.warning("Archivo de artículos no encontrado.")
+                        app.logger.warning("⚠️ Archivo de artículos no encontrado.")
                 else:
+                    articulos_cargados = Article.query.count()
                     app.logger.info("Artículos ya presentes en la base de datos.")
 
             # Importar proyectos si tabla vacía
+            proyectos_cargados = 0
             if "projects" in tables:
                 from app.models.project import Project
                 if Project.query.count() == 0:
@@ -134,11 +140,17 @@ def create_app(config_object=config_class):
                                 with open(os.path.join(json_dir, file), "r", encoding="utf-8") as f:
                                     projects_data = json.load(f)
                                 importar_proyectos_desde_json(projects_data)
-                                app.logger.info(f"Proyecto importado automáticamente desde {file}")
+                                proyectos_cargados += len(projects_data)
+                                app.logger.info(f"✅ Proyecto importado automáticamente desde {file}")
                     else:
-                        app.logger.warning("Carpeta de proyectos no encontrada.")
+                        app.logger.warning("⚠️ Carpeta de proyectos no encontrada.")
                 else:
+                    proyectos_cargados = Project.query.count()
                     app.logger.info("Proyectos ya presentes en la base de datos.")
+
+            # Resumen final en logs
+            app.logger.info(f"📊 Artículos cargados: {articulos_cargados}")
+            app.logger.info(f"📊 Proyectos cargados: {proyectos_cargados}")
 
         except Exception as e:
             app.logger.warning(f"Error en la inicialización automática: {e}")
