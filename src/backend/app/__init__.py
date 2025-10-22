@@ -8,6 +8,7 @@
 # Incluye inyección automática de datos iniciales en producción (admin, artículos y proyectos).
 # ------------------------------------------------------------
 
+
 from flask import Flask
 from flask_cors import CORS
 from app.api.auth import auth_bp
@@ -24,6 +25,7 @@ import os
 import json
 from time import sleep
 from sqlalchemy import inspect
+from flask_migrate import upgrade
 
 
 def create_app(config_object=config_class):
@@ -74,6 +76,16 @@ def create_app(config_object=config_class):
     app.register_blueprint(images_bp, url_prefix="/api/images")
     app.register_blueprint(account_bp, url_prefix="/api/account")
     app.register_blueprint(projects_bp, url_prefix="/api/projects")
+
+    # ------------------------------------------------------------
+    # Migraciones automáticas al iniciar (Para evitar error "relation does not exist")
+    # ------------------------------------------------------------
+    with app.app_context():
+        try:
+            upgrade()
+            app.logger.info("✅ Migraciones aplicadas automáticamente.")
+        except Exception as e:
+            app.logger.warning(f"⚠️ Error aplicando migraciones: {e}")
 
     # ------------------------------------------------------------
     # INYECCIÓN AUTOMÁTICA DE DATOS EN PRODUCCIÓN (segura e idempotente)
