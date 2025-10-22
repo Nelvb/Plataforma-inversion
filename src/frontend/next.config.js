@@ -28,7 +28,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL:
       process.env.NODE_ENV === "production"
-        ? "http://backend:5000/api"
+        ? "https://boost-a-project-backend.onrender.com/api"
         : "http://localhost:5000/api",
   },
   

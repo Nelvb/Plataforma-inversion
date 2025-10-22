@@ -25,10 +25,7 @@ def test_development_config_has_required_fields():
     assert isinstance(config.JWT_ACCESS_TOKEN_EXPIRES, int)
 
 def test_production_config_fallback_url(monkeypatch):
-    monkeypatch.setenv("DB_USER", "postgres")
-    monkeypatch.setenv("DB_PASSWORD", "mypassword")
-    monkeypatch.setenv("DB_HOST", "localhost")
-    monkeypatch.setenv("DB_NAME", "mydb")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://postgres:mypassword@localhost/mydb")
 
     reload(config_module)  # Forzar recarga del módulo con nuevas variables
     from app.config import ProductionConfig

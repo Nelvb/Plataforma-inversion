@@ -11,7 +11,7 @@
  * Mantiene logo, altura y lógica de menú lateral originales.
  *
  * @author Boost A Project
- * @since v2.2.1
+ * @since v2.2.2
  */
 
 "use client";
@@ -40,7 +40,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ✅ Color y animación originales restaurados
   const navbarClasses = `
     fixed w-full top-0 left-0 z-20 h-36 flex items-center
     transition-colors duration-300
@@ -85,7 +84,7 @@ const Navbar: React.FC = () => {
                     key={link.href}
                     href={link.href}
                     className={`
-                      relative text-white text-base font-medium transition-all duration-300
+                      relative text-white text-lg transition-all duration-300
                       after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full
                       after:scale-x-0 after:bg-[#C2E7DA] after:transition-transform
                       hover:text-[#C2E7DA] hover:after:scale-x-100
@@ -104,7 +103,7 @@ const Navbar: React.FC = () => {
                 <Button
                   variant="secondary"
                   size="md"
-                  className="rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#F1FFEF]"
+                  className="rounded-full px-6 py-2 text-lg hover:border-[#C2E7DA] hover:text-[#C2E7DA] hover:bg-transparent"
                 >
                   REGÍSTRATE
                 </Button>
@@ -113,7 +112,7 @@ const Navbar: React.FC = () => {
                 <Button
                   variant="outlineGreen"
                   size="md"
-                  className="rounded-full px-6 py-2 text-lg font-semibold border-[#C2E7DA] text-[#C2E7DA] hover:bg-[#C2E7DA] hover:text-[#1A1341]"
+                  className="rounded-full px-6 py-2 text-lg border-[#C2E7DA] text-[#C2E7DA] hover:bg-[#C2E7DA] hover:text-[#1A1341]"
                 >
                   ACCEDER
                 </Button>
@@ -125,7 +124,7 @@ const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-white text-lg font-medium transition-all duration-300 hover:scale-110 transform-gpu"
+            className="lg:hidden p-2 text-white text-lg transition-all duration-300 hover:scale-110 transform-gpu"
             aria-label="Abrir menú"
           >
             {isOpen ? (
