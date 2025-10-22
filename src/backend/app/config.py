@@ -45,10 +45,11 @@ class DevelopmentConfig(Config):
     DB_NAME = os.getenv("DB_NAME", "starter_template")
     SQLALCHEMY_DATABASE_URI = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
     
-    # Configuración JWT con Bearer tokens en headers (compatible con frontend)
-    JWT_TOKEN_LOCATION = ["headers"]
-    JWT_HEADER_NAME = "Authorization"
-    JWT_HEADER_TYPE = "Bearer"
+    # Configuración JWT con tokens en cookies HttpOnly (seguridad mejorada)
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_COOKIE_SECURE = False  # True en producción con HTTPS
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_CSRF_IN_COOKIES = True
 
 
 class TestingConfig(Config):
@@ -61,10 +62,11 @@ class TestingConfig(Config):
     JWT_SECRET_KEY = "test-jwt-secret"
     MAIL_SUPPRESS_SEND = True
     
-    # Configuración JWT con Bearer tokens en headers (igual que desarrollo)
-    JWT_TOKEN_LOCATION = ["headers"]
-    JWT_HEADER_NAME = "Authorization"
-    JWT_HEADER_TYPE = "Bearer"
+    # Configuración JWT con tokens en cookies HttpOnly (igual que desarrollo)
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_COOKIE_SECURE = False  # True en producción con HTTPS
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_CSRF_IN_COOKIES = True
 
 
 class ProductionConfig(Config):
@@ -79,10 +81,11 @@ class ProductionConfig(Config):
         f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
     )
     
-    # Configuración JWT con Bearer tokens en headers (igual que desarrollo)
-    JWT_TOKEN_LOCATION = ["headers"]
-    JWT_HEADER_NAME = "Authorization"
-    JWT_HEADER_TYPE = "Bearer"
+    # Configuración JWT con tokens en cookies HttpOnly (igual que desarrollo)
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_COOKIE_SECURE = True  # True en producción con HTTPS
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_CSRF_IN_COOKIES = True
 
 # Determinar el entorno
 env = os.getenv("FLASK_ENV", "development")
