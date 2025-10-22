@@ -139,6 +139,9 @@ def create_app(config_object=config_class):
                             if file.endswith(".json"):
                                 with open(os.path.join(json_dir, file), "r", encoding="utf-8") as f:
                                     projects_data = json.load(f)
+                                # Convertir objeto a array si es necesario
+                                if isinstance(projects_data, dict):
+                                    projects_data = [projects_data]
                                 importar_proyectos_desde_json(projects_data)
                                 proyectos_cargados += len(projects_data)
                                 app.logger.info(f"✅ Proyecto importado automáticamente desde {file}")
