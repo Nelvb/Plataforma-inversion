@@ -1,5 +1,5 @@
 # Archivo de inicialización para el módulo de API
-# Define el paquete api para organizar las rutas y endpoints del backend
+# Define el paquete api para organizar las rutas y endpoints en el backend
 
 from flask import Flask
 from app.api.projects import projects_bp
