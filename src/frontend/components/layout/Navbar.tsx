@@ -25,12 +25,13 @@ import Button from "@/components/ui/Button";
 import AdminSideMenu from "@/components/sideMenus/AdminSideMenu";
 import UserSideMenu from "@/components/sideMenus/UserSideMenu";
 import SideMenu from "@/components/sideMenus/SideMenu";
+import UserAvatarMenu from "@/components/ui/UserAvatarMenu";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const { user } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,26 +98,32 @@ const Navbar: React.FC = () => {
               })}
             </div>
 
-            {/* Botones de acción */}
+            {/* Botones de acción - Render condicional */}
             <div className="flex items-center space-x-4">
-              <Link href="/signup">
-                <Button
-                  variant="secondary"
-                  size="md"
-                  className="rounded-full px-6 py-2 text-lg hover:border-[#C2E7DA] hover:text-[#C2E7DA] hover:bg-transparent"
-                >
-                  REGÍSTRATE
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button
-                  variant="outlineGreen"
-                  size="md"
-                  className="rounded-full px-6 py-2 text-lg border-[#C2E7DA] text-[#C2E7DA] hover:bg-[#C2E7DA] hover:text-[#1A1341]"
-                >
-                  ACCEDER
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <UserAvatarMenu />
+              ) : (
+                <>
+                  <Link href="/signup">
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      className="rounded-full px-6 py-2 text-lg hover:border-[#C2E7DA] hover:text-[#C2E7DA] hover:bg-transparent"
+                    >
+                      REGÍSTRATE
+                    </Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button
+                      variant="outlineGreen"
+                      size="md"
+                      className="rounded-full px-6 py-2 text-lg border-[#C2E7DA] text-[#C2E7DA] hover:bg-[#C2E7DA] hover:text-[#1A1341]"
+                    >
+                      ACCEDER
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
