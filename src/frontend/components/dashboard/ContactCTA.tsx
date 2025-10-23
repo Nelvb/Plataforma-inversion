@@ -32,21 +32,16 @@ const ContactCTA: React.FC<ContactCTAProps> = ({ className = "" }) => {
 
     return (
         <section 
-            className={`w-full bg-gradient-to-r from-[#1A1341] via-[#6290C3] to-[#C2E7DA] text-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}
+            className={`w-full bg-[#C2E7DA] py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}
             aria-label="Contacto directo por WhatsApp"
         >
             <div className="max-w-screen-2xl mx-auto">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-white mb-4">
+                <div className="text-center">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1341] leading-snug mb-6">
                         ¿Necesitas ayuda?
                     </h2>
-                    <p className="text-white/90 text-lg font-medium">
-                        Contacta directamente con nosotros por WhatsApp y te asesoraremos
-                    </p>
-                </div>
-
-                <div className="text-center py-16">
-                    <p className="text-white/90 text-lg mb-8">
+                    <p className="text-[#1A1341] text-lg leading-relaxed mb-8">
+                        Contacta directamente con nosotros por WhatsApp y te asesoraremos. 
                         Nuestro equipo de expertos está disponible para resolver tus dudas 
                         y asesorarte sobre las mejores oportunidades de inversión.
                     </p>
@@ -58,9 +53,9 @@ const ContactCTA: React.FC<ContactCTAProps> = ({ className = "" }) => {
                         aria-label="Abrir WhatsApp en nueva pestaña para contacto directo"
                     >
                         <Button
-                            variant="outlineGreen"
-                            size="lg"
-                            className="bg-transparent border-white text-white hover:bg-white/20 transition-all duration-300 inline-flex items-center gap-2"
+                            variant="outline"
+                            size="md"
+                            className="inline-flex items-center gap-2"
                         >
                             <MessageCircle className="w-5 h-5" />
                             Hablar por WhatsApp

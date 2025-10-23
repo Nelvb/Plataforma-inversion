@@ -21,7 +21,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/useAuthStore";
 import DashboardHeader from "@/components/shared/DashboardHeader";
-import BannerDashboard from "@/components/dashboard/BannerDashboard";
 import FavoritesSection from "@/components/dashboard/FavoritesSection";
 import InvestmentSimulator from "@/components/dashboard/InvestmentSimulator";
 import AccountAccess from "@/components/dashboard/AccountAccess";
@@ -71,9 +70,6 @@ const DashboardPage: React.FC = () => {
 
       {/* Secciones con ancho completo - salen del contenedor */}
       <div className="relative z-10">
-        {/* Banner informativo */}
-        <BannerDashboard />
-
         {/* Sección de favoritos */}
         <FavoritesSection />
 

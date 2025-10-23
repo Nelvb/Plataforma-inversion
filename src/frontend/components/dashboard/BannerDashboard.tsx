@@ -40,17 +40,6 @@ const BannerDashboard: React.FC<BannerDashboardProps> = ({ className = "" }) => 
                     <p className="text-[#6290C3] text-lg font-medium mb-8">
                         Como usuario registrado, puedes acceder a toda la información de los proyectos, guardar tus favoritos y simular tus inversiones.
                     </p>
-                    
-                    <Link href="/proyectos">
-                        <Button
-                            variant="primary"
-                            size="lg"
-                            className="hover:opacity-90 transition-all duration-300"
-                            aria-label="Ir a la página de proyectos"
-                        >
-                            Ver proyectos
-                        </Button>
-                    </Link>
                 </div>
             </div>
         </section>

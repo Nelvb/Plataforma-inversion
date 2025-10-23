@@ -25,7 +25,7 @@ interface DashboardHeaderProps {
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     badge = "Boost A Project",
     title,
-    subtitle = "Resumen de tu actividad como inversor",
+    subtitle,
 }) => {
     const { user } = useAuthStore();
 
@@ -46,12 +46,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
                     {/* Título dinámico */}
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                        {title || `Área Privada de ${user?.username || "Usuario"}`}
+                        {title || "Bienvenido a tu área privada"}
                     </h1>
 
                     {/* Subtítulo descriptivo */}
                     <p className="text-lg md:text-xl text-[#F1FFEF] opacity-90 max-w-3xl mx-auto">
-                        {subtitle}
+                        {subtitle || "Como usuario registrado, puedes acceder a toda la información de los proyectos, guardar tus favoritos y simular tus inversiones."}
                     </p>
                 </div>
             </div>

@@ -145,7 +145,7 @@ const InvestmentSimulator: React.FC<InvestmentSimulatorProps> = ({ className = "
                         Simulador de Inversiones
                     </h2>
                     <p className="text-[#6290C3] text-lg font-medium">
-                        Calcula la rentabilidad estimada de tus proyectos favoritos
+                        Calcula la rentabilidad anual estimada de tus proyectos favoritos
                     </p>
                 </div>
 
@@ -187,31 +187,52 @@ const InvestmentSimulator: React.FC<InvestmentSimulatorProps> = ({ className = "
                 {selectedProject?.investment_data && (
                     <div className="w-full max-w-md">
                         <label htmlFor="investment-amount" className="block text-sm font-medium text-[#1A1341] mb-2">
-                            Cantidad a invertir (€)
+                            Cantidad a invertir
                         </label>
-                        <input
-                            id="investment-amount"
-                            type="number"
-                            min={minInvestment}
-                            max={maxInvestment}
-                            step="100"
-                            value={investmentAmount || ''}
-                            onChange={(e) => handleAmountChange(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1DA1F2] focus:border-transparent"
-                            placeholder={`Entre ${minInvestment.toLocaleString('es-ES')}€ y ${maxInvestment.toLocaleString('es-ES')}€`}
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                            Rango permitido: {minInvestment.toLocaleString('es-ES')}€ - {maxInvestment.toLocaleString('es-ES')}€
-                        </p>
+                        
+                        {/* Container relativo para posicionar el símbolo € */}
+                        <div className="relative">
+                            <input
+                                id="investment-amount"
+                                type="number"
+                                min={minInvestment}
+                                max={maxInvestment}
+                                step="100"
+                                value={investmentAmount || ''}
+                                onChange={(e) => handleAmountChange(e.target.value)}
+                                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1DA1F2] focus:border-transparent"
+                                placeholder={`Entre ${minInvestment.toLocaleString('es-ES')} y ${maxInvestment.toLocaleString('es-ES')}`}
+                            />
+                            
+                            {/* Símbolo € posicionado absolutamente */}
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-base font-medium pointer-events-none">
+                                €
+                            </span>
+                        </div>
+                        
+                        {/* Rango permitido siempre visible */}
+                        <div className="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>Mínimo: {minInvestment.toLocaleString('es-ES')}€</span>
+                            <span>Máximo: {maxInvestment.toLocaleString('es-ES')}€</span>
+                        </div>
                     </div>
                 )}
 
                 {/* Validación de rango */}
                 {investmentAmount > 0 && !isValidRange && (
                     <div className="w-full max-w-md p-4 bg-red-50 border border-red-200 rounded-lg">
-                        <p className="text-red-800 text-sm">
-                            La inversión debe estar entre {minInvestment.toLocaleString('es-ES')}€ y {maxInvestment.toLocaleString('es-ES')}€.
-                        </p>
+                        <div className="flex items-start gap-3">
+                            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                            <div>
+                                <p className="text-red-800 text-sm font-semibold mb-1">
+                                    Cantidad fuera de rango
+                                </p>
+                                <p className="text-red-700 text-xs">
+                                    La inversión debe estar entre {minInvestment.toLocaleString('es-ES')}€ 
+                                    y {maxInvestment.toLocaleString('es-ES')}€
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -221,17 +242,52 @@ const InvestmentSimulator: React.FC<InvestmentSimulatorProps> = ({ className = "
                         className="w-full max-w-md p-6 bg-[#1DA1F2]/10 border border-[#1DA1F2]/30 rounded-lg"
                         aria-live="polite"
                     >
-                        <div className="flex items-center gap-2 mb-3">
+                        <div className="flex items-center gap-2 mb-4">
                             <TrendingUp className="w-5 h-5 text-[#1DA1F2]" />
-                            <h4 className="font-semibold text-[#1DA1F2]">Resultado de la simulación</h4>
+                            <h4 className="font-semibold text-[#1DA1F2] text-lg">Resultados de la simulación</h4>
                         </div>
-                        <p className="text-[#1A1341] mb-3">
-                            Si inviertes <strong>{investmentAmount.toLocaleString('es-ES')}€</strong> en <strong>{selectedProject.title}</strong>, 
-                            obtendrías un beneficio estimado de <strong className="text-[#1DA1F2]">{benefit.toLocaleString('es-ES')}€</strong> 
-                            {selectedProject.investment_data?.estimated_duration && ` en ${selectedProject.investment_data.estimated_duration}`}.
-                        </p>
-                        <p className="text-xs text-gray-600 italic">
-                            Simulación orientativa. No constituye recomendación de inversión.
+                        
+                        <div className="space-y-3 mb-4">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[#1A1341] text-sm">Proyecto:</span>
+                                <span className="text-[#1A1341] font-semibold">{selectedProject.title}</span>
+                            </div>
+                            
+                            <div className="flex justify-between items-center">
+                                <span className="text-[#1A1341] text-sm">Tu inversión:</span>
+                                <span className="text-[#1A1341] font-semibold">{investmentAmount.toLocaleString('es-ES')}€</span>
+                            </div>
+                            
+                            <div className="flex justify-between items-center">
+                                <span className="text-[#1A1341] text-sm">Rentabilidad anual:</span>
+                                <span className="text-[#1DA1F2] font-semibold">{selectedProject.investment_data.expected_return}</span>
+                            </div>
+                        </div>
+                        
+                        <div className="border-t border-[#1DA1F2]/20 pt-3 mb-3">
+                            <p className="text-xs text-gray-600 font-medium mb-2">Beneficios por año:</p>
+                            <div className="space-y-1">
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-[#1A1341]">Año 1:</span>
+                                    <span className="text-[#1A1341] font-medium">{benefit.toLocaleString('es-ES')}€</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="bg-[#1DA1F2]/20 rounded-lg p-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[#1A1341] font-semibold">Total acumulado:</span>
+                                <span className="text-[#1DA1F2] font-bold text-lg">{benefit.toLocaleString('es-ES')}€</span>
+                            </div>
+                            <div className="flex justify-between items-center mt-1">
+                                <span className="text-[#1A1341] text-sm">Recuperarás:</span>
+                                <span className="text-[#1A1341] font-semibold">{(investmentAmount + benefit).toLocaleString('es-ES')}€</span>
+                            </div>
+                        </div>
+                        
+                        <p className="text-xs text-gray-600 italic mt-4">
+                            * Simulación orientativa basada en rentabilidad del {selectedProject.investment_data.expected_return} anual. 
+                            Los retornos reales pueden variar según ocupación y gastos del proyecto.
                         </p>
                     </div>
                 )}
