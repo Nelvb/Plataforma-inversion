@@ -42,8 +42,8 @@ const AccountAccess: React.FC<AccountAccessProps> = ({ className = "" }) => {
                     </p>
                 </div>
 
-                <div className="text-center py-16">
-                    <p className="text-[#1A1341] text-lg mb-8">
+                <div className="text-center">
+                    <p className="text-[#1A1341] text-lg mb-8 max-w-2xl mx-auto">
                         Accede a tu área de perfil para gestionar tu información personal, 
                         cambiar tu contraseña o eliminar tu cuenta cuando lo necesites.
                     </p>

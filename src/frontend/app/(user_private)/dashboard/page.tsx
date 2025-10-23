@@ -64,10 +64,13 @@ const DashboardPage: React.FC = () => {
         <div className="w-[70%] bg-[#1A1341]" />
       </div>
 
-      {/* Contenido principal con cabecera y componentes */}
+      {/* Header dentro del contenedor */}
       <div className="relative z-10 container mx-auto px-4">
         <DashboardHeader />
+      </div>
 
+      {/* Secciones con ancho completo - salen del contenedor */}
+      <div className="relative z-10">
         {/* Banner informativo */}
         <BannerDashboard />
 
