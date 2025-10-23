@@ -29,6 +29,7 @@ export interface Project {
         optimistic_return?: string
         conservative_return?: string
         execution_time?: string
+        estimated_duration?: string
         investment_type?: string
         financial_breakdown?: any[]
         property_specs?: {

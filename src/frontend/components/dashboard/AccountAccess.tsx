@@ -48,7 +48,7 @@ const AccountAccess: React.FC<AccountAccessProps> = ({ className = "" }) => {
                         cambiar tu contraseña o eliminar tu cuenta cuando lo necesites.
                     </p>
                     
-                    <Link href="http://localhost:3000/perfil">
+                    <Link href="/perfil">
                         <Button
                             variant="primary"
                             size="lg"

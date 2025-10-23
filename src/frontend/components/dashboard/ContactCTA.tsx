@@ -28,7 +28,7 @@ interface ContactCTAProps {
 
 const ContactCTA: React.FC<ContactCTAProps> = ({ className = "" }) => {
     // URL de WhatsApp con mensaje predefinido
-    const whatsappUrl = "https://wa.me/34600000000?text=Hola%2C%20quiero%20información%20sobre%20los%20proyectos%20de%20inversión.";
+    const whatsappUrl = "https://wa.me/34685565977?text=Hola%2C%20quiero%20información%20sobre%20los%20proyectos%20de%20inversión.";
 
     return (
         <section 

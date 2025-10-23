@@ -29,6 +29,7 @@ describe('authService', () => {
 
         const result = await authService.signup({
             username: 'test',
+            last_name: 'TestUser',
             email: 'test@example.com',
             password: '123456',
         });
@@ -45,6 +46,7 @@ describe('authService', () => {
         await expect(
             authService.signup({
                 username: 'test',
+                last_name: 'TestUser',
                 email: 'fail@example.com',
                 password: '123456',
             })

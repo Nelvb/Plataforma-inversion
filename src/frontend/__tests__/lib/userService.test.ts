@@ -31,7 +31,8 @@ describe('userService', () => {
                 })
 
             const result = await userService.updateNameAndEmail({
-                name: 'Nelson',
+                username: 'Nelson',
+                last_name: 'Valero',
                 email: 'nelson@example.com',
                 current_password: '123456',
             })
@@ -48,7 +49,8 @@ describe('userService', () => {
 
             await expect(
                 userService.updateNameAndEmail({
-                    name: 'Nelson',
+                    username: 'Nelson',
+                    last_name: 'Valero',
                     email: 'nelson@example.com',
                     current_password: 'wrong',
                 })
