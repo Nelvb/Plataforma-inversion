@@ -48,7 +48,7 @@ class DevelopmentConfig(Config):
     # Configuración JWT con tokens en cookies HttpOnly (seguridad mejorada)
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_SECURE = False  # True en producción con HTTPS
-    JWT_COOKIE_SAMESITE = "None"
+    JWT_COOKIE_SAMESITE = "Lax"  # Lax para desarrollo (HTTP), None para producción (HTTPS)
     JWT_COOKIE_CSRF_PROTECT = True
     JWT_CSRF_IN_COOKIES = True
 

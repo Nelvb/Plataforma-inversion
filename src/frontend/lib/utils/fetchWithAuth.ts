@@ -4,10 +4,8 @@
  * Wrapper centralizado para fetch autenticado.
  * - Añade automáticamente CSRF Token para métodos sensibles (POST, PUT, PATCH, DELETE).
  * - Reintenta una vez si el token ha expirado (401), intentando renovar con /auth/refresh.
- * - Si la renovación falla, redirige a login y limpia localStorage.
+ * - Si la renovación falla, devuelve error "SessionExpired" para manejo controlado.
  */
-
-import router from "next/router";
 
 /**
  * Extrae el CSRF token desde las cookies del navegador.
@@ -28,6 +26,20 @@ const getCSRFToken = (url: string): string => {
     return "";
 };
 
+/**
+ * Obtiene una cookie específica del navegador.
+ */
+const getCookie = (name: string): string => {
+    const cookies = document.cookie.split(";");
+    for (const c of cookies) {
+        const cookie = c.trim();
+        if (cookie.startsWith(`${name}=`)) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return "";
+};
+
 interface FetchWithAuthOptions extends RequestInit {
     retry?: boolean;
 }
@@ -35,6 +47,7 @@ interface FetchWithAuthOptions extends RequestInit {
 /**
  * fetchWithAuth
  * Intercepta errores 401 y reintenta con /auth/refresh una vez.
+ * Devuelve errores controlados para manejo por componentes llamantes.
  */
 export const fetchWithAuth = async (
     input: RequestInfo | URL,
@@ -44,7 +57,25 @@ export const fetchWithAuth = async (
     const needsCSRF = ["POST", "PUT", "PATCH", "DELETE"].includes(method);
     const url = input.toString();
 
-    const csrfToken = getCSRFToken(url);
+    // Validar CSRF token antes de hacer la petición
+    // Primero intentar desde localStorage, luego desde cookies
+    let csrfToken = localStorage.getItem("csrf_token");
+    if (!csrfToken) {
+        csrfToken = getCookie("csrf_access_token");
+    }
+    
+    if (!csrfToken && needsCSRF) {
+        console.warn("CSRF token missing. User session may have expired.");
+        throw new Error("SessionExpired");
+    }
+
+    // Logging para depuración
+    console.debug("fetchWithAuth:", { 
+        url, 
+        method, 
+        needsCSRF, 
+        hasCSRF: !!csrfToken 
+    });
 
     const headers = {
         ...(init.headers || {}),
@@ -67,8 +98,11 @@ export const fetchWithAuth = async (
 
         console.warn("Token expirado. Intentando renovar...");
 
-        // Obtener CSRF del refresh token explícitamente
-        const refreshCSRF = getCSRFToken("/auth/refresh");
+        // Obtener CSRF token para refresh (mismo token que para acceso)
+        let refreshCSRF = localStorage.getItem("csrf_token");
+        if (!refreshCSRF) {
+            refreshCSRF = getCSRFToken("/auth/refresh");
+        }
 
         const refreshResponse = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
@@ -83,11 +117,11 @@ export const fetchWithAuth = async (
         );
 
         if (!refreshResponse.ok) {
-            console.error("Fallo al renovar token. Redirigiendo a login...");
+            console.error("Fallo al renovar token. Sesión expirada.");
             localStorage.removeItem("user");
             localStorage.removeItem("token");
-            router.push("/login");
-            return response;
+            localStorage.removeItem("csrf_token");
+            throw new Error("SessionExpired");
         }
 
         // Reintento una sola vez con retry=true

@@ -38,9 +38,13 @@ export const useAuthStore = create<AuthState>()(
                 try {
                     const response = await authService.login(credentials);
                     const user = response.user;
+                    const csrfToken = response.csrf_token;
 
                     // Actualizar localStorage y estado
                     localStorage.setItem("user", JSON.stringify(user));
+                    if (csrfToken) {
+                        localStorage.setItem("csrf_token", csrfToken);
+                    }
                     set({
                         user,
                         isAuthenticated: true,
@@ -109,6 +113,7 @@ export const useAuthStore = create<AuthState>()(
                 // Limpiar estado local siempre
                 localStorage.removeItem("user");
                 localStorage.removeItem("token");
+                localStorage.removeItem("csrf_token");
 
                 set({
                     user: null,
