@@ -13,12 +13,14 @@
 
 import React from "react";
 import DeleteAccountModal from "@/components/user/DeleteAccountModal";
+import AuthRequiredModal from "@/components/auth/AuthRequiredModal";
 
 const UiGlobalLayer: React.FC = () => {
     return (
         <>
             {/* Modales globales controlados por Zustand */}
             <DeleteAccountModal />
+            <AuthRequiredModal />
 
             {/* Aquí pueden añadirse más elementos globales en el futuro */}
         </>

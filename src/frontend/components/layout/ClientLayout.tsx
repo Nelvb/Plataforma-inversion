@@ -80,8 +80,8 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
       {children}
       {!hideLayout && <Footer />}
 
-      {/* Capa UI global (usuarios autenticados) */}
-      {isAuthenticated && <UiGlobalLayer />}
+      {/* Capa UI global (todos los usuarios) */}
+      <UiGlobalLayer />
 
       {/* RGPD — Cookies visibles solo fuera del panel admin */}
       {!hideLayout && (

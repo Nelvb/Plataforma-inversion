@@ -14,10 +14,16 @@ interface UiState {
     showDeleteModal: boolean;
     openDeleteModal: () => void;
     closeDeleteModal: () => void;
+    showAuthModal: boolean;
+    openAuthModal: () => void;
+    closeAuthModal: () => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
     showDeleteModal: false,
     openDeleteModal: () => set({ showDeleteModal: true }),
     closeDeleteModal: () => set({ showDeleteModal: false }),
+    showAuthModal: false,
+    openAuthModal: () => set({ showAuthModal: true }),
+    closeAuthModal: () => set({ showAuthModal: false }),
 }));

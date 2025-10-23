@@ -21,6 +21,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 import { Project } from '@/types/project'
 import {
   MapPin,
@@ -35,9 +36,10 @@ import {
 
 interface ProjectCardProps {
   project: Project
+  onLoginRequired?: () => void
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onLoginRequired }) => {
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#6290C3]/30 group">
       {/* Imagen del proyecto */}
@@ -96,6 +98,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 "Ubicación no especificada"}
             </span>
           </div>
+        </div>
+
+        {/* Botón de favorito */}
+        <div className="absolute bottom-4 right-4 z-10">
+          <FavoriteButton
+            project={project}
+            size="md"
+            onLoginRequired={onLoginRequired}
+          />
         </div>
       </div>
 
