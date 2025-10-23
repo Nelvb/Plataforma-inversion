@@ -241,8 +241,9 @@ def contact():
 
     result = send_email_with_limit(
         subject=f"[Boost A Project] Contacto: {subject}",
-        recipients=[current_app.config.get("MAIL_DEFAULT_RECEIVER") or "bapboostaproject@gmail.com"],
-        body=full_message
+        recipients=[current_app.config.get("MAIL_DEFAULT_RECEIVER") or "info@boostaproject.es"],
+        body=full_message,
+        reply_to=email
     )
 
     if result.get("success"):

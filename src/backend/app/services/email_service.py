@@ -14,12 +14,12 @@ class EmailService:
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
         return bool(re.match(pattern, email))
 
-    def send_email(self, subject: str, recipients: list[str], body: str, html: str = None) -> dict:
+    def send_email(self, subject: str, recipients: list[str], body: str, html: str = None, reply_to: str = None) -> dict:
         if not recipients or not all(self.validate_email(r) for r in recipients):
             return {"success": False, "error": "Email(s) inválido(s)."}
 
         try:
-            msg = Message(subject=subject, recipients=recipients, body=body, html=html, sender=self.default_sender)
+            msg = Message(subject=subject, recipients=recipients, body=body, html=html, sender=self.default_sender, reply_to=reply_to)
             mail.send(msg)
             return {"success": True, "message": "Correo enviado correctamente."}
 
@@ -29,10 +29,10 @@ class EmailService:
 
 # NO crear instancia global aquí
 
-def send_email_with_limit(subject: str, recipients: list[str], body: str, html: str = None):
+def send_email_with_limit(subject: str, recipients: list[str], body: str, html: str = None, reply_to: str = None):
     """
     Crea una instancia del servicio dentro del contexto válido.
     Se puede extender para añadir límites por IP/email/etc.
     """
     service = EmailService()
-    return service.send_email(subject, recipients, body, html)
+    return service.send_email(subject, recipients, body, html, reply_to)
