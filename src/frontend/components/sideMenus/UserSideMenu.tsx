@@ -52,7 +52,7 @@ const UserSideMenu: React.FC<UserSideMenuProps> = ({ isOpen, onClose }) => {
                             { href: "/proyectos", label: "Proyectos" },
                             { href: "/blog", label: "Blog" },
                             { href: "/#faq", label: "Preguntas frecuentes" },
-                            { href: "/contacto", label: "Contacto" },
+                            { href: "/contact", label: "Contacto" },
                         ].map(({ href, label }) => (
                             <li key={href}>
                                 <Link
