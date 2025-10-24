@@ -51,7 +51,7 @@ const UserSideMenu: React.FC<UserSideMenuProps> = ({ isOpen, onClose }) => {
                             { href: "/", label: "Inicio" },
                             { href: "/proyectos", label: "Proyectos" },
                             { href: "/blog", label: "Blog" },
-                            { href: "/faq", label: "Preguntas frecuentes" },
+                            { href: "/#faq", label: "Preguntas frecuentes" },
                             { href: "/contacto", label: "Contacto" },
                         ].map(({ href, label }) => (
                             <li key={href}>
@@ -104,18 +104,6 @@ const UserSideMenu: React.FC<UserSideMenuProps> = ({ isOpen, onClose }) => {
 
                 {/* Botones inferiores */}
                 <div className="p-4 border-t border-[#C2E7DA] space-y-3">
-                    <Button
-                        variant="danger"
-                        size="md"
-                        className="w-full"
-                        onClick={() => {
-                            openDeleteModal();
-                            onClose();
-                        }}
-                    >
-                        Eliminar cuenta
-                    </Button>
-
                     <Button
                         variant="outline"
                         size="md"

@@ -30,14 +30,24 @@ export default function SignupPage() {
         </div>
 
         {/* Columna derecha */}
-        <div className="flex flex-col justify-center items-center p-8">
+        <div className="flex flex-col justify-center items-center p-8 bg-[#6290C3] md:bg-white">
+          {/* Header móvil */}
+          <div className="md:hidden text-center mb-6">
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Crea tu cuenta
+            </h2>
+            <p className="text-sm text-white">
+              Empieza a invertir en proyectos inmobiliarios seleccionados con transparencia, datos reales y acompañamiento profesional.
+            </p>
+          </div>
+          
           <SignupForm />
           <div className="text-center mt-6">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white md:text-gray-700">
               ¿Ya tienes cuenta?{" "}
               <Link
                 href="/login"
-                className="font-medium text-[#1DA1F2] hover:underline"
+                className="font-medium text-[#C2E7DA] md:text-[#1DA1F2] hover:underline"
               >
                 Inicia sesión
               </Link>

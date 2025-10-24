@@ -6,6 +6,7 @@
  */
 
 import type { Metadata } from "next";
+import Link from "next/link";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
 
 export const metadata: Metadata = {
@@ -35,8 +36,31 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 {/* Columna derecha */}
-                <div className="flex flex-col justify-center items-center p-8">
+                <div className="flex flex-col justify-center items-center p-8 bg-[#6290C3] md:bg-white">
+                    {/* Header móvil */}
+                    <div className="md:hidden text-center mb-6">
+                        <h2 className="text-2xl font-bold text-white mb-2">
+                            ¿No puedes acceder a tu cuenta?
+                        </h2>
+                        <p className="text-sm text-white">
+                            Introduce tu correo y te enviaremos un enlace para restablecer tu contraseña de forma segura.
+                        </p>
+                    </div>
+                    
                     <ForgotPasswordForm />
+                    
+                    {/* Enlace volver a login */}
+                    <div className="text-center mt-6">
+                        <p className="text-sm text-white md:text-gray-700">
+                            ¿Ya te has acordado?{" "}
+                            <Link
+                                href="/login"
+                                className="font-medium text-[#C2E7DA] md:text-[#1DA1F2] hover:underline"
+                            >
+                                Vuelve a login
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>

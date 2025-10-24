@@ -68,8 +68,36 @@ const ProfileView: React.FC<ProfileViewProps> = ({
                 </div>
 
                 {/* Columna derecha (formulario) */}
-                <div className="flex flex-col justify-center items-center p-8">
+                <div className="flex flex-col justify-center items-center p-8 bg-[#6290C3] md:bg-white">
+                    {/* Header móvil */}
+                    <div className="md:hidden text-center mb-6">
+                        {badge && (
+                            <span className="inline-block bg-[#C2E7DA] text-[#1A1341] text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-4">
+                                {badge}
+                            </span>
+                        )}
+                        <h2 className="text-2xl font-bold text-white mb-2">
+                            {title}
+                        </h2>
+                        <p className="text-sm text-white">
+                            {subtitle}
+                        </p>
+                    </div>
+                    
                     <ProfileForm showEmail={showEmail} editableEmail={!isAdmin} />
+                    
+                    {/* Enlace volver atrás */}
+                    <div className="text-center mt-6">
+                        <p className="text-sm text-white md:text-gray-700">
+                            ¿No quieres realizar ningún cambio?{" "}
+                            <button
+                                onClick={() => window.history.back()}
+                                className="font-medium text-[#C2E7DA] md:text-[#1DA1F2] hover:underline"
+                            >
+                                Volver atrás
+                            </button>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>

@@ -36,14 +36,24 @@ export default function LoginPage() {
         </div>
 
         {/* Columna derecha */}
-        <div className="flex flex-col justify-center items-center p-8">
+        <div className="flex flex-col justify-center items-center p-8 bg-[#6290C3] md:bg-white">
+          {/* Header móvil */}
+          <div className="md:hidden text-center mb-6">
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Bienvenido de nuevo
+            </h2>
+            <p className="text-sm text-white">
+              Inicia sesión para acceder a tus proyectos, ver tus inversiones y gestionar tu cuenta
+            </p>
+          </div>
+          
           <LoginForm />
 
           {/* Enlace para recuperación de contraseña */}
           <div className="text-center mt-4">
             <Link
               href="/recuperar-contrasena"
-              className="text-sm text-[#1DA1F2] hover:underline"
+              className="text-sm text-[#C2E7DA] md:text-[#1DA1F2] hover:underline"
             >
               ¿Has olvidado tu contraseña?
             </Link>
@@ -51,11 +61,11 @@ export default function LoginPage() {
 
           {/* Enlace para registro */}
           <div className="text-center mt-6">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white md:text-gray-700">
               ¿No tienes cuenta?{" "}
               <Link
                 href="/signup"
-                className="font-medium text-[#1DA1F2] hover:underline"
+                className="font-medium text-[#C2E7DA] md:text-[#1DA1F2] hover:underline"
               >
                 Regístrate aquí
               </Link>

@@ -41,7 +41,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose }) => {
               { href: "/", label: "Inicio" },
               { href: "/proyectos", label: "Proyectos" },
               { href: "/blog", label: "Blog" },
-              { href: "/faq", label: "Preguntas frecuentes" },
+              { href: "/#faq", label: "Preguntas frecuentes" },
               { href: "/contacto", label: "Contacto" },
             ].map(({ href, label }) => (
               <li key={href}>

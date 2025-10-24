@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
     { href: "/", label: "Inicio" },
     { href: "/proyectos", label: "Proyectos" },
     { href: "/blog", label: "Blog" },
-    { href: "/#faq", label: "FAQ" },
+    { href: "/#faq", label: "Preguntas frecuentes" },
     { href: "/contact", label: "Contacto" },
   ];
 

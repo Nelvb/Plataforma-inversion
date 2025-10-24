@@ -29,7 +29,7 @@ interface AccountAccessProps {
 const AccountAccess: React.FC<AccountAccessProps> = ({ className = "" }) => {
     return (
         <section 
-            className={`w-full bg-gradient-to-b from-[#F5F8FF] to-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}
+            className={`w-full bg-gradient-to-b from-white via-[#F0F8FF] to-[#C8D8F0] py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}
             aria-label="Acceso a gestión de cuenta"
         >
             <div className="max-w-screen-2xl mx-auto">

@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useUiStore } from "@/stores/useUiStore";
 import { userService } from "@/lib/api/userService";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -193,6 +194,21 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                     className="w-full"
                 >
                     {isSubmitting ? "Guardando..." : "Guardar cambios"}
+                </Button>
+            </div>
+
+            {/* Botón eliminar cuenta */}
+            <div className="pt-4 border-t border-gray-200 mt-6">
+                <Button
+                    type="button"
+                    variant="danger"
+                    className="w-full"
+                    onClick={() => {
+                        const { openDeleteModal } = useUiStore.getState();
+                        openDeleteModal();
+                    }}
+                >
+                    Eliminar cuenta
                 </Button>
             </div>
         </form>

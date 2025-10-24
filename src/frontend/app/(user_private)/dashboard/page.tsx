@@ -70,11 +70,11 @@ const DashboardPage: React.FC = () => {
 
       {/* Secciones con ancho completo - salen del contenedor */}
       <div className="relative z-10">
-        {/* Sección de favoritos */}
-        <FavoritesSection />
-
         {/* Simulador de inversiones */}
         <InvestmentSimulator />
+
+        {/* Sección de favoritos */}
+        <FavoritesSection />
 
         {/* Acceso a cuenta */}
         <AccountAccess />

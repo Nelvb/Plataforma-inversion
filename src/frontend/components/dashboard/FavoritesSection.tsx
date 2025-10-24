@@ -38,7 +38,7 @@ const FavoritesSection: React.FC<FavoritesSectionProps> = ({
     // Si no hay favoritos, mostrar estado vacío
     if (favorites.length === 0) {
         return (
-            <section className={`w-full bg-gradient-to-b from-[#F5F8FF] to-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}>
+            <section className={`w-full bg-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}>
                 <div className="max-w-screen-2xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold text-[#1A1341] mb-4">
@@ -73,7 +73,7 @@ const FavoritesSection: React.FC<FavoritesSectionProps> = ({
 
     // Si hay favoritos, mostrar grid
     return (
-        <section className={`w-full bg-gradient-to-b from-[#F5F8FF] to-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}>
+        <section className={`w-full bg-white py-20 px-4 sm:px-6 lg:px-24 border-t border-[#6290C3]/20 ${className}`}>
             <div className="max-w-screen-2xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
