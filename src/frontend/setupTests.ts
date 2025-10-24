@@ -6,6 +6,7 @@ import { mockedArticles } from '@/__mocks__/mockedArticles';
 
 // Mock localStorage
 const localStorageMock = {
+  storage: {} as Record<string, string>,
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
