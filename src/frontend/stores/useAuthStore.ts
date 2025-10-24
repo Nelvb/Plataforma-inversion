@@ -9,12 +9,14 @@
  * - Manejo de errores robusto
  * - Sincronización entre pestañas
  * - Compatible con fetchWithAuth y cookies HttpOnly
+ * - Sincronización automática de favoritos al login/logout
  */
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { authService } from "@/lib/api/authService";
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
+import { useFavoritesStore } from "./useFavoritesStore"; // ✅ AÑADIR
 import type {
     User,
     LoginCredentials,
@@ -52,6 +54,15 @@ export const useAuthStore = create<AuthState>()(
                         error: null
                     });
 
+                    // ✅ SINCRONIZAR FAVORITOS DEL BACKEND
+                    try {
+                        const { fetchFavorites } = useFavoritesStore.getState();
+                        await fetchFavorites();
+                    } catch (error) {
+                        console.error("Error al cargar favoritos:", error);
+                        // No fallar el login por esto
+                    }
+
                     return user;
                 } catch (error) {
                     const errorMessage = error instanceof Error
@@ -83,6 +94,8 @@ export const useAuthStore = create<AuthState>()(
                         password: data.password
                     });
 
+                    // ✅ fetchFavorites() ya se llama dentro de login()
+
                     return user;
                 } catch (error) {
                     const errorMessage = error instanceof Error
@@ -109,6 +122,10 @@ export const useAuthStore = create<AuthState>()(
                     // Log del error pero no fallar el logout local
                     console.error("Error en logout del backend:", error);
                 }
+
+                // ✅ LIMPIAR FAVORITOS
+                const { clearFavorites } = useFavoritesStore.getState();
+                clearFavorites();
 
                 // Limpiar estado local siempre
                 localStorage.removeItem("user");
@@ -144,6 +161,14 @@ export const useAuthStore = create<AuthState>()(
                         isAuthenticated: true,
                         error: null
                     });
+
+                    // ✅ SINCRONIZAR FAVORITOS AL REFRESCAR
+                    try {
+                        const { fetchFavorites } = useFavoritesStore.getState();
+                        await fetchFavorites();
+                    } catch (error) {
+                        console.error("Error al cargar favoritos:", error);
+                    }
                 } catch (error) {
                     console.error("Error al refrescar usuario:", error);
 
