@@ -61,7 +61,7 @@ export const fetchWithAuth = async (
     // Primero intentar desde localStorage, luego desde cookies
     let csrfToken = localStorage.getItem("csrf_token");
     if (!csrfToken) {
-        csrfToken = getCookie("csrf_access_token");
+        csrfToken = getCSRFToken(url);
     }
     
     if (!csrfToken && needsCSRF) {
@@ -98,10 +98,10 @@ export const fetchWithAuth = async (
 
         console.warn("Token expirado. Intentando renovar...");
 
-        // Obtener CSRF token para refresh (mismo token que para acceso)
+        // Obtener CSRF token para refresh
         let refreshCSRF = localStorage.getItem("csrf_token");
         if (!refreshCSRF) {
-            refreshCSRF = getCSRFToken("/auth/refresh");
+            refreshCSRF = getCSRFToken(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`);
         }
 
         const refreshResponse = await fetch(
@@ -121,6 +121,11 @@ export const fetchWithAuth = async (
             localStorage.removeItem("user");
             localStorage.removeItem("token");
             localStorage.removeItem("csrf_token");
+            
+            // Redirigir a login
+            const router = require("next/router").default;
+            router.push("/login");
+            
             throw new Error("SessionExpired");
         }
 

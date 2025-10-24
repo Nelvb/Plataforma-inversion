@@ -86,11 +86,15 @@ describe("fetchWithAuth", () => {
     });
 
     it("redirige a login si refresh falla", async () => {
-        // Mock localStorage
+        // Mock localStorage completo
         const mockRemoveItem = jest.fn();
+        const mockGetItem = jest.fn().mockReturnValue(null);
         Object.defineProperty(window, 'localStorage', {
             value: {
+                getItem: mockGetItem,
+                setItem: jest.fn(),
                 removeItem: mockRemoveItem,
+                clear: jest.fn(),
             },
             writable: true
         });
@@ -99,7 +103,12 @@ describe("fetchWithAuth", () => {
             .mockResolvedValueOnce({ status: 401 }) // original falla
             .mockResolvedValueOnce({ ok: false }); // refresh falla
 
-        await fetchWithAuth("/api/protegido", { method: "POST" });
+        try {
+            await fetchWithAuth("/api/protegido", { method: "POST" });
+        } catch (error) {
+            // Se espera que lance SessionExpired
+            expect(error.message).toBe("SessionExpired");
+        }
 
         expect(mockPush).toHaveBeenCalledWith("/login");
         expect(mockRemoveItem).toHaveBeenCalledWith("user");
@@ -107,6 +116,17 @@ describe("fetchWithAuth", () => {
     });
 
     it("no reintenta si ya se reintentó antes", async () => {
+        // Mock localStorage completo
+        Object.defineProperty(window, 'localStorage', {
+            value: {
+                getItem: jest.fn().mockReturnValue(null),
+                setItem: jest.fn(),
+                removeItem: jest.fn(),
+                clear: jest.fn(),
+            },
+            writable: true
+        });
+
         (fetch as jest.Mock).mockResolvedValueOnce({ status: 401 });
 
         const response = await fetchWithAuth("/api/test", {
@@ -119,6 +139,17 @@ describe("fetchWithAuth", () => {
     });
 
     it("usa csrf_refresh_token para rutas de refresh", async () => {
+        // Mock localStorage completo
+        Object.defineProperty(window, 'localStorage', {
+            value: {
+                getItem: jest.fn().mockReturnValue(null),
+                setItem: jest.fn(),
+                removeItem: jest.fn(),
+                clear: jest.fn(),
+            },
+            writable: true
+        });
+
         (fetch as jest.Mock).mockResolvedValue({ status: 200 });
 
         await fetchWithAuth("http://localhost:5000/auth/refresh", { method: "POST" });

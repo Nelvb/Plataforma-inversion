@@ -15,10 +15,20 @@ import { mockLogout, useAuthStore } from "@/__mocks__/useAuthStore";
 // Mocks de Zustand
 jest.mock("@/stores/useAuthStore", () => require("@/__mocks__/useAuthStore"));
 
-// Mocks de componentes relacionados
-jest.mock("@/components/layout/NavbarLinks", () => () => (
-    <div data-testid="mock-navbar-links">NavbarLinks</div>
-));
+// Mocks de Next.js navigation
+jest.mock("next/navigation", () => ({
+    usePathname: jest.fn(() => "/"),
+    useRouter: jest.fn(() => ({
+        push: jest.fn(),
+        replace: jest.fn(),
+        back: jest.fn(),
+        forward: jest.fn(),
+        refresh: jest.fn(),
+        prefetch: jest.fn(),
+    })),
+}));
+
+// NavbarLinks ya no se usa - los enlaces se renderizan directamente en Navbar
 
 jest.mock("@/components/sideMenus/SideMenu", () => ({
     __esModule: true,
@@ -36,6 +46,12 @@ jest.mock("@/components/sideMenus/AdminSideMenu", () => ({
     __esModule: true,
     default: ({ isOpen }: { isOpen: boolean }) =>
         isOpen ? <div data-testid="side-menu-admin">Menú admin abierto</div> : null,
+}));
+
+// Mock UserAvatarMenu para evitar errores de charAt
+jest.mock("@/components/ui/UserAvatarMenu", () => ({
+    __esModule: true,
+    default: () => <div data-testid="user-avatar-menu">UserAvatarMenu</div>,
 }));
 
 describe("Navbar", () => {
@@ -57,7 +73,10 @@ describe("Navbar", () => {
         render(<Navbar />);
         expect(screen.getByAltText(/boost a project logo/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/abrir menú/i)).toBeInTheDocument();
-        expect(screen.getByTestId("mock-navbar-links")).toBeInTheDocument();
+        // Verificar que los enlaces principales están presentes
+        expect(screen.getByText(/inicio/i)).toBeInTheDocument();
+        expect(screen.getByText(/proyectos/i)).toBeInTheDocument();
+        expect(screen.getByText(/blog/i)).toBeInTheDocument();
 
         fireEvent.click(screen.getByLabelText(/abrir menú/i));
         expect(screen.getByTestId("side-menu-publico")).toBeInTheDocument();
@@ -70,7 +89,8 @@ describe("Navbar", () => {
             error: null,
             user: {
                 id: "123",
-                name: "Usuario",
+                username: "Usuario",
+                last_name: "Test",
                 email: "user@test.com",
                 is_admin: false,
             },
@@ -91,7 +111,8 @@ describe("Navbar", () => {
             error: null,
             user: {
                 id: "admin",
-                name: "Admin",
+                username: "Admin",
+                last_name: "User",
                 email: "admin@test.com",
                 is_admin: true,
             },

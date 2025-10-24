@@ -65,7 +65,7 @@ describe("SideMenuAuthSection", () => {
 
         render(<SideMenuAuthSection onClose={onCloseMock} />);
 
-        expect(screen.getByText(/iniciar sesión/i)).toBeInTheDocument();
+        expect(screen.getByText(/acceder/i)).toBeInTheDocument();
         expect(screen.getByText(/registrarse/i)).toBeInTheDocument();
     });
 });

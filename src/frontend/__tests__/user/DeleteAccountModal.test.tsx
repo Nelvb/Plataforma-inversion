@@ -307,7 +307,7 @@ describe("DeleteAccountModal", () => {
             const { container } = render(<DeleteAccountModal />);
             
             const overlay = container.querySelector('.fixed.inset-0');
-            expect(overlay).toHaveClass('z-50');
+            expect(overlay).toHaveClass('z-[100]');
         });
     });
 });

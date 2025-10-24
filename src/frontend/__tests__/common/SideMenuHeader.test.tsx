@@ -26,7 +26,7 @@ describe("SideMenuHeader", () => {
         render(<SideMenuHeader onClose={jest.fn()} />);
 
         expect(
-            screen.getByAltText(/boost a project/i)
+            screen.getByText(/boost a project/i)
         ).toBeInTheDocument();
         expect(screen.getByText(/hola nelson/i)).toBeInTheDocument();
     });

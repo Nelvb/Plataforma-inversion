@@ -39,7 +39,7 @@ describe("LoginForm", () => {
 
         expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/contraseña/i)).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /iniciar sesión/i })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /acceder/i })).toBeInTheDocument();
 
         // Verificar placeholders profesionales
         expect(screen.getByPlaceholderText("tu@email.com")).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe("LoginForm", () => {
         expect(passwordInput).toHaveAttribute("type", "password");
 
         // Buscar el elemento de toggle por clase CSS
-        const container = screen.getByRole("heading", { name: /iniciar sesión/i }).closest("form");
+        const container = screen.getByRole("heading", { name: /acceder/i }).closest("form");
         const toggleElement = container!.querySelector('.absolute.right-3.cursor-pointer');
         fireEvent.click(toggleElement!);
 
@@ -79,7 +79,7 @@ describe("LoginForm", () => {
             target: { value: "MyPassword123!" },
         });
 
-        fireEvent.click(screen.getByRole("button", { name: /iniciar sesión/i }));
+        fireEvent.click(screen.getByRole("button", { name: /acceder/i }));
 
         await waitFor(() => {
             expect(mockLogin).toHaveBeenCalledWith({
@@ -128,7 +128,7 @@ describe("LoginForm", () => {
 
         render(<LoginForm />);
 
-        const button = screen.getByRole("button", { name: /iniciar sesión/i });
+        const button = screen.getByRole("button", { name: /acceder/i });
         expect(button).not.toBeDisabled();
         expect(screen.queryByTestId("spinner")).not.toBeInTheDocument();
     });
@@ -136,6 +136,6 @@ describe("LoginForm", () => {
     it("tiene el título correcto", () => {
         render(<LoginForm />);
 
-        expect(screen.getByRole("heading", { name: /iniciar sesión/i })).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: /acceder/i })).toBeInTheDocument();
     });
 });

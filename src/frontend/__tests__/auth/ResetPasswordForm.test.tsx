@@ -173,10 +173,10 @@ describe("ResetPasswordForm", () => {
             await expectSuccessMessage();
             
             // Verificar botón de navegación
-            expect(screen.getByRole("button", { name: /iniciar sesión/i })).toBeInTheDocument();
+            expect(screen.getByRole("button", { name: /acceder/i })).toBeInTheDocument();
         });
 
-        it("debe navegar a login cuando se hace click en 'Iniciar sesión'", async () => {
+        it("debe navegar a login cuando se hace click en 'Acceder'", async () => {
             render(<ResetPasswordForm />);
             fillPasswordFields(VALID_PASSWORD, VALID_PASSWORD);
             submitForm();
@@ -184,7 +184,7 @@ describe("ResetPasswordForm", () => {
             await expectSuccessMessage();
 
             // Click en botón de navegación
-            fireEvent.click(screen.getByRole("button", { name: /iniciar sesión/i }));
+            fireEvent.click(screen.getByRole("button", { name: /acceder/i }));
             
             expect(mockPush).toHaveBeenCalledWith("/login");
         });

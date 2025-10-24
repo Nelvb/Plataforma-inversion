@@ -12,6 +12,29 @@ import ImageUpload from '@/components/ui/ImageUpload';
 // Mock global para evitar error con JSDOM
 global.URL.createObjectURL = jest.fn(() => 'blob:http://localhost/fake-preview');
 
+// Mock localStorage para CSRF token
+Object.defineProperty(window, 'localStorage', {
+    value: {
+        getItem: jest.fn().mockReturnValue('mock-csrf-token'),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+        clear: jest.fn(),
+    },
+    writable: true
+});
+
+// Mock fetchWithAuth
+jest.mock('@/lib/utils/fetchWithAuth', () => ({
+    fetchWithAuth: jest.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ 
+            image: { 
+                url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg' 
+            } 
+        })
+    })
+}));
+
 describe('ImageUpload (con fetch simulado)', () => {
     it('permite seleccionar una imagen y subirla correctamente', async () => {
         const mockOnImageUpload = jest.fn();

@@ -22,9 +22,9 @@ describe("DashboardHeader", () => {
         render(<DashboardHeader />);
 
         expect(screen.getByText(/boost a project/i)).toBeInTheDocument();
-        expect(screen.getByText(/área privada de nelson/i)).toBeInTheDocument();
+        expect(screen.getByText(/bienvenido a tu área privada/i)).toBeInTheDocument();
         expect(
-            screen.getByText(/resumen de tu actividad como inversor/i)
+            screen.getByText(/como usuario registrado, puedes acceder a toda la información de los proyectos, guardar tus favoritos y simular tus inversiones/i)
         ).toBeInTheDocument();
     });
 

@@ -88,7 +88,7 @@ describe("NavbarLinks (usuario no autenticado)", () => {
         usePathname.mockReturnValue("/");
 
         render(<NavbarLinks />);
-        expect(screen.getByText(/iniciar sesión/i)).toBeInTheDocument();
+        expect(screen.getByText(/acceder/i)).toBeInTheDocument();
         expect(screen.getByText(/registrarse/i)).toBeInTheDocument();
     });
 
@@ -105,6 +105,6 @@ describe("NavbarLinks (usuario no autenticado)", () => {
 
         render(<NavbarLinks />);
         expect(screen.getByText(/inicio/i)).toBeInTheDocument();
-        expect(screen.getByText(/iniciar sesión/i)).toBeInTheDocument();
+        expect(screen.getByText(/acceder/i)).toBeInTheDocument();
     });
 });

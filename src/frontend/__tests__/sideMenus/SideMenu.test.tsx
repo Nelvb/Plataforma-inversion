@@ -18,11 +18,7 @@ jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: any) => (
     </div>
 ));
 
-jest.mock("@/components/common/MainMenuLinks", () => ({ onClickLink }: any) => (
-    <div data-testid="mock-main-menu-links" onClick={onClickLink}>
-        Enlaces públicos
-    </div>
-));
+// MainMenuLinks ya no se usa - los enlaces se renderizan directamente
 
 jest.mock("@/components/sideMenus/SideMenuAuthSection", () => ({ onClose }: any) => (
     <div data-testid="mock-auth-section" onClick={onClose}>
@@ -44,7 +40,12 @@ describe("SideMenu", () => {
         render(<SideMenu isOpen={true} onClose={jest.fn()} />);
 
         expect(screen.getByTestId("mock-side-menu-header")).toBeInTheDocument();
-        expect(screen.getByTestId("mock-main-menu-links")).toBeInTheDocument();
+        // Verificar que los enlaces principales están presentes
+        expect(screen.getByText(/inicio/i)).toBeInTheDocument();
+        expect(screen.getByText(/proyectos/i)).toBeInTheDocument();
+        expect(screen.getByText(/blog/i)).toBeInTheDocument();
+        expect(screen.getByText(/preguntas frecuentes/i)).toBeInTheDocument();
+        expect(screen.getByText(/contacto/i)).toBeInTheDocument();
         expect(screen.getByTestId("mock-auth-section")).toBeInTheDocument();
     });
 });
