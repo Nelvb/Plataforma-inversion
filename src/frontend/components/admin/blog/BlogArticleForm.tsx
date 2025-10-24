@@ -21,16 +21,11 @@ import ImageUpload from '@/components/ui/ImageUpload'
 import EditorContentArticle from '@/components/admin/ui/blog/EditorContentArticle'
 import ArticlesSelector from '@/components/admin/ui/blog/ArticlesSelector'
 import ArticlePreview from '@/components/admin/ui/blog/ArticlePreview'
+import type { ArticleFormData } from '@/types/blog'
 
 interface BlogArticleFormProps {
-  onSubmit: (articleData: any) => void
-  initialData?: {
-    title: string
-    excerpt: string
-    content: string
-    image: string
-    related: string[]
-  }
+  onSubmit: (articleData: ArticleFormData) => void
+  initialData?: Partial<ArticleFormData>
 }
 
 const BlogArticleForm: React.FC<BlogArticleFormProps> = ({ onSubmit, initialData }) => {
@@ -60,7 +55,7 @@ const BlogArticleForm: React.FC<BlogArticleFormProps> = ({ onSubmit, initialData
       return
     }
 
-    const articleData = {
+    const articleData: ArticleFormData = {
       title,
       excerpt,
       content,

@@ -11,7 +11,7 @@
  */
 
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
-import { Article } from '@/types';
+import { Article, ArticleUpdateData } from '@/types/blog';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
@@ -155,7 +155,7 @@ export async function getArticleTitles(): Promise<ArticleListItem[]> {
 
     // Verificar que data.articles sea un array
     if (Array.isArray(data.articles)) {
-      return data.articles.map((a: any) => ({
+      return data.articles.map((a: Article) => ({
         title: a.title,
         slug: a.slug
       }));
@@ -183,7 +183,7 @@ export async function getStaticArticles(): Promise<ArticleListItem[]> {
     }
 
     const data = await response.json();
-    return data.map((a: any) => ({
+    return data.map((a: Article) => ({
       title: a.title,
       slug: a.slug
     }));
@@ -222,7 +222,7 @@ export async function deleteArticleBySlug(slug: string): Promise<void> {
  * @param articleData - Objeto con los campos a actualizar (título, contenido, imagen, etc.)
  * @throws Error si la petición falla o el backend devuelve un mensaje de error
  */
-export async function updateArticleBySlug(slug: string, articleData: any): Promise<void> {
+export async function updateArticleBySlug(slug: string, articleData: ArticleUpdateData): Promise<void> {
   const response = await fetchWithAuth(`${API_URL}/articles/slug/${slug}`, {
     method: 'PUT',
     headers: {
@@ -246,7 +246,7 @@ export async function updateArticleBySlug(slug: string, articleData: any): Promi
  * @param articleData - Objeto con los campos del nuevo artículo (título, contenido, imagen, etc.)
  * @throws Error si la petición falla o el backend devuelve un mensaje de error
  */
-export async function createArticle(articleData: any): Promise<void> {
+export async function createArticle(articleData: Record<string, unknown>): Promise<void> {
 
   const response = await fetchWithAuth(`${API_URL}/articles/`, {
     method: 'POST',

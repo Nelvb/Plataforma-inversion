@@ -93,8 +93,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             await refreshUser();
             setSuccessMessage("Perfil actualizado correctamente.");
             setCurrentPassword("");
-        } catch (err: any) {
-            setErrors({ global: err.message || "Error al guardar los cambios" });
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : "Error al guardar los cambios";
+            setErrors({ global: errorMessage });
         } finally {
             setIsSubmitting(false);
         }

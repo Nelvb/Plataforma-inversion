@@ -13,7 +13,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SideMenuHeader from "@/components/common/SideMenuHeader";
 import SideMenuAuthSection from "@/components/sideMenus/SideMenuAuthSection";
-import MainMenuLinks from "@/components/common/MainMenuLinks";
 
 interface SideMenuProps {
   isOpen: boolean;

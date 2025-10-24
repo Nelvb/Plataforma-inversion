@@ -12,7 +12,7 @@ import React from "react";
 import { render, screen } from "@/__tests__/utils/test-utils";
 import SideMenu from "@/components/sideMenus/SideMenu";
 
-jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: any) => (
+jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: { onClose: () => void }) => (
     <div data-testid="mock-side-menu-header" onClick={onClose}>
         Header Público
     </div>
@@ -20,7 +20,7 @@ jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: any) => (
 
 // MainMenuLinks ya no se usa - los enlaces se renderizan directamente
 
-jest.mock("@/components/sideMenus/SideMenuAuthSection", () => ({ onClose }: any) => (
+jest.mock("@/components/sideMenus/SideMenuAuthSection", () => ({ onClose }: { onClose: () => void }) => (
     <div data-testid="mock-auth-section" onClick={onClose}>
         Botones autenticación
     </div>

@@ -25,7 +25,7 @@ import dynamic from "next/dynamic";
 
 /* ---------------------------------------------
    RGPD — Importación dinámica solo cliente
-   (soluciona error “Element type is invalid”)
+   (soluciona error "Element type is invalid")
 ---------------------------------------------- */
 const CookieBanner = dynamic(
   () => import("@/components/cookies/CookieBanner").then((m) => m.default),
@@ -41,6 +41,15 @@ const CookieToggle = dynamic(
   () => import("@/components/cookies/CookieToggle").then((m) => m.default),
   { ssr: false }
 );
+
+/* ---------------------------------------------
+   Declaración de tipo para window.pageLoaderActive
+---------------------------------------------- */
+declare global {
+  interface Window {
+    pageLoaderActive?: boolean;
+  }
+}
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -58,7 +67,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     pathname.startsWith("/admin") && !isStrictlyAdminHomeOrProfile;
 
   useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).pageLoaderActive) {
+    if (typeof window !== "undefined" && window.pageLoaderActive) {
       const handleLoaderComplete = () => setShowContent(true);
       window.addEventListener("pageLoaderComplete", handleLoaderComplete);
       return () =>

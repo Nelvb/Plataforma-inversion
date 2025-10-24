@@ -18,17 +18,16 @@ import BlogHeader from '@/components/blog/BlogHeader';
 import BlogArticleCard from '@/components/blog/BlogArticleCard';
 import LoadingState from '@/components/ui/LoadingState';
 import { getArticles } from '@/lib/blogService';
-import { Article } from '@/types';
 
 // SWR fetcher function optimizado para cache automático
-const fetcher = (url: string) => {
+const fetcher = function fetcher(url: string) {
   const urlObj = new URL(url, 'http://localhost');
   const page = parseInt(urlObj.searchParams.get('page') || '1');
   const limit = parseInt(urlObj.searchParams.get('limit') || '12');
   return getArticles({ page, limit });
 };
 
-const BlogPage: React.FC = React.memo(() => {
+const BlogPage: React.FC = () => {
   const [page, setPage] = useState(1);
 
   // SWR para cache inteligente y revalidación automática
@@ -98,7 +97,7 @@ const BlogPage: React.FC = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default BlogPage;
+export default React.memo(BlogPage);

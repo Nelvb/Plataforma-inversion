@@ -58,13 +58,13 @@ const AvisoLegalPage = () => {
                         <p><strong>Sitio web:</strong> info@boostaproject.com</p>
                         <p><strong>Inscripción registral:</strong> Inscrita en el Registro Mercantil de Madrid, Tomo 41857, Folio 10, Sección 8, Hoja M-741459</p>
                     </div>
-                    <p>En adelante, se denominará "el Titular" o "el Prestador".</p>
+                    <p>En adelante, se denominará &quot;el Titular&quot; o &quot;el Prestador&quot;.</p>
 
                     <h2>2. OBJETO Y ÁMBITO DE APLICACIÓN</h2>
                     
                     <h3>2.1. Objeto</h3>
                     <p>
-                        El presente Aviso Legal regula el acceso, navegación y utilización del sitio web Boost A Project (en adelante, "el Sitio Web"), sin perjuicio de que el Titular se reserve el derecho a modificar la presentación, configuración y contenido del mismo, así como las condiciones requeridas para su acceso o utilización.
+                        El presente Aviso Legal regula el acceso, navegación y utilización del sitio web Boost A Project (en adelante, &quot;el Sitio Web&quot;), sin perjuicio de que el Titular se reserve el derecho a modificar la presentación, configuración y contenido del mismo, así como las condiciones requeridas para su acceso o utilización.
                     </p>
 
                     <h3>2.2. Finalidad del Sitio Web</h3>
@@ -122,7 +122,7 @@ const AvisoLegalPage = () => {
                     <ul className="list-disc pl-6 mb-4 space-y-2">
                         <li>La estructura, diseño, código fuente, bases de datos, y cualquier otro elemento del Sitio Web</li>
                         <li>Los textos, imágenes, gráficos, logotipos, iconos, animaciones y demás contenidos</li>
-                        <li>La marca "Boost A Project" y cualquier otro signo distintivo</li>
+                        <li>La marca &quot;Boost A Project&quot; y cualquier otro signo distintivo</li>
                         <li>El dominio info@boostaproject.com</li>
                     </ul>
 

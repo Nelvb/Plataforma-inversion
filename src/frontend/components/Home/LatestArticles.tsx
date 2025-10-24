@@ -8,12 +8,13 @@ import { getArticles } from '@/lib/blogService';
 import BlogArticleCard from '@/components/blog/BlogArticleCard';
 import Button from '@/components/ui/Button';
 import LoadingState from '@/components/ui/LoadingState';
-import { Article } from '@/types';
 
 // SWR fetcher function para cache automático
-const fetcher = () => getArticles({ page: 1, limit: 3 });
+const fetcher = function fetcher() {
+  return getArticles({ page: 1, limit: 3 });
+};
 
-const LatestArticles: React.FC = React.memo(() => {
+const LatestArticles: React.FC = () => {
     // SWR para cache inteligente y revalidación automática
     const { data, error, isLoading } = useSWR('/api/articles/latest', fetcher, {
         revalidateOnFocus: false, // No revalidar al cambiar de pestaña
@@ -96,7 +97,7 @@ const LatestArticles: React.FC = React.memo(() => {
             </div>
         </section>
     );
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default LatestArticles;
+export default React.memo(LatestArticles);

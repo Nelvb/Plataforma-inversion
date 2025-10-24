@@ -21,7 +21,7 @@
 
 import React from 'react'
 import Card from '@/components/ui/Card'
-import { MapPin, Navigation, Building, Car, Train, ShoppingCart } from 'lucide-react'
+import { MapPin, Navigation, Building, Train, ShoppingCart } from 'lucide-react'
 
 interface LocationFeature {
   category: string

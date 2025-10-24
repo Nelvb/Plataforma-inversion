@@ -3,21 +3,9 @@
  * ------------------------------------------------------------
  * Página pública que muestra información completa de un proyecto.
  *
- * Características:
- * - Hero Section delegada a `ProjectHeader`
- * - Breadcrumbs dentro del header
- * - Galería antes/después con tabs
- * - Sidebar sticky con resumen financiero UNIFICADO
- * - Sistema FREEMIUM: contenido visible + contenido premium con blur
- * - CTAs destacados
- * - Loading states profesionales
- * - Error handling coherente
- * - SEO optimizado
- * 
- * Sistema FREEMIUM implementado (2025-01-19)
- * Optimización aplicada — caching con SWR y memoización (2025-01-18)
- * 
- * @author Boost A Project Team
+ * v2.0.0 - Corrección profesional de tipos TypeScript
+ *
+ * @author Boost A Project
  * @since v1.4.0
  */
 
@@ -34,9 +22,18 @@ import Card from '@/components/ui/Card';
 import LoadingState from '@/components/ui/LoadingState';
 import ProjectHeader from '@/components/projects/ProjectHeader';
 import ProjectSidebar from '@/components/projects/ProjectSidebar';
-import PremiumContentBlur from '@/components/shared/PremiumContentBlur';
 import { getProjectBySlug } from '@/lib/api/projectService';
-import { Project, GalleryImage } from '@/types/project';
+import {
+    Project,
+    GalleryImage,
+    ContentSection,
+    FinancialBreakdownItem,
+    SensitivityAnalysis,
+    LegalSection,
+    ExitRecommendation,
+    FAQItem,
+    FAQCategory,
+} from '@/types/project';
 import {
     Building,
     Users,
@@ -56,12 +53,43 @@ import ProjectProcess from '@/components/projects/sections/ProjectProcess';
 import ProjectSensitivityAnalysis from '@/components/projects/sections/ProjectSensitivityAnalysis';
 
 // SWR fetcher function para cache automático
-const fetcher = (url: string) => {
+const fetcher = function fetcher(url: string) {
     const slug = url.split('/').pop();
     return getProjectBySlug(slug!);
 };
 
-const ProjectDetailPage: React.FC = React.memo(() => {
+// ✅ TYPE GUARDS PROFESIONALES
+const isSensitivityAnalysis = (obj: unknown): obj is SensitivityAnalysis => {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'title' in obj &&
+        'scenarios' in obj &&
+        'conclusion' in obj &&
+        Array.isArray((obj as SensitivityAnalysis).scenarios)
+    );
+};
+
+const isLegalSection = (obj: unknown): obj is LegalSection => {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'title' in obj &&
+        'content' in obj
+    );
+};
+
+const isExitRecommendation = (obj: unknown): obj is ExitRecommendation => {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'maximize_profitability' in obj &&
+        'intermediate_liquidity' in obj &&
+        'optimize' in obj
+    );
+};
+
+const ProjectDetailPage: React.FC = () => {
     const params = useParams();
     const router = useRouter();
     const { isAuthenticated } = useAuthStore();
@@ -70,11 +98,15 @@ const ProjectDetailPage: React.FC = React.memo(() => {
     const [activeGalleryTab, setActiveGalleryTab] = useState<'after' | 'before'>('after');
 
     // SWR para cache inteligente y revalidación automática
-    const { data: project, error, isLoading } = useSWR(`/api/projects/${slug}`, fetcher, {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: true,
-        dedupingInterval: 300000,
-    });
+    const { data: project, error, isLoading } = useSWR<Project>(
+        `/api/projects/${slug}`,
+        fetcher,
+        {
+            revalidateOnFocus: false,
+            revalidateOnReconnect: true,
+            dedupingInterval: 300000,
+        }
+    );
 
     // useMemo para procesar datos del proyecto
     const projectData = useMemo(() => {
@@ -86,7 +118,9 @@ const ProjectDetailPage: React.FC = React.memo(() => {
     const getGalleryImages = useMemo(() => {
         return (category: 'before' | 'after') => {
             if (!projectData?.gallery || !Array.isArray(projectData.gallery)) return [];
-            return projectData.gallery.filter((img: GalleryImage) => img.category === category);
+            return projectData.gallery.filter(
+                (img: GalleryImage) => img.category === category
+            );
         };
     }, [projectData]);
 
@@ -129,11 +163,12 @@ const ProjectDetailPage: React.FC = React.memo(() => {
     const afterImages = getGalleryImages('after');
     const beforeImages = getGalleryImages('before');
 
-    // Helper function para renderizar secciones
-    const renderSection = (section: any, index: number) => {
+    // ✅ HELPER FUNCTION CON TYPE GUARDS
+    const renderSection = (section: ContentSection, index: number) => {
         switch (section.type) {
             case 'hero':
-                return null; // Ya se renderiza en ProjectHeader
+                return null;
+
             case 'financial_breakdown':
                 return (
                     <Card key={index} className="p-8 hover:shadow-lg transition-shadow duration-300">
@@ -154,16 +189,15 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {section.breakdown?.map((item: any, idx: number) => (
+                                    {section.breakdown?.map((item: FinancialBreakdownItem, idx: number) => (
                                         <tr key={idx} className="hover:bg-gray-50">
                                             <td className="border border-gray-300 px-4 py-3 text-gray-700">
                                                 {item.concept}
                                             </td>
                                             <td className="border border-gray-300 px-4 py-3 text-right font-medium text-[#1A1341]">
-                                                {typeof item.amount === 'number' 
-                                                    ? `€${item.amount.toLocaleString()}` 
-                                                    : item.amount
-                                                }
+                                                {typeof item.amount === 'number'
+                                                    ? `€${item.amount.toLocaleString()}`
+                                                    : item.amount}
                                             </td>
                                         </tr>
                                     ))}
@@ -172,60 +206,131 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                         </div>
                     </Card>
                 );
+
             case 'section':
                 return <ProjectSection key={index} data={section} />;
+
             case 'location':
                 return <ProjectLocation key={index} location={section} />;
+
             case 'profitability_scenarios':
                 return (
                     <ProjectProfitabilityScenarios
                         key={index}
-                        scenarios={section.scenarios}
-                        methodology={section.methodology}
-                        comparison_other_investments={section.comparison_other_investments}
+                        scenarios={Array.isArray(section.scenarios) ? section.scenarios : []}
+                        methodology={typeof section.methodology === 'string' ? section.methodology : ''}
+                        comparison_other_investments={
+                            Array.isArray(section.comparison_other_investments)
+                                ? section.comparison_other_investments
+                                : []
+                        }
                     />
                 );
+
             case 'risk_analysis':
+                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                const sensitivityAnalysis = isSensitivityAnalysis(section.sensitivity_analysis)
+                    ? section.sensitivity_analysis
+                    : { title: 'Análisis de Sensibilidad', scenarios: [], conclusion: '' };
+
                 return (
                     <ProjectRiskAnalysis
                         key={index}
-                        risks={section.risks}
-                        philosophy={section.philosophy}
-                        sensitivity_analysis={section.sensitivity_analysis}
+                        risks={Array.isArray(section.risks) ? section.risks : []}
+                        philosophy={typeof section.philosophy === 'string' ? section.philosophy : ''}
+                        sensitivity_analysis={sensitivityAnalysis}
                     />
                 );
+
             case 'legal':
-                return <ProjectLegalInfo key={index} data={section} />;
+                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                const legalData = isLegalSection(section)
+                    ? section
+                    : { title: 'Información Legal', content: [] };
+
+                return <ProjectLegalInfo key={index} data={legalData} />;
+
             case 'sensitivity_analysis':
-                return <ProjectSensitivityAnalysis key={index} analysis={section} />;
+                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                const analysisData = isSensitivityAnalysis(section)
+                    ? section
+                    : { title: 'Análisis de Sensibilidad', scenarios: [], conclusion: '' };
+
+                return <ProjectSensitivityAnalysis key={index} analysis={analysisData} />;
+
             case 'exit_strategies':
+                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                const recommendation = isExitRecommendation(section.recommendation)
+                    ? section.recommendation
+                    : { maximize_profitability: '', intermediate_liquidity: '', optimize: '' };
+
                 return (
                     <ProjectExitStrategies
                         key={index}
-                        strategies={section.strategies}
-                        recommendation={section.recommendation}
+                        strategies={Array.isArray(section.strategies) ? section.strategies : []}
+                        recommendation={recommendation}
                     />
                 );
+
             case 'process':
                 return (
                     <ProjectProcess
                         key={index}
-                        phases={section.process_phases}
-                        title={section.title}
+                        phases={Array.isArray(section.process_phases) ? section.process_phases : []}
+                        title={section.title ?? ''}
                     />
                 );
+
             case 'faq':
+                // ✅ CONVERSIÓN PROFESIONAL DE ESTRUCTURAS
+                const faqCategories: FAQCategory[] = (() => {
+                    // Si hay 'categories' y es array
+                    if (Array.isArray(section.categories) && section.categories.length > 0) {
+                        // Type guard: verificar si es string[]
+                        if (typeof section.categories[0] === 'string') {
+                            return (section.categories as unknown as string[]).map((cat) => ({
+                                category: cat,
+                                questions: []
+                            }));
+                        }
+                        // Ya es FAQCategory[]
+                        return section.categories as FAQCategory[];
+                    }
+                    return [];
+                })();
+
+                const faqItems: FAQItem[] = (() => {
+                    // Si 'items' es array de { question, answer }, convertir a { q, a }
+                    if (Array.isArray(section.items)) {
+                        return (section.items as unknown as Record<string, unknown>[]).map((item) => ({
+                            q: (item.question as string) || (item.q as string) || '',
+                            a: (item.answer as string) || (item.a as string) || ''
+                        }));
+                    }
+                    // Si 'faqs' es array anidado, aplanar
+                    if (Array.isArray(section.faqs)) {
+                        return (section.faqs as unknown as Record<string, unknown>[]).flatMap((faqGroup) =>
+                            Array.isArray(faqGroup.items)
+                                ? (faqGroup.items as unknown as Record<string, unknown>[]).map((item) => ({
+                                    q: (item.question as string) || (item.q as string) || '',
+                                    a: (item.answer as string) || (item.a as string) || ''
+                                }))
+                                : []
+                        );
+                    }
+                    return [];
+                })();
+
                 return (
                     <FAQ
                         key={index}
-                        items={section.items}
-                        categories={section.categories || section.faq_categories}
-                        faqs={section.faqs}
-                        title={section.title}
+                        items={faqItems}
+                        categories={faqCategories}
+                        title={section.title ?? ''}
                     />
                 );
+
             default:
-                // No mostrar warning para tipos conocidos que se manejan en otros lugares
                 if (section.type !== 'hero' && section.type !== 'financial_breakdown') {
                     console.warn('Tipo de sección no reconocido:', section.type);
                 }
@@ -235,14 +340,12 @@ const ProjectDetailPage: React.FC = React.memo(() => {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-            {/* Header unificado */}
             <ProjectHeader project={project} />
 
             <div className="container mx-auto px-4 py-12">
                 <div className="grid lg:grid-cols-3 gap-8">
-                        {/* Contenido principal */}
-                        <div className="lg:col-span-2 space-y-8">
-                        {/* Descripción */}
+                    {/* Contenido principal */}
+                    <div className="lg:col-span-2 space-y-8">
                         <Card className="p-8 hover:shadow-lg transition-shadow duration-300">
                             <h2 className="text-3xl font-bold text-[#1A1341] mb-6 flex items-center gap-3">
                                 <Building className="w-7 h-7 text-[#6290C3]" />
@@ -296,7 +399,9 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                                                     sizes="(max-width: 768px) 50vw, 33vw"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                                                    <p className="text-white font-semibold p-4 text-sm">{img.title}</p>
+                                                    <p className="text-white font-semibold p-4 text-sm">
+                                                        {img.title}
+                                                    </p>
                                                 </div>
                                             </div>
                                         )
@@ -368,36 +473,30 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                         </Card>
 
                         {/* CONTENIDO FLEXIBLE CON SISTEMA FREEMIUM */}
-                        {project.content_sections?.length > 0 && (
+                        {project.content_sections && project.content_sections.length > 0 && (
                             <div className="space-y-8">
-                                {project.content_sections.map((section: any, index: number) => {
-                                    // Obtener número de secciones libres desde el proyecto (default 5)
+                                {project.content_sections.map((section: ContentSection, index: number) => {
                                     const freeSections = project.free_sections_count || 5;
-                                    
-                                    // Renderizar secciones VISIBLES (primeras freeSections)
+
                                     if (index < freeSections) {
                                         return renderSection(section, index);
                                     }
 
-                                    // Primera sección bloqueada → renderizar contenido premium según autenticación
                                     if (index === freeSections) {
-                                        const premiumSections = project.content_sections.slice(freeSections);
-                                        
-                                        // Usuario autenticado → Mostrar contenido sin blur
+                                        const premiumSections = project.content_sections!.slice(freeSections);
+
                                         if (isAuthenticated) {
                                             return (
                                                 <div key="premium-content">
-                                                    {premiumSections.map((premiumSection: any, premiumIndex: number) =>
+                                                    {premiumSections.map((premiumSection: ContentSection, premiumIndex: number) =>
                                                         renderSection(premiumSection, premiumIndex + freeSections)
                                                     )}
                                                 </div>
                                             );
                                         }
-                                        
-                                        // Usuario NO autenticado → Banner sticky + contenido con blur
+
                                         return (
                                             <div key="premium-content">
-                                                {/* Banner sticky en posición correcta */}
                                                 <div className="sticky top-36 left-0 right-0 bg-white/70 border-b border-[#6290C3]/20 py-8 px-6 z-10">
                                                     <div className="text-center max-w-4xl mx-auto">
                                                         <h3 className="text-3xl font-bold text-[#1A1341] mb-4">
@@ -407,9 +506,9 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                                                             Si aún no tienes cuenta, puedes crearla fácilmente.
                                                         </p>
                                                         <p className="text-base text-[#1A1341] mb-6">
-                                                            Si ya tienes cuenta, {' '}
-                                                            <button 
-                                                                onClick={() => router.push('/login')} 
+                                                            Si ya tienes cuenta,{' '}
+                                                            <button
+                                                                onClick={() => router.push('/login')}
                                                                 className="underline text-[#1DA1F2] hover:text-[#1A1341] transition-colors"
                                                             >
                                                                 accede aquí
@@ -423,11 +522,10 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                
-                                                {/* Contenido premium con blur */}
+
                                                 <div className="relative">
                                                     <div className="blur-sm select-none pointer-events-none">
-                                                        {premiumSections.map((premiumSection: any, premiumIndex: number) =>
+                                                        {premiumSections.map((premiumSection: ContentSection, premiumIndex: number) =>
                                                             renderSection(premiumSection, premiumIndex + freeSections)
                                                         )}
                                                     </div>
@@ -436,7 +534,6 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                                         );
                                     }
 
-                                    // Ya renderizado dentro del blur
                                     return null;
                                 })}
                             </div>
@@ -444,15 +541,14 @@ const ProjectDetailPage: React.FC = React.memo(() => {
                     </div>
 
                     <aside className="lg:col-span-1 relative">
-  <div className="sticky top-[-182px]">
-    <ProjectSidebar project={project} />
-  </div>
-</aside>
-
+                        <div className="sticky top-[-182px]">
+                            <ProjectSidebar project={project} />
+                        </div>
+                    </aside>
                 </div>
             </div>
         </div>
     );
-});
+};
 
-export default ProjectDetailPage;
+export default React.memo(ProjectDetailPage);

@@ -61,8 +61,9 @@ const ContactForm = () => {
             } else {
                 setFormData(prev => ({ ...prev, subject: "", message: "" }));
             }
-        } catch (err: any) {
-            setError(err.message || "Error inesperado al enviar el mensaje");
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : "Error inesperado al enviar el mensaje";
+            setError(errorMessage);
             setStatus("error");
         }
     };
@@ -132,6 +133,7 @@ const ContactForm = () => {
                                 rel="noopener noreferrer"
                                 className="flex items-center space-x-3 bg-[#25D366] text-white px-4 py-3 rounded-lg hover:bg-[#1DA851] transition-colors duration-200"
                             >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src="/whatsapp.svg"
                                     alt="WhatsApp"

@@ -9,14 +9,14 @@ import ProjectCard from "@/components/projects/ProjectCard";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
 import ProjectsBanner from "@/components/shared/ProjectsBanner";
-import { ArrowRight } from "lucide-react";
 import { getProjects } from "@/lib/api/projectService";
-import { Project } from "@/types/project";
 
 // SWR fetcher function para cache automático
-const fetcher = (url: string) => getProjects();
+const fetcher = function fetcher(url: string) {
+  return getProjects();
+};
 
-const ActiveProjects: React.FC = React.memo(() => {
+const ActiveProjects: React.FC = () => {
   // SWR para cache inteligente y revalidación automática
   const { data: allProjects, error, isLoading } = useSWR('/api/projects', fetcher, {
     revalidateOnFocus: false, // No revalidar al cambiar de pestaña
@@ -92,7 +92,7 @@ const ActiveProjects: React.FC = React.memo(() => {
       </div>
     </section>
   );
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default ActiveProjects;
+export default React.memo(ActiveProjects);

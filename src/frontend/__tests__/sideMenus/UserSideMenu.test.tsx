@@ -29,11 +29,11 @@ jest.mock("next/navigation", () => ({
     usePathname: () => "/dashboard",
 }));
 
-jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: any) => (
+jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: { onClose: () => void }) => (
     <div data-testid="user-header" onClick={onClose}>UserHeader</div>
 ));
 
-jest.mock("@/components/common/MainMenuLinks", () => ({ onClickLink }: any) => (
+jest.mock("@/components/common/MainMenuLinks", () => ({ onClickLink }: { onClickLink: () => void }) => (
     <div data-testid="main-links" onClick={onClickLink}>Enlaces</div>
 ));
 

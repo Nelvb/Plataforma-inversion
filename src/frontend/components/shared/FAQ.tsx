@@ -21,8 +21,7 @@
  */
 
 import React from 'react'
-import Card from '@/components/ui/Card'
-import { HelpCircle, MessageSquare } from 'lucide-react'
+import { MessageSquare } from 'lucide-react'
 
 interface FAQItem {
   q: string

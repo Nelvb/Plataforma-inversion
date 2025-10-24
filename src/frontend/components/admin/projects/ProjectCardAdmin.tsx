@@ -25,7 +25,6 @@ import {
   MapPin, 
   TrendingUp, 
   Euro, 
-  Calendar, 
   Edit,
   Trash2,
   Building,

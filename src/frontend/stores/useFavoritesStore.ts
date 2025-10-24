@@ -82,7 +82,7 @@ export const useFavoritesStore = create<FavoritesState>()(
             // Opcional: versionar el store para futuras migraciones
             version: 1,
             // Opcional: migrar datos si cambia la versión
-            migrate: (persistedState: any, version: number) => {
+            migrate: (persistedState: unknown, version: number) => {
                 if (version === 0) {
                     // Migración desde versión 0 a 1 si es necesario
                     return persistedState;

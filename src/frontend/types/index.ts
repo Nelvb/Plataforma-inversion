@@ -4,7 +4,12 @@
  * Facilita la consistencia de tipos y reduce la duplicación de código
  */
 
-// Ejemplo: export interface User { ... }
+// Extensión del objeto Window para propiedades personalizadas
+declare global {
+  interface Window {
+    pageLoaderActive?: boolean;
+  }
+}
 
 export * from "./blog";
 export * from "./user";

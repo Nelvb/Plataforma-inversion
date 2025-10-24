@@ -10,7 +10,7 @@
  * Se recomienda su uso en formularios de toda la aplicación para mantener coherencia y accesibilidad.
  */
 
-import React, { InputHTMLAttributes, useState, useEffect } from 'react'
+import React, { InputHTMLAttributes, useState, useEffect, useCallback } from 'react'
 
 interface ValidationRules {
   minLength?: number
@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
   const generatedId = label ? `input-${normalizeLabel(label)}` : undefined
   const inputId = id || generatedId || props.name
 
-  const validateValue = (inputValue: string) => {
+  const validateValue = useCallback((inputValue: string) => {
     if (!validationRules || !validateOnChange) return null
 
     const { minLength, maxLength, required, pattern, customValidator } = validationRules
@@ -73,7 +73,7 @@ const Input: React.FC<InputProps> = ({
     }
 
     return null
-  }
+  }, [validationRules, validateOnChange])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
@@ -93,7 +93,7 @@ const Input: React.FC<InputProps> = ({
       setInternalError(validationError)
       onErrorChange?.(!!validationError)
     }
-  }, [value, validationRules, validateOnChange])
+  }, [value, validationRules, validateOnChange, onErrorChange, validateValue])
 
   // Determinar si hay error (externo o interno)
   const hasError = error || internalError

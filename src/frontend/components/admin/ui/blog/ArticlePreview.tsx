@@ -89,7 +89,12 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({
 
       {/* Contenido del artículo */}
       <div className="flex-grow">
-        <ArticleHeader article={previewArticle} onBackClick={onBack} />
+        <ArticleHeader
+          article={previewArticle}
+          onBackClick={onBack}
+          backInfo={{ href: "#", text: "" }}
+        />
+
         <ArticleContent article={previewArticle} />
 
         {/* Artículos relacionados (solo si hay) */}

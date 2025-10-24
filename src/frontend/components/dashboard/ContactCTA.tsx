@@ -20,7 +20,7 @@
 import React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { MessageCircle, Phone } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 interface ContactCTAProps {
     className?: string;

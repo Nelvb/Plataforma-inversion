@@ -22,24 +22,23 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { ArrowLeft, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 import LoadingState from '@/components/ui/LoadingState';
 import ArticleHeader from '@/components/articles/ArticleHeader';
 import ArticleContent from '@/components/articles/ArticleContent';
 import ArticleRelated from '@/components/articles/ArticleRelated';
 import { getArticleBySlug, getArticles } from '@/lib/blogService';
-import { Article } from '@/types';
 
 // --- SWR fetchers optimizados ---
-const fetcher = (url: string) => {
+const fetcher = function fetcher(url: string) {
   const slug = url.split('/').pop();
   return getArticleBySlug(slug!);
 };
 
 const relatedFetcher = () => getArticles({ limit: 999 });
 
-const ArticlePage: React.FC = React.memo(() => {
+const ArticlePage: React.FC = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const slug = params?.slug as string;
@@ -155,6 +154,6 @@ const ArticlePage: React.FC = React.memo(() => {
       </div>
     </main>
   );
-});
+};
 
-export default ArticlePage;
+export default React.memo(ArticlePage);

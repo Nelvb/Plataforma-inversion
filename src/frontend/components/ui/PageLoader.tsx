@@ -18,7 +18,7 @@
 import { useState, useEffect } from 'react';
 
 if (typeof window !== 'undefined') {
-    (window as any).pageLoaderActive = true;
+    window.pageLoaderActive = true;
 }
 
 export default function PageLoader() {
@@ -46,7 +46,7 @@ export default function PageLoader() {
                 setVisible(false);
                 document.body.style.overflow = '';
                 if (typeof window !== 'undefined') {
-                    (window as any).pageLoaderActive = false;
+                    window.pageLoaderActive = false;
                     window.dispatchEvent(new Event('pageLoaderComplete'));
                 }
             }, 1300);

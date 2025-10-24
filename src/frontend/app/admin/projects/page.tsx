@@ -10,17 +10,18 @@
 
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import ProjectCard from "@/components/admin/projects/ProjectCardAdmin";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
 import { getProjects, deleteProject } from "@/lib/api/projectService";
-import { Project } from "@/types/project";
 
 // SWR fetcher function para cache automático
-const fetcher = () => getProjects();
+const fetcher = function fetcher() {
+  return getProjects();
+};
 
 const ProjectsAdminPage: React.FC = () => {
   // SWR para cache inteligente y revalidación automática

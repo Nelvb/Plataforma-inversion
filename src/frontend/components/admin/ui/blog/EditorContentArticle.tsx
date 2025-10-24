@@ -9,7 +9,7 @@
  * instrucciones de formato y prompt para IA. Maneja errores visuales integrados.
  */
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import WordCounter from '@/components/admin/ui/blog/WordCounter'
 import { formatToHtml } from '@/components/admin/blog/helpers/htmlFormatter'
 
@@ -31,7 +31,7 @@ const EditorContentArticle: React.FC<EditorContentArticleProps> = ({
   const [internalError, setInternalError] = useState<string | null>(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
-  const validateContent = (htmlContent: string) => {
+  const validateContent = useCallback((htmlContent: string) => {
     const plainText = htmlContent.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
     const wordCount = plainText.split(' ').length
 
@@ -45,7 +45,7 @@ const EditorContentArticle: React.FC<EditorContentArticleProps> = ({
       onErrorChange?.(false)
       return true
     }
-  }
+  }, [onErrorChange])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value
@@ -66,7 +66,7 @@ const EditorContentArticle: React.FC<EditorContentArticleProps> = ({
       onChange(formatted)
       validateContent(formatted)
     }
-  }, [content, rawText, onChange])
+  }, [content, rawText, onChange, validateContent])
 
   // Determinar si hay error (externo o interno)
   const hasError = error || internalError

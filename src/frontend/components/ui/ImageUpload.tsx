@@ -13,7 +13,7 @@
  * Compatible con valores iniciales (modo edición) y pensado para formularios del blog u otros contenidos multimedia.
  */
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import LoadingState from '@/components/ui/LoadingState'
 import { uploadImage } from '@/lib/api/imageService'
 
@@ -41,7 +41,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const validateImage = () => {
+  const validateImage = useCallback(() => {
     if (!uploaded && !previewUrl) {
       setInternalError('Debes subir una imagen antes de continuar')
       onErrorChange?.(true)
@@ -51,7 +51,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       onErrorChange?.(false)
       return true
     }
-  }
+  }, [uploaded, previewUrl, onErrorChange])
 
   useEffect(() => {
     if (initialImage) {
@@ -62,7 +62,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     } else {
       validateImage()
     }
-  }, [initialImage])
+  }, [initialImage, onErrorChange, validateImage])
 
   const handleFileSelect = (file: File) => {
     setSelectedImage(file)
@@ -169,6 +169,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
       {previewUrl && (
         <div className="flex flex-col items-center gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={previewUrl}
             alt="Vista previa"

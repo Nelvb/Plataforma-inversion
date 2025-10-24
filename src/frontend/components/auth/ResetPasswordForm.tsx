@@ -85,8 +85,9 @@ const ResetPasswordForm = () => {
         try {
             await userService.resetPassword({ token, new_password: password });
             setStatus("success");
-        } catch (err: any) {
-            setServerError(err.message || "Error al restablecer la contraseña.");
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : "Error al restablecer la contraseña.";
+            setServerError(errorMessage);
             setStatus("error");
         }
     };

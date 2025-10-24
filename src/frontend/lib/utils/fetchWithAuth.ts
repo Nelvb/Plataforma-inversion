@@ -123,7 +123,8 @@ export const fetchWithAuth = async (
             localStorage.removeItem("csrf_token");
             
             // Redirigir a login
-            const router = require("next/router").default;
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { default: router } = require("next/router");
             router.push("/login");
             
             throw new Error("SessionExpired");

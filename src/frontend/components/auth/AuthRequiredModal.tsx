@@ -17,7 +17,7 @@ import React from "react";
 import Link from "next/link";
 import { useUiStore } from "@/stores/useUiStore";
 import Button from "@/components/ui/Button";
-import { User, Lock, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import ModalBase from "@/components/ui/ModalBase";
 
 const AuthRequiredModal: React.FC = () => {

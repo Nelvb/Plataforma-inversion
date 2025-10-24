@@ -23,11 +23,11 @@ jest.mock("next/navigation", () => ({
     usePathname: () => "/admin",
 }));
 
-jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: any) => (
+jest.mock("@/components/common/SideMenuHeader", () => ({ onClose }: { onClose: () => void }) => (
     <div data-testid="admin-header" onClick={onClose}>AdminHeader</div>
 ));
 
-jest.mock("@/components/common/MainMenuLinks", () => ({ onClickLink }: any) => (
+jest.mock("@/components/common/MainMenuLinks", () => ({ onClickLink }: { onClickLink: () => void }) => (
     <div data-testid="main-menu-links" onClick={onClickLink}>Main Links</div>
 ));
 

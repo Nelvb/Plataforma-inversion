@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 // React.memo aplicado para evitar renders innecesarios
-const HeroSection: React.FC = React.memo(() => {
+const HeroSection: React.FC = () => {
   return (
     <section className="w-full relative overflow-hidden border-b border-[#6290C3]/20">
       {/* Fondo dividido en 2 colores */}
@@ -56,7 +56,7 @@ const HeroSection: React.FC = React.memo(() => {
       </div>
     </section>
   );
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default HeroSection;
+export default React.memo(HeroSection);

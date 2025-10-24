@@ -79,10 +79,11 @@ module.exports = {
 		}
 	},
 
-	// Plugins adicionales de Tailwind (actualmente vacío)
-	// Plugins adicionales de Tailwind (actualmente vacío)
+	// Plugins adicionales de Tailwind
 	plugins: [
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		require("tailwindcss-animate"),
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		require("@tailwindcss/typography"),
 	],
 };

@@ -22,7 +22,6 @@ import React from 'react'
 import Card from '@/components/ui/Card'
 import { 
   TrendingUp, 
-  DollarSign, 
   Clock, 
   Target, 
   ArrowUpRight,

@@ -22,8 +22,9 @@ export const useStaticArticles = () => {
         const articlesList = await getStaticArticles()
         setArticles(articlesList)
         setError(null)
-      } catch (err: any) {
-        setError(err.message || 'Error al obtener los artículos')
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'Error al obtener los artículos';
+        setError(errorMessage)
         console.error('Error en useStaticArticles:', err)
       } finally {
         setLoading(false)

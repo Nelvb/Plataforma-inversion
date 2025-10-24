@@ -9,6 +9,7 @@ import { Article } from '@/types';
 interface ArticleHeaderProps {
   article: Article;
   backInfo: { href: string; text: string };
+  onBackClick?: () => void;
 }
 
 const formatDate = (dateString: string): string => {

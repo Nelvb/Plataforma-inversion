@@ -9,13 +9,16 @@
  * - experimental.forceSwcTransforms: Asegura el uso de SWC para compilación.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   
   // Configuración para resolver el warning de múltiples lockfiles
   // Especifica que el directorio de trabajo es src/frontend
-  outputFileTracingRoot: require('path').resolve(__dirname, '../../'),
+  outputFileTracingRoot: __dirname,
   
   // Configuración para asegurar que SWC se use para todas las transformaciones,
   // incluso cuando existe un archivo de configuración de Babel en el proyecto
@@ -54,4 +57,9 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = (phase) => {
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    return nextConfig;
+  }
+  return nextConfig;
+};

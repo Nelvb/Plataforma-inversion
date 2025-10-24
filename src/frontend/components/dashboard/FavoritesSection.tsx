@@ -22,7 +22,7 @@ import Link from "next/link";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import ProjectCard from "@/components/projects/ProjectCard";
 import Button from "@/components/ui/Button";
-import { Heart, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 interface FavoritesSectionProps {
     onLoginRequired?: () => void;

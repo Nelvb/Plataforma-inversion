@@ -14,6 +14,8 @@ Plataforma web de inversión inmobiliaria diseñada para ofrecer transparencia, 
 * Next.js 15.2 con App Router
 * TypeScript para desarrollo sostenible
 * Tailwind CSS + componentes personalizados
+* ESLint 9.x con configuración optimizada para TypeScript, React y Jest
+* Configuración específica para archivos de test y desarrollo
 * React Testing Library + Jest (187 tests)
 * Zustand para gestión de estado global
 * JWT para autenticación segura
@@ -394,6 +396,7 @@ Plataforma-inversion/
 │       │   └── user.ts
 │       ├── .next/                        # Build Next.js
 │       ├── components.json               # Configuración shadcn/ui
+│       ├── eslint.config.js              # Configuración ESLint
 │       ├── jest.config.ts                # Configuración Jest
 │       ├── jest.env.setup.ts             # Setup Jest
 │       ├── next.config.js                # Configuración Next.js
@@ -419,6 +422,7 @@ Plataforma-inversion/
 │       ├── styles/                        # Estilos CSS
 │       ├── types/                         # Tipos TypeScript
 │       ├── components.json               # Configuración shadcn/ui
+│       ├── eslint.config.js               # Configuración ESLint
 │       ├── jest.config.ts                 # Configuración Jest
 │       ├── jest.env.setup.ts              # Setup Jest
 │       ├── next.config.js                 # Configuración Next.js
@@ -644,6 +648,7 @@ Plataforma-inversion/
 │   │   │   └── utils/                     # Utilidades de testing
 │   │   │       └── test-utils.tsx
 │   │   ├── components.json               # Configuración shadcn/ui
+│   │   ├── eslint.config.js               # Configuración ESLint
 │   │   ├── jest.config.ts                # Configuración Jest
 │   │   ├── jest.env.setup.ts             # Setup Jest
 │   │   ├── next.config.js                # Configuración Next.js
@@ -1252,6 +1257,40 @@ El sistema incluye un proyecto de ejemplo en `src/backend/app/data/projects/five
 * Render
 * DigitalOcean App Platform
 * VPS tradicional con Docker
+
+## Verificación antes del commit
+
+Antes de hacer commit, ejecuta esta secuencia de validación para asegurar la calidad del código:
+
+```bash
+# Verificar el tipado TypeScript
+cd src/frontend
+npx tsc --noEmit
+
+# Ejecutar ESLint y corregir automáticamente
+npm run lint
+
+# Verificar build de producción
+npm run build
+
+# Si todo termina sin errores:
+cd ../..
+git add .
+git commit -m "chore: validación completa antes de despliegue"
+git push
+```
+
+### Configuración ESLint
+
+El proyecto incluye una configuración ESLint optimizada que soporta:
+
+- **TypeScript**: Parser y reglas específicas para `.ts` y `.tsx`
+- **React moderno**: Sin necesidad de importar React en JSX
+- **Node.js**: Soporte para `process`, `require`, `module`
+- **Jest**: Globals para tests (`describe`, `it`, `expect`, `beforeEach`)
+- **ES2022**: Características modernas de JavaScript
+
+La configuración está en `src/frontend/eslint.config.js` y se ejecuta con `npm run lint`.
 
 ## Contribución
 

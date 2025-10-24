@@ -19,7 +19,7 @@
  * @since v2.0.0
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import ImageUpload from '@/components/ui/ImageUpload'
@@ -27,10 +27,10 @@ import { Project, ProjectInput } from '@/types/project'
 
 interface ProjectFormProps {
   onSubmit: (projectData: ProjectInput) => void
-  initialData?: Project
+  initialData?: Partial<Project>
 }
 
-const ProjectForm: React.FC<ProjectFormProps> = React.memo(({ onSubmit, initialData }) => {
+const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
   // Estados básicos del proyecto
   const [title, setTitle] = useState(initialData?.title || '')
   const [description, setDescription] = useState(initialData?.description || '')
@@ -342,7 +342,7 @@ const ProjectForm: React.FC<ProjectFormProps> = React.memo(({ onSubmit, initialD
       </div>
     </div>
   )
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default ProjectForm
+export default React.memo(ProjectForm)

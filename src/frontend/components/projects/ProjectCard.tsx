@@ -27,11 +27,7 @@ import {
   MapPin,
   TrendingUp,
   Euro,
-  Calendar,
-  ArrowRight,
-  Building,
-  Users,
-  Clock
+  Building
 } from 'lucide-react'
 
 interface ProjectCardProps {

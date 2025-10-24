@@ -20,7 +20,6 @@
 import React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { User, Settings } from "lucide-react";
 
 interface AccountAccessProps {
     className?: string;

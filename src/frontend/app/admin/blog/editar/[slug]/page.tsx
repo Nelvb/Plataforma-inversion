@@ -19,9 +19,10 @@ import LoadingState from '@/components/ui/LoadingState'
 import { getArticleBySlug, updateArticleBySlug } from '@/lib/blogService'
 import BlogArticleForm from '@/components/admin/blog/BlogArticleForm'
 import Button from '@/components/ui/Button'
+import type { Article, ArticleFormData } from '@/types/blog'
 
 export default function EditArticlePage() {
-    const [articleData, setArticleData] = useState(null)
+    const [articleData, setArticleData] = useState<Article | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
     const { slug } = useParams()
@@ -45,14 +46,21 @@ export default function EditArticlePage() {
         }
     }, [slugValue])
 
-    const handleSubmit = async (updatedData: any) => {
+    const handleSubmit = async (formData: ArticleFormData) => {
         try {
-            await updateArticleBySlug(slugValue, updatedData)
+            await updateArticleBySlug(slugValue, {
+                title: formData.title,
+                excerpt: formData.excerpt,
+                content: formData.content,
+                image: formData.image,
+                related: formData.related,
+            })
             alert('Artículo actualizado correctamente')
             router.push('/admin/blog')
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error al actualizar el artículo:', error)
-            alert('Error al actualizar el artículo. Por favor, intenta nuevamente.')
+            const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+            alert(`Error al actualizar el artículo: ${errorMessage}`)
         }
     }
 
@@ -68,7 +76,18 @@ export default function EditArticlePage() {
             {isLoading ? (
                 <LoadingState message="Cargando artículo..." size="lg" />
             ) : (
-                articleData && <BlogArticleForm initialData={articleData} onSubmit={handleSubmit} />
+                articleData && (
+                    <BlogArticleForm
+                        initialData={{
+                            title: articleData.title,
+                            excerpt: articleData.excerpt,
+                            content: articleData.content,
+                            image: articleData.image,
+                            related: articleData.related || [],
+                        }}
+                        onSubmit={handleSubmit}
+                    />
+                )
             )}
         </div>
     )

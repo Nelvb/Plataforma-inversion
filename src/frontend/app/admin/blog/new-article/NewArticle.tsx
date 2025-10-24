@@ -16,22 +16,32 @@ import BlogArticleForm from '@/components/admin/blog/BlogArticleForm'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { createArticle, updateArticleBySlug } from '@/lib/blogService'
+import type { ArticleFormData } from '@/types/blog'
 
 const NewArticle: React.FC = () => {
-  const [isEditMode, setIsEditMode] = useState(false) // En esta vista, siempre es false por ahora
+  const [isEditMode] = useState(false) // En esta vista, siempre es false por ahora
 
   // useCallback para evitar recreación de función en cada render
-  const handleSubmit = useCallback(async (articleData: any) => {
+  const handleSubmit = useCallback(async (articleData: ArticleFormData) => {
     try {
       if (isEditMode) {
-        await updateArticleBySlug(articleData.slug, articleData)
+        // En modo edición, necesitaríamos el slug del artículo actual
+        // Por ahora esta rama no se ejecuta ya que isEditMode es siempre false
+        await updateArticleBySlug('', articleData)
       } else {
-        await createArticle(articleData)
+        await createArticle({
+          title: articleData.title,
+          excerpt: articleData.excerpt,
+          content: articleData.content,
+          image: articleData.image,
+          related: articleData.related,
+        })
       }
       alert(isEditMode ? 'Artículo actualizado correctamente' : 'Artículo creado correctamente')
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al enviar los datos:', error)
-      alert(`Error al ${isEditMode ? 'actualizar' : 'crear'} el artículo: ${error.message}`)
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      alert(`Error al ${isEditMode ? 'actualizar' : 'crear'} el artículo: ${errorMessage}`)
     }
   }, [isEditMode])
 

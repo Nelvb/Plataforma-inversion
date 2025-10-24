@@ -47,7 +47,7 @@ const PoliticaPrivacidadPage = () => {
 
                     <h2>1. IDENTIDAD DEL RESPONSABLE DEL TRATAMIENTO</h2>
                     <p>
-                        El responsable del tratamiento de los datos personales recogidos a través de la plataforma web Boost A Project (en adelante, el "Sitio Web") es:
+                        El responsable del tratamiento de los datos personales recogidos a través de la plataforma web Boost A Project (en adelante, el &quot;Sitio Web&quot;) es:
                     </p>
                     <div className="bg-gray-50 p-6 rounded-lg mb-6">
                         <p><strong>Dynamic Sport 360 Consultora S.L.</strong></p>
@@ -147,7 +147,7 @@ const PoliticaPrivacidadPage = () => {
 
                     <h3>Procedimiento para ejercer los derechos:</h3>
                     <p>
-                        Para ejercer cualquiera de estos derechos, el usuario deberá enviar una solicitud por escrito al correo electrónico <strong>bapboostaproject@gmail.com</strong>, indicando en el asunto "Protección de Datos - Ejercicio de Derechos" y adjuntando copia de su DNI o documento identificativo equivalente.
+                        Para ejercer cualquiera de estos derechos, el usuario deberá enviar una solicitud por escrito al correo electrónico <strong>bapboostaproject@gmail.com</strong>, indicando en el asunto &quot;Protección de Datos - Ejercicio de Derechos&quot; y adjuntando copia de su DNI o documento identificativo equivalente.
                     </p>
                     <p>
                         El responsable del tratamiento se compromete a responder las solicitudes en el plazo legalmente establecido de <strong>un mes</strong>, el cual podrá ampliarse a dos meses en caso de complejidad.

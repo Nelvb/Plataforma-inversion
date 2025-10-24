@@ -36,8 +36,9 @@ const DeleteAccountModal: React.FC = () => {
             );
             closeDeleteModal();
             router.push("/");
-        } catch (error: any) {
-            alert(error.message || "Error al eliminar la cuenta.");
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Error al eliminar la cuenta.";
+            alert(errorMessage);
         }
     };
 

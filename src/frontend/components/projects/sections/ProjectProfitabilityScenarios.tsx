@@ -21,7 +21,7 @@
 
 import React from 'react'
 import Card from '@/components/ui/Card'
-import { TrendingUp, TrendingDown, Target, Calculator, DollarSign, BarChart3 } from 'lucide-react'
+import { TrendingUp, TrendingDown, Target, Calculator, BarChart3 } from 'lucide-react'
 
 interface ScenarioAssumptions {
   price_per_room: number

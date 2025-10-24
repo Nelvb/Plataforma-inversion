@@ -16,7 +16,6 @@
 import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import { getProjects } from '@/lib/api/projectService';
-import { Project } from '@/types/project';
 import ProjectCard from '@/components/projects/ProjectCard';
 import Button from '@/components/ui/Button';
 import LoadingState from '@/components/ui/LoadingState';
@@ -25,9 +24,11 @@ import { Filter } from 'lucide-react';
 import ProjectsHeader from '@/components/projects/ProjectsHeader';
 
 // SWR fetcher function para cache automático
-const fetcher = () => getProjects();
+const fetcher = function fetcher() {
+  return getProjects();
+};
 
-const ProyectosPage: React.FC = React.memo(() => {
+const ProyectosPage: React.FC = () => {
     const [filter, setFilter] = useState<'all' | 'open' | 'closed'>('all');
 
     // SWR para cache inteligente y revalidación automática
@@ -146,7 +147,7 @@ const ProyectosPage: React.FC = React.memo(() => {
             </div>
         </div>
     );
-});
+};
 
 // React.memo aplicado para evitar renders innecesarios
-export default ProyectosPage;
+export default React.memo(ProyectosPage);

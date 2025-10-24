@@ -14,7 +14,7 @@ import Button from '@/components/ui/Button'
 import LoadingState from '@/components/ui/LoadingState'
 import { getProjectBySlug, updateProject } from '@/lib/api/projectService'
 import { useRouter, useParams } from 'next/navigation'
-import { Project } from '@/types/project'
+import type { Project, ProjectFormData } from '@/types/project'
 
 const EditProject = () => {
   const router = useRouter()
@@ -43,14 +43,27 @@ const EditProject = () => {
     }
   }, [projectId, router])
 
-  const handleSubmit = async (projectData: any) => {
+  const handleSubmit = async (projectData: ProjectFormData) => {
     try {
-      await updateProject(projectId, projectData)
+      await updateProject(projectId, {
+        title: projectData.title,
+        subtitle: projectData.subtitle,
+        description: projectData.description,
+        status: projectData.status,
+        category: projectData.category,
+        featured: projectData.featured,
+        priority: projectData.priority,
+        main_image_url: projectData.main_image_url,
+        gallery: projectData.gallery,
+        investment_data: projectData.investment_data,
+        content_sections: projectData.content_sections,
+      })
       alert('Proyecto actualizado correctamente.')
       router.push('/admin/projects')
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al actualizar el proyecto:', error)
-      alert(`Error al actualizar el proyecto: ${error.message}`)
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      alert(`Error al actualizar el proyecto: ${errorMessage}`)
     }
   }
 
@@ -84,7 +97,22 @@ const EditProject = () => {
       </div>
 
       {/* Formulario de edición de proyecto */}
-      <ProjectForm onSubmit={handleSubmit} initialData={project} />
+      <ProjectForm
+        onSubmit={handleSubmit}
+        initialData={{
+          title: project.title,
+          subtitle: project.subtitle,
+          description: project.description,
+          status: project.status,
+          category: project.category,
+          featured: project.featured,
+          priority: project.priority,
+          main_image_url: project.main_image_url,
+          gallery: project.gallery,
+          investment_data: project.investment_data,
+          content_sections: project.content_sections,
+        }}
+      />
     </div>
   )
 }

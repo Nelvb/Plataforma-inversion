@@ -10,17 +10,18 @@
 
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import BlogArticleCard from "@/components/admin/ui/blog/BlogArticleCard";
 import Button from "@/components/ui/Button";
 import LoadingState from "@/components/ui/LoadingState";
 import { getArticles, deleteArticleBySlug } from "@/lib/blogService";
-import { Article } from "@/types";
 
 // SWR fetcher function para cache automático
-const fetcher = () => getArticles({ limit: 999 });
+const fetcher = function fetcher() {
+  return getArticles({ limit: 999 });
+};
 
 const BlogAdminPage: React.FC = () => {
   // SWR para cache inteligente y revalidación automática

@@ -15,19 +15,21 @@ import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import { createProject } from '@/lib/api/projectService'
 import { useRouter } from 'next/navigation'
+import type { ProjectInput } from '@/types/project'
 
 const NewProject: React.FC = () => {
   const router = useRouter()
 
   // useCallback para evitar recreación de función en cada render
-  const handleSubmit = useCallback(async (projectData: any) => {
+  const handleSubmit = useCallback(async (projectData: ProjectInput) => {
     try {
       await createProject(projectData)
       alert('Proyecto creado correctamente.')
       router.push('/admin/projects')
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al crear el proyecto:', error)
-      alert(`Error al crear el proyecto: ${error.message}`)
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      alert(`Error al crear el proyecto: ${errorMessage}`)
     }
   }, [router])
 
