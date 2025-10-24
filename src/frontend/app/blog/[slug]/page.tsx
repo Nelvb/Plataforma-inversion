@@ -18,8 +18,8 @@
 
 'use client';
 
-import React, { useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import React, { useMemo, useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { ArrowLeft, BookOpen } from 'lucide-react';
@@ -41,7 +41,19 @@ const relatedFetcher = () => getArticles({ limit: 999 });
 
 const ArticlePage: React.FC = React.memo(() => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = params?.slug as string;
+  const [backInfo, setBackInfo] = useState({ href: '/blog', text: 'Volver al blog' });
+
+  // Detectar de dónde viene el usuario
+  useEffect(() => {
+    const from = searchParams.get('from');
+    if (from === 'home') {
+      setBackInfo({ href: '/#latest-articles', text: 'Volver atrás' });
+    } else {
+      setBackInfo({ href: '/blog', text: 'Volver al blog' });
+    }
+  }, [searchParams]);
 
   // --- SWR principal (artículo actual) ---
   const { data: article, error, isLoading } = useSWR(
@@ -128,7 +140,7 @@ const ArticlePage: React.FC = React.memo(() => {
       {/* Encabezado del artículo — fuera del container */}
       <ArticleHeader
         article={article}
-        onBackClick={() => window.history.back()}
+        backInfo={backInfo}
       />
 
       {/* Contenido principal */}

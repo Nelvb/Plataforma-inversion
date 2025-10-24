@@ -51,7 +51,7 @@ const LatestArticles: React.FC = React.memo(() => {
 
     if (articles.length === 0) {
         return (
-            <section className="py-16 px-4 sm:px-6 lg:px-24 bg-white border-t border-[#6290C3]/20">
+            <section id="latest-articles" className="py-16 px-4 sm:px-6 lg:px-24 bg-white border-t border-[#6290C3]/20">
                 <div className="max-w-screen-2xl mx-auto text-center">
                     <p className="text-gray-500">No hay artículos disponibles en este momento.</p>
                 </div>
@@ -60,7 +60,7 @@ const LatestArticles: React.FC = React.memo(() => {
     }
 
     return (
-        <section className="py-16 px-4 sm:px-6 lg:px-24 bg-white border-t border-[#6290C3]/20">
+        <section id="latest-articles" className="py-16 px-4 sm:px-6 lg:px-24 bg-white border-t border-[#6290C3]/20">
             <div className="max-w-screen-2xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
@@ -75,7 +75,7 @@ const LatestArticles: React.FC = React.memo(() => {
                 {/* Grid de artículos */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                     {articles.map((article) => (
-                        <BlogArticleCard key={article.id} article={article} />
+                        <BlogArticleCard key={article.id} article={article} from="home" />
                     ))}
                 </div>
 

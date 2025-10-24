@@ -8,7 +8,7 @@ import { Article } from '@/types';
 
 interface ArticleHeaderProps {
   article: Article;
-  onBackClick: () => void;
+  backInfo: { href: string; text: string };
 }
 
 const formatDate = (dateString: string): string => {
@@ -20,7 +20,7 @@ const formatDate = (dateString: string): string => {
   });
 };
 
-const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, onBackClick }) => {
+const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, backInfo }) => {
   return (
     <div className="relative h-[70dvh] min-h-[500px] pt-40 sm:pt-44 md:pt-0">
       {/* Fondo dividido */}
@@ -49,15 +49,11 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({ article, onBackClick }) =
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
         <div className="max-w-4xl">
           <Link 
-            href="/blog" 
+            href={backInfo.href} 
             className="inline-flex items-center text-[#C2E7DA] hover:text-white transition-colors mb-6"
-            onClick={(e) => {
-              e.preventDefault();
-              onBackClick();
-            }}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Volver al blog
+            {backInfo.text}
           </Link>
           
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-md">

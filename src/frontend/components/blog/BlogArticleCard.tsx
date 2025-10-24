@@ -15,9 +15,10 @@ import { Article } from '@/types';
 
 interface BlogArticleCardProps {
   article: Article;
+  from?: string;
 }
 
-const BlogArticleCard: React.FC<BlogArticleCardProps> = ({ article }) => {
+const BlogArticleCard: React.FC<BlogArticleCardProps> = ({ article, from }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('es-ES', {
@@ -93,7 +94,7 @@ const BlogArticleCard: React.FC<BlogArticleCardProps> = ({ article }) => {
 
         {/* Botón */}
         <Link
-          href={`/blog/${article.slug}`}
+          href={`/blog/${article.slug}${from ? `?from=${from}` : ''}`}
           className="mt-auto block"
           aria-label={`Leer artículo completo: ${article.title}`}
         >
