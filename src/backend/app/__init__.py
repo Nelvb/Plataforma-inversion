@@ -17,6 +17,7 @@ from app.api.articles import articles_bp
 from app.api.images import images_bp
 from app.api.account import account_bp
 from app.api.projects import projects_bp
+from app.api.favorites import favorites_bp
 from app.config import config_class
 from app.extensions import cors, db, init_app, jwt, ma, migrate
 from app.services.image_service import ImageService
@@ -56,6 +57,7 @@ def create_app(config_object=config_class):
     app.register_blueprint(images_bp, url_prefix="/api/images")
     app.register_blueprint(account_bp, url_prefix="/api/account")
     app.register_blueprint(projects_bp, url_prefix="/api/projects")
+    app.register_blueprint(favorites_bp)
 
     # ------------------------------------------------------------
     # INYECCIÓN AUTOMÁTICA DE DATOS EN PRODUCCIÓN (segura e idempotente)

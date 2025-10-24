@@ -1,0 +1,30 @@
+[33ma959e9c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: Corrección de error TypeScript en setupTests.ts
+[33mdcab180[m fix: Corrección profesional de todos los tests fallidos
+[33m1750a1b[m feat: unificar diseño de modales y side menus
+[33ma2849a9[m feat(ui): unificación visual de componentes base (DropdownBase, ModalBase, SideMenuBase) con diseño corporativo
+[33mfaf2d90[m mejoras en UX/UI en dashboard users
+[33mf4c41cf[m fix(dashboard): remove hardcoded localhost URL and update WhatsApp number
+[33m4560501[m Camibos en los bg y layouts de sections de dashboard users
+[33m4595be6[m feat: Implementar sistema de favoritos con modal de autenticación
+[33m89ef7c6[m feat(navbar): integración completa de UserAvatarMenu con avatar, dropdown y logout profesional
+[33maad0098[m fix(auth): estabilizado flujo completo de autenticación y CSRF - Backend: ajustado SameSite a 'Lax' en DevelopmentConfig (compatibilidad HTTP) - Frontend: persistencia del csrf_token en useAuthStore y búsqueda prioritaria en fetchWithAuth - Eliminado comportamiento errático en entorno local (cookies cross-site) - Flujo de login, logout y eliminación de cuenta verificado en entorno local
+[33mbb2a592[m fix(jwt): habilitado SameSite=None para cookies cross-domain - Añadido JWT_COOKIE_SAMESITE='None' en DevelopmentConfig y ProductionConfig - Garantiza compatibilidad entre frontend (Vercel) y backend (Render) - Mantiene JWT_COOKIE_SECURE=False en local y True en producción - Resuelve error 'Missing cookie access_token_cookie' en eliminación de cuenta
+[33md3c62b2[m fix(email): estabilizado sistema de envío con IONOS y Reply-To funcional - Confirmada autenticación y entrega SMTP (Flask-Mail) - Restablecida comunicación con info@boostaproject.es tras reinicio del servidor - Se mantiene reply_to=email para respuesta directa al usuario - Añadido TESTING_ARCHITECTURE.md con comandos de ejecución y guía de inicio rápido
+[33m2fa8104[m cambios realizados en users tests, creados users únicos
+[33m5def4c7[m ci: run full backend test suite for verification
+[33m14f16b6[m fix: resolve test concurrency issues in projects API
+[33mb0eb651[m cambios en tests create admin con email único para cada prueba
+[33mddda4bd[m cambio en un comentario para test (ci): comprobación ejecución de tests backend
+[33ma2f763a[m ci: corregido error 400 del cache en GitHub Actions — ruta específica de requirements.txt y setup-python@v5
+[33m1b4ef99[m ci: mejora del flujo de tests — cache de dependencias, optimización de fixtures y paralelización con pytest-xdist
+[33m0e67b0c[m Unifica configuración CORS y corrige decoradores para producción
+[33meff9536[m importar_proyectos_desde_json(projects_data)
+[33m735431d[m cambio de name a username en init_.py
+[33m1b6709c[m Cambios en init para inyectar admin, projects y articles en render
+[33mdeaa5af[m Agrega migraciones automáticas en create_app para evitar error relation does not exist en producción
+[33m45f0ba1[m chore(backend): resumen de artículos y proyectos importados en logs
+[33m74846bb[m fix(backend): inyección automática completa (admin, artículos y proyectos)
+[33m64e4c86[m feat(backend): activar inyección automática segura en producción
+[33ma59a2da[m fix(frontend): actualizar URLs de API y limpieza de mixed content
+[33m8cca0dd[m fix: configuración automática por entorno (development/production)
+[33ma01a100[m fix: CORS y API URL para despliegue en producción (Render + Vercel)
