@@ -28,7 +28,7 @@ const SideMenuAuthSection: React.FC<SideMenuAuthSectionProps> = ({ onClose }) =>
 
   if (!isAuthenticated) {
     return (
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
+      <div className="space-y-3">
         {!isLoginPage && (
           <Link href="/login" onClick={onClose} className="block w-full">
             <Button variant="outline" size="md" className="w-full">
@@ -49,16 +49,18 @@ const SideMenuAuthSection: React.FC<SideMenuAuthSectionProps> = ({ onClose }) =>
   }
 
   return (
-    <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-      <button
+    <div className="space-y-3">
+      <Button
+        variant="outline"
+        size="md"
+        className="w-full"
         onClick={() => {
           logout();
           onClose();
         }}
-        className="w-full text-center py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-800 rounded transition-colors"
       >
         Cerrar Sesión
-      </button>
+      </Button>
     </div>
   );
 };

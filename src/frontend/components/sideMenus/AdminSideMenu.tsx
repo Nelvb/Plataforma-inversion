@@ -3,10 +3,14 @@
  *
  * Menú lateral para el entorno del administrador.
  * Incluye navegación pública general, rutas internas de gestión y botón de cierre de sesión.
- * Sigue la misma estructura visual que el SideMenu del usuario para coherencia global.
+ * Formato unificado con UserSideMenu: mismo fondo, animaciones y estructura.
  *
  * - Migrado a Zustand (`useAuthStore`) para logout global.
  * - Mantiene diseño responsivo y experiencia accesible.
+ * - Formato unificado con UserSideMenu
+ *
+ * @author Boost A Project
+ * @since v2.6.1
  */
 
 "use client";
@@ -17,7 +21,6 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/useAuthStore";
 import Button from "@/components/ui/Button";
 import SideMenuHeader from "@/components/common/SideMenuHeader";
-import MainMenuLinks from "@/components/common/MainMenuLinks";
 
 interface AdminSideMenuProps {
   isOpen: boolean;
@@ -30,67 +33,84 @@ const AdminSideMenu: React.FC<AdminSideMenuProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  const isActive = (route: string) => pathname === route;
+
   return (
     <div className="fixed inset-0 z-40 bg-black/50" onClick={onClose}>
       <aside
-        className="fixed top-0 right-0 w-72 h-screen bg-[#F7FAFF] shadow-xl z-50 overflow-y-auto"
+        className="fixed top-0 right-0 w-72 h-screen bg-white shadow-xl z-50 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Cabecera con logo y saludo */}
+        {/* Header unificado */}
         <SideMenuHeader onClose={onClose} />
 
-        {/* Enlaces públicos */}
-        <nav className="py-4 px-2">
-          <MainMenuLinks onClickLink={onClose} />
+        {/* Navegación principal */}
+        <nav className="py-5">
+          <ul className="flex flex-col space-y-1">
+            {[
+              { href: "/", label: "Inicio" },
+              { href: "/proyectos", label: "Proyectos" },
+              { href: "/blog", label: "Blog" },
+              { href: "/faq", label: "Preguntas frecuentes" },
+              { href: "/contacto", label: "Contacto" },
+            ].map(({ href, label }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  onClick={onClose}
+                  className={`block px-4 py-3 transition-all duration-300 font-medium relative
+                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full
+                    after:scale-x-0 after:bg-[#1DA1F2] after:transition-transform
+                    hover:text-[#1DA1F2] hover:after:scale-x-100
+                    ${isActive(href)
+                      ? "text-[#1DA1F2] after:scale-x-100"
+                      : "text-[#1A1341]"
+                    }`}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-          {/* Separador: sección administrador */}
-          <div className="bg-[#C2E7DA] text-[#1A1341] text-base font-semibold text-center py-2 mt-6 border-t border-gray-200">
+          {/* Separador */}
+          <div className="border-t border-[#C2E7DA] my-4"></div>
+
+          {/* Sección administrador */}
+          <div className="bg-[#C2E7DA] text-[#1A1341] text-base font-semibold text-center py-2 px-4 rounded mb-2">
             Administrador
           </div>
 
           {/* Enlaces de gestión del panel admin */}
-          <ul className="flex flex-col space-y-1 pt-2">
-            <li>
-              <Link
-                href="/admin"
-                onClick={onClose}
-                className={`block px-4 py-2 rounded transition-colors text-[#1A1341] hover:bg-[#1A1341] hover:text-white ${pathname === "/admin" ? "font-semibold underline" : ""}`}
-              >
-                Área Privada
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/projects"
-                onClick={onClose}
-                className={`block px-4 py-2 rounded transition-colors text-[#1A1341] hover:bg-[#1A1341] hover:text-white ${pathname === "/admin/projects" ? "font-semibold underline" : ""}`}
-              >
-                Editar Proyectos
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/blog"
-                onClick={onClose}
-                className={`block px-4 py-2 rounded transition-colors text-[#1A1341] hover:bg-[#1A1341] hover:text-white ${pathname === "/admin/blog" ? "font-semibold underline" : ""}`}
-              >
-                Editar Blog
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/perfil"
-                onClick={onClose}
-                className={`block px-4 py-2 rounded transition-colors text-[#1A1341] hover:bg-[#1A1341] hover:text-white ${pathname === "/admin/perfil" ? "font-semibold underline" : ""}`}
-              >
-                Mi Cuenta
-              </Link>
-            </li>
+          <ul className="flex flex-col space-y-1">
+            {[
+              { href: "/admin", label: "Área Privada" },
+              { href: "/admin/projects", label: "Editar Proyectos" },
+              { href: "/admin/blog", label: "Editar Blog" },
+              { href: "/admin/perfil", label: "Mi Cuenta" },
+            ].map(({ href, label }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  onClick={onClose}
+                  className={`block px-4 py-3 transition-all duration-300 font-medium relative
+                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full
+                    after:scale-x-0 after:bg-[#1DA1F2] after:transition-transform
+                    hover:text-[#1DA1F2] hover:after:scale-x-100
+                    ${isActive(href)
+                      ? "text-[#1DA1F2] after:scale-x-100"
+                      : "text-[#1A1341]"
+                    }`}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
 
-        {/* Acción final: logout */}
-        <div className="p-4 border-t border-gray-200">
+        {/* Botón de logout */}
+        <div className="p-4 border-t border-[#C2E7DA] space-y-3">
           <Button
             variant="outline"
             size="md"

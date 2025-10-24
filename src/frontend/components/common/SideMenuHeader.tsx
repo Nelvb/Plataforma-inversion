@@ -2,18 +2,21 @@
  * SideMenuHeader.tsx
  *
  * Cabecera del menú lateral (SideMenu).
- * Muestra el logotipo de Boost A Project y, si el usuario está autenticado, un saludo personalizado.
- * Incluye botón para cerrar el menú lateral. Preparado para Zustand.
+ * Muestra el logotipo de Boost A Project y, si el usuario está autenticado,
+ * un saludo centrado debajo del header con líneas separadoras diferenciadas.
  *
- * - Reemplaza `useAuth` por `useAuthStore`.
- * - Accesible, responsivo y optimizado para SSR.
- * - Mantiene consistencia visual con el resto de la aplicación.
+ * - Fondo del saludo igual que el SideMenu (#F7FAFF)
+ * - Línea superior azul oscuro (#1A1341)
+ * - Línea inferior verde claro (#C2E7DA)
+ * - Estructura y medidas inalteradas
+ *
+ * @author Boost A Project
+ * @since v2.6.5
  */
 
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 interface SideMenuHeaderProps {
@@ -24,42 +27,32 @@ const SideMenuHeader: React.FC<SideMenuHeaderProps> = ({ onClose }) => {
   const { isAuthenticated, user } = useAuthStore();
 
   return (
-    <div className="flex justify-between items-center p-4 bg-[#1DA1F2]">
-      <div className="flex items-center space-x-3">
-        <Image
-          src="https://res.cloudinary.com/dy1pkrd52/image/upload/v1742894677/Logo-sin-fondo-3_d4ch0a.webp"
-          alt="Logo Boost A Project"
-          width={64}
-          height={64}
-          priority
-          className="w-16 h-16 object-contain"
-        />
-        {isAuthenticated && (
-          <span className="text-lg font-semibold text-white">
-            Hola {user?.username}
-          </span>
-        )}
-      </div>
-      <button
-        onClick={onClose}
-        aria-label="Cerrar menú"
-        className="text-white hover:text-[#C2E7DA]"
-      >
-        <svg
-          className="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+    <div className="sticky top-0 z-10">
+      {/* Header superior con logo y botón X */}
+      <div className="flex justify-between items-center px-6 py-8 bg-[#C2E7DA]">
+        <div className="flex items-center space-x-3">
+          <h1 className="text-[#1A1341] text-2xl font-bold">
+            Boost A Project
+          </h1>
+        </div>
+
+        <button
+          onClick={onClose}
+          aria-label="Cerrar menú"
+          className="text-[#1A1341] hover:text-[#1DA1F2] transition-all duration-300 text-3xl font-bold"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
+          ×
+        </button>
+      </div>
+
+      {/* Saludo con fondo igual al UserSideMenu */}
+      {isAuthenticated && (
+        <div className="text-center py-3 bg-white border-t-2 border-b border-t-[#1A1341] border-b-[#C2E7DA]">
+          <p className="text-[#1A1341] text-lg font-semibold">
+            Hola {user?.username}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

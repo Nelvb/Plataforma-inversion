@@ -2,11 +2,12 @@
  * DeleteAccountModal.tsx
  *
  * Modal de confirmación para eliminar permanentemente la cuenta del usuario.
- * Usa colores corporativos y diseño coherente con la plataforma.
  * 
- * - Migrado a Zustand (`useAuthStore` y `useUiStore`) para control global.
- * - Mantiene diseño accesible, modular y desacoplado del SideMenu.
- * - Usa componentes Button reutilizables para consistencia visual.
+ * Refactorizado para usar ModalBase (mantiene el contenido original y la lógica completa).
+ * Diseño unificado: header verde corporativo, bordes 2xl, sombra, accesibilidad y consistencia visual.
+ *
+ * @author Boost A Project
+ * @since v2.5.1
  */
 
 "use client";
@@ -17,6 +18,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useUiStore } from "@/stores/useUiStore";
 import { userService } from "@/lib/api/userService";
 import Button from "@/components/ui/Button";
+import ModalBase from "@/components/ui/ModalBase";
 
 const DeleteAccountModal: React.FC = () => {
     const { logout } = useAuthStore();
@@ -29,7 +31,9 @@ const DeleteAccountModal: React.FC = () => {
         try {
             await userService.deleteAccount();
             logout();
-            alert("Tu cuenta ha sido eliminada. Gracias por formar parte de Boost A Project.");
+            alert(
+                "Tu cuenta ha sido eliminada. Gracias por formar parte de Boost A Project."
+            );
             closeDeleteModal();
             router.push("/");
         } catch (error: any) {
@@ -38,38 +42,26 @@ const DeleteAccountModal: React.FC = () => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
-            <div className="bg-white rounded-xl shadow-lg max-w-md w-full overflow-hidden">
-                {/* Header */}
-                <div className="bg-[#1DA1F2] px-6 py-4">
-                    <h2 className="text-white text-xl font-semibold">
-                        ¿Estás seguro de que quieres eliminar tu cuenta?
-                    </h2>
-                </div>
+        <ModalBase
+            isOpen={showDeleteModal}
+            onClose={closeDeleteModal}
+            title="¿Estás seguro de que quieres eliminar tu cuenta?"
+        >
+            <div className="bg-[#F1FFEF] px-6 py-5 space-y-4 text-[#1A1341] rounded-2xl">
+                <p className="text-base">
+                    Esta acción es irreversible. Toda tu información será eliminada.
+                </p>
 
-                {/* Contenido */}
-                <div className="bg-[#F1FFEF] px-6 py-5 space-y-4 text-[#1A1341]">
-                    <p className="text-base">
-                        Esta acción es irreversible. Toda tu información será eliminada.
-                    </p>
-
-                    <div className="flex justify-end gap-3 pt-4">
-                        <Button
-                            variant="secondary"
-                            onClick={closeDeleteModal}
-                        >
-                            Cancelar
-                        </Button>
-                        <Button
-                            variant="danger"
-                            onClick={handleDelete}
-                        >
-                            Eliminar cuenta
-                        </Button>
-                    </div>
+                <div className="flex justify-end gap-3 pt-4">
+                    <Button variant="secondary" onClick={closeDeleteModal}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Eliminar cuenta
+                    </Button>
                 </div>
             </div>
-        </div>
+        </ModalBase>
     );
 };
 

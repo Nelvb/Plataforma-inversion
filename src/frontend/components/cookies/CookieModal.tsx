@@ -14,6 +14,8 @@
 
 import React from "react";
 import { useCookieConsent } from "@/stores/useCookieConsent";
+import ModalBase from "@/components/ui/ModalBase";
+import Button from "@/components/ui/Button";
 
 const CookieModal: React.FC = () => {
     const {
@@ -27,34 +29,13 @@ const CookieModal: React.FC = () => {
 
     if (!showModal) return null;
 
-    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) closeModal();
-    };
-
     return (
-        <div
-            className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={handleBackdropClick}
-            role="dialog"
-            aria-modal="true"
+        <ModalBase
+            isOpen={showModal}
+            onClose={closeModal}
+            title="Configuración de cookies"
         >
-            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-[fadeIn_0.3s_ease-out]">
-                {/* Header */}
-                <div className="bg-[#1A1341] text-white p-6 flex items-center justify-between">
-                    <h2 className="text-lg font-semibold">
-                        Configuración de cookies
-                    </h2>
-                    <button
-                        onClick={closeModal}
-                        className="text-white/80 hover:text-white text-2xl font-bold leading-none"
-                        aria-label="Cerrar modal"
-                    >
-                        ×
-                    </button>
-                </div>
-
-                {/* Contenido */}
-                <div className="p-6 space-y-5 overflow-y-auto max-h-[60vh] text-gray-700">
+            <div className="space-y-5 overflow-y-auto max-h-[60vh] text-gray-700">
                     <p className="text-sm">
                         En Boost A Project utilizamos cookies para mejorar tu experiencia. Puedes aceptar todas,
                         solo las necesarias o personalizar tu configuración.
@@ -145,42 +126,28 @@ const CookieModal: React.FC = () => {
 
                 {/* Footer */}
                 <div className="border-t border-gray-200 bg-gray-50 p-5 flex flex-col sm:flex-row gap-3 justify-end">
-                    <button
+                    <Button
+                        variant="secondary"
                         onClick={closeModal}
-                        className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                         Cancelar
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
+                        variant="primary"
                         onClick={acceptAll}
-                        className="px-4 py-2 rounded-md bg-[#6290C3] text-white hover:bg-[#C2E7DA] hover:text-[#1A1341] transition-colors"
                     >
                         Aceptar todas
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
+                        variant="outline"
                         onClick={saveModalPreferences}
-                        className="px-4 py-2 rounded-md border border-[#6290C3] text-[#6290C3] hover:bg-[#6290C3] hover:text-white transition-colors"
                     >
                         Guardar preferencias
-                    </button>
+                    </Button>
                 </div>
-            </div>
-
-            <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
-        </div>
+        </ModalBase>
     );
 };
 
