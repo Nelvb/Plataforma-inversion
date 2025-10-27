@@ -83,6 +83,6 @@ with app.app_context():
             print(msg)
         
         print("-" * 60)
-        print(f"✅ Proceso completado - {len(json_files)} archivo(s) procesado(s)")
+        print(f"Proceso completado - {len(json_files)} archivo(s) procesado(s)")
     else:
         print("✗ No se encontraron datos válidos en los archivos JSON")

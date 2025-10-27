@@ -47,6 +47,18 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     // Verificar si el proyecto es favorito
     const isProjectFavorite = isFavorite(project.slug);
 
+    // FORZAR ACTUALIZACIÓN cuando cambie la autenticación
+    useEffect(() => {
+        // Si no está autenticado, forzar re-render para limpiar estado visual
+        if (!isAuthenticated) {
+            // El store ya debería estar limpio, pero forzamos re-render
+            const { favorites } = useFavoritesStore.getState();
+            if (favorites.length > 0) {
+                console.warn("⚠️ Favoritos persistentes detectados después del logout");
+            }
+        }
+    }, [isAuthenticated]);
+
     // Manejar clic en el botón
     const handleClick = () => {
         if (!isAuthenticated) {

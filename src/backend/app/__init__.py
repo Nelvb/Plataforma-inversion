@@ -90,7 +90,7 @@ def create_app(config_object=config_class):
                 )
                 db.session.add(nuevo_admin)
                 db.session.commit()
-                app.logger.info("✅ Usuario admin creado automáticamente.")
+                app.logger.info("Usuario admin creado automáticamente.")
             else:
                 app.logger.info("Usuario admin ya existe, no se recrea.")
 
@@ -105,9 +105,9 @@ def create_app(config_object=config_class):
                             articles_data = json.load(f)
                         importar_articulos_desde_json(articles_data)
                         articulos_cargados = len(articles_data)
-                        app.logger.info("✅ Artículos importados automáticamente.")
+                        app.logger.info("Artículos importados automáticamente.")
                     else:
-                        app.logger.warning("⚠️ Archivo de artículos no encontrado.")
+                        app.logger.warning("Archivo de artículos no encontrado.")
                 else:
                     articulos_cargados = Article.query.count()
                     app.logger.info("Artículos ya presentes en la base de datos.")
@@ -128,9 +128,9 @@ def create_app(config_object=config_class):
                                     projects_data = [projects_data]
                                 importar_proyectos_desde_json(projects_data)
                                 proyectos_cargados += len(projects_data)
-                                app.logger.info(f"✅ Proyecto importado automáticamente desde {file}")
+                                app.logger.info(f"Proyecto importado automáticamente desde {file}")
                     else:
-                        app.logger.warning("⚠️ Carpeta de proyectos no encontrada.")
+                        app.logger.warning("Carpeta de proyectos no encontrada.")
                 else:
                     proyectos_cargados = Project.query.count()
                     app.logger.info("Proyectos ya presentes en la base de datos.")

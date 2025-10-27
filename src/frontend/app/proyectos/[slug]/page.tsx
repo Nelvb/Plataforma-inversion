@@ -58,7 +58,7 @@ const fetcher = function fetcher(url: string) {
     return getProjectBySlug(slug!);
 };
 
-// ✅ TYPE GUARDS PROFESIONALES
+// TYPE GUARDS PROFESIONALES
 const isSensitivityAnalysis = (obj: unknown): obj is SensitivityAnalysis => {
     return (
         typeof obj === 'object' &&
@@ -163,7 +163,7 @@ const ProjectDetailPage: React.FC = () => {
     const afterImages = getGalleryImages('after');
     const beforeImages = getGalleryImages('before');
 
-    // ✅ HELPER FUNCTION CON TYPE GUARDS
+    // HELPER FUNCTION CON TYPE GUARDS
     const renderSection = (section: ContentSection, index: number) => {
         switch (section.type) {
             case 'hero':
@@ -228,7 +228,7 @@ const ProjectDetailPage: React.FC = () => {
                 );
 
             case 'risk_analysis':
-                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                // VALIDACIÓN PROFESIONAL CON TYPE GUARD
                 const sensitivityAnalysis = isSensitivityAnalysis(section.sensitivity_analysis)
                     ? section.sensitivity_analysis
                     : { title: 'Análisis de Sensibilidad', scenarios: [], conclusion: '' };
@@ -243,7 +243,7 @@ const ProjectDetailPage: React.FC = () => {
                 );
 
             case 'legal':
-                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                // VALIDACIÓN PROFESIONAL CON TYPE GUARD
                 const legalData = isLegalSection(section)
                     ? section
                     : { title: 'Información Legal', content: [] };
@@ -251,7 +251,7 @@ const ProjectDetailPage: React.FC = () => {
                 return <ProjectLegalInfo key={index} data={legalData} />;
 
             case 'sensitivity_analysis':
-                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                // VALIDACIÓN PROFESIONAL CON TYPE GUARD
                 const analysisData = isSensitivityAnalysis(section)
                     ? section
                     : { title: 'Análisis de Sensibilidad', scenarios: [], conclusion: '' };
@@ -259,7 +259,7 @@ const ProjectDetailPage: React.FC = () => {
                 return <ProjectSensitivityAnalysis key={index} analysis={analysisData} />;
 
             case 'exit_strategies':
-                // ✅ VALIDACIÓN PROFESIONAL CON TYPE GUARD
+                // VALIDACIÓN PROFESIONAL CON TYPE GUARD
                 const recommendation = isExitRecommendation(section.recommendation)
                     ? section.recommendation
                     : { maximize_profitability: '', intermediate_liquidity: '', optimize: '' };
@@ -282,7 +282,7 @@ const ProjectDetailPage: React.FC = () => {
                 );
 
             case 'faq':
-                // ✅ CONVERSIÓN PROFESIONAL DE ESTRUCTURAS
+                // CONVERSIÓN PROFESIONAL DE ESTRUCTURAS
                 const faqCategories: FAQCategory[] = (() => {
                     // Si hay 'categories' y es array
                     if (Array.isArray(section.categories) && section.categories.length > 0) {

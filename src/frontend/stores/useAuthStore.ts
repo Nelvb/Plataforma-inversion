@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>()(
                         error: null
                     });
 
-                    // ✅ SINCRONIZAR FAVORITOS DEL BACKEND
+                    // SINCRONIZAR FAVORITOS DEL BACKEND
                     try {
                         const { fetchFavorites } = useFavoritesStore.getState();
                         await fetchFavorites();
@@ -123,9 +123,24 @@ export const useAuthStore = create<AuthState>()(
                     console.error("Error en logout del backend:", error);
                 }
 
-                // ✅ LIMPIAR FAVORITOS
-                const { clearFavorites } = useFavoritesStore.getState();
-                clearFavorites();
+                // LIMPIAR FAVORITOS COMPLETAMENTE
+                try {
+                    const { clearFavorites } = useFavoritesStore.getState();
+                    clearFavorites();
+                    
+                    // Verificar que se limpió correctamente
+                    const { favorites } = useFavoritesStore.getState();
+                    if (favorites.length > 0) {
+                        console.error("Error: Favoritos no se limpiaron correctamente");
+                        // Forzar limpieza manual como último recurso
+                        useFavoritesStore.setState({ favorites: [] });
+                        localStorage.removeItem("favorites-storage");
+                    } else {
+                        console.log("Favoritos limpiados correctamente en logout");
+                    }
+                } catch (error) {
+                    console.error("Error limpiando favoritos en logout:", error);
+                }
 
                 // Limpiar estado local siempre
                 localStorage.removeItem("user");
@@ -162,7 +177,7 @@ export const useAuthStore = create<AuthState>()(
                         error: null
                     });
 
-                    // ✅ SINCRONIZAR FAVORITOS AL REFRESCAR
+                    // SINCRONIZAR FAVORITOS AL REFRESCAR
                     try {
                         const { fetchFavorites } = useFavoritesStore.getState();
                         await fetchFavorites();

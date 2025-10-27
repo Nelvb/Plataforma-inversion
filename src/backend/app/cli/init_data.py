@@ -37,7 +37,7 @@ def init_data():
     click.echo("=" * 60)
     
     # 1. CREAR ADMIN
-    click.echo("\n📋 PASO 1: Verificando usuario administrador...")
+    click.echo("\nPASO 1: Verificando usuario administrador...")
     existing_admin = User.query.filter_by(email='bapboostaproject@gmail.com').first()
     
     if existing_admin:
@@ -54,7 +54,7 @@ def init_data():
         click.echo("✓ Administrador creado correctamente")
     
     # 2. IMPORTAR ARTÍCULOS
-    click.echo("\n📋 PASO 2: Verificando artículos...")
+    click.echo("\nPASO 2: Verificando artículos...")
     articles_count = Article.query.count()
     
     if articles_count > 0:
@@ -72,7 +72,7 @@ def init_data():
             click.echo("⚠ Archivo articles.json no encontrado")
     
     # 3. IMPORTAR PROYECTOS
-    click.echo("\n📋 PASO 3: Verificando proyectos...")
+    click.echo("\nPASO 3: Verificando proyectos...")
     projects_count = Project.query.count()
     
     if projects_count > 0:
@@ -103,7 +103,7 @@ def init_data():
             click.echo("⚠ Directorio projects/ no encontrado")
     
     click.echo("\n" + "=" * 60)
-    click.echo("✅ INICIALIZACIÓN COMPLETADA")
+    click.echo("INICIALIZACIÓN COMPLETADA")
     click.echo("=" * 60)
 
 

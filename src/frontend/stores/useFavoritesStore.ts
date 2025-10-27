@@ -33,6 +33,7 @@ interface FavoritesState {
     toggleFavorite: (project: Project) => Promise<void>;
     isFavorite: (slug: string) => boolean;
     clearFavorites: () => void;
+    debugFavorites: () => { memory: Project[]; localStorage: string | null; count: number };
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -132,9 +133,44 @@ export const useFavoritesStore = create<FavoritesState>()(
 
             // Limpiar todos los favoritos
             clearFavorites: () => {
+                console.log("🧹 Limpiando favoritos del store y localStorage...");
+                
+                // Limpiar estado en memoria
                 set({ favorites: [] });
-                // ✅ LIMPIAR localStorage explícitamente
+                
+                // Limpiar localStorage explícitamente
                 localStorage.removeItem("favorites-storage");
+                
+                // FORZAR LIMPIEZA COMPLETA - limpiar también el estado persistido
+                try {
+                    // Obtener el estado actual del store persistido
+                    const persistedState = localStorage.getItem("favorites-storage");
+                    if (persistedState) {
+                        console.log("🗑️ Eliminando estado persistido:", persistedState);
+                        localStorage.removeItem("favorites-storage");
+                    }
+                } catch (error) {
+                    console.error("Error limpiando localStorage:", error);
+                }
+                
+                console.log("✅ Favoritos limpiados completamente");
+            },
+
+            // Función de debugging para inspeccionar el estado
+            debugFavorites: () => {
+                const { favorites } = get();
+                const persistedState = localStorage.getItem("favorites-storage");
+                
+                console.log("🔍 DEBUG FAVORITOS:");
+                console.log("- Estado en memoria:", favorites);
+                console.log("- Estado en localStorage:", persistedState);
+                console.log("- Cantidad en memoria:", favorites.length);
+                
+                return {
+                    memory: favorites,
+                    localStorage: persistedState,
+                    count: favorites.length
+                };
             }
         }),
         {
@@ -157,3 +193,16 @@ export const useFavoritesStore = create<FavoritesState>()(
 );
 
 export type { FavoritesState };
+
+// Función global de debugging para la consola del navegador
+if (typeof window !== 'undefined') {
+    (window as any).debugFavorites = () => {
+        const { debugFavorites } = useFavoritesStore.getState();
+        return debugFavorites();
+    };
+    
+    (window as any).clearFavorites = () => {
+        const { clearFavorites } = useFavoritesStore.getState();
+        clearFavorites();
+    };
+}

@@ -52,7 +52,7 @@ def import_articles():
             click.echo(msg)
         
         click.echo("-" * 60)
-        click.echo("✅ Importación de artículos completada")
+        click.echo("Importación de artículos completada")
         
     except Exception as e:
         click.echo(f"✗ Error: {e}")
@@ -109,7 +109,7 @@ def import_projects():
             click.echo(msg)
         
         click.echo("-" * 60)
-        click.echo("✅ Importación de proyectos completada")
+        click.echo("Importación de proyectos completada")
     else:
         click.echo("✗ No se encontraron datos válidos")
 

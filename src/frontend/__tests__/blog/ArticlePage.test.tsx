@@ -30,7 +30,7 @@ jest.mock("next/navigation", () => ({
 // Mock del servicio de blog
 jest.mock("@/lib/blogService", () => require("@/__mocks__/blogService"));
 
-// 🔧 Helper para limpiar la caché SWR en cada render
+// Helper para limpiar la caché SWR en cada render
 const renderWithCleanCache = (ui: React.ReactElement) => {
     return render(<SWRConfig value={{ provider: () => new Map() }}>{ui}</SWRConfig>);
 };
@@ -41,7 +41,7 @@ describe("Vista pública del artículo /blog/[slug]", () => {
     });
 
     it("renderiza el artículo y los artículos relacionados correctamente", async () => {
-        // ✅ mocks pre-resueltos
+        // mocks pre-resueltos
         mockGetArticleBySlug.mockResolvedValueOnce({
             id: 1,
             slug: "mi-articulo-prueba",

@@ -26,7 +26,7 @@ def create_admin():
     """Crea un usuario administrador por defecto si no existe."""
     email = "bapboostaproject@gmail.com"
     if User.query.filter_by(email=email).first():
-        click.echo("⚠️  El administrador ya existe.")
+        click.echo("El administrador ya existe.")
         return
 
     admin = User(
@@ -39,4 +39,4 @@ def create_admin():
 
     db.session.add(admin)
     db.session.commit()
-    click.echo("✅ Administrador creado exitosamente.")
+    click.echo("Administrador creado exitosamente.")

@@ -68,7 +68,7 @@ export const INVESTMENT_TYPES = {
 export type ProjectStatus = typeof PROJECT_STATUS[keyof typeof PROJECT_STATUS]
 export type InvestmentType = typeof INVESTMENT_TYPES[keyof typeof INVESTMENT_TYPES]
 
-// ✅ INTERFACES EXACTAS DE LOS COMPONENTES
+// INTERFACES EXACTAS DE LOS COMPONENTES
 export interface ContentSection {
     type: string;
     title?: string;
@@ -117,7 +117,7 @@ export interface FinancialBreakdownItem {
     currency?: string;
 }
 
-// ✅ PROFITABILITY SCENARIOS (ProjectProfitabilityScenarios.tsx)
+// PROFITABILITY SCENARIOS (ProjectProfitabilityScenarios.tsx)
 export interface ProfitabilityScenario {
     name: string;
     annual_return: string;
@@ -156,7 +156,7 @@ export interface ComparisonItem {
     return: string;
 }
 
-// ✅ RISK ANALYSIS (ProjectRiskAnalysis.tsx)
+// RISK ANALYSIS (ProjectRiskAnalysis.tsx)
 export interface RiskItem {
     id?: number;
     name: string;
@@ -190,7 +190,7 @@ export interface SensitivityScenario {
     };
 }
 
-// ✅ EXIT STRATEGIES (ProjectExitStrategies.tsx)
+// EXIT STRATEGIES (ProjectExitStrategies.tsx)
 export interface ExitStrategy {
     id: number;
     name: string;
@@ -208,7 +208,7 @@ export interface ExitRecommendation {
     optimize: string;
 }
 
-// ✅ LEGAL (ProjectLegalInfo.tsx)
+// LEGAL (ProjectLegalInfo.tsx)
 export interface LegalSection {
     title: string;
     content: string | string[];
@@ -216,7 +216,7 @@ export interface LegalSection {
     [key: string]: unknown;
 }
 
-// ✅ PROCESS (ProjectProcess.tsx)
+// PROCESS (ProjectProcess.tsx)
 export interface ProcessStep {
     phase: number;
     name: string;

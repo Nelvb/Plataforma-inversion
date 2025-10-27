@@ -549,20 +549,25 @@ Plataforma-inversion/
 │   │   │   ├── ui/                       # Componentes básicos
 │   │   │   │   ├── Button.tsx
 │   │   │   │   ├── Card.tsx
+│   │   │   │   ├── FavoriteButton.tsx    # Botón de favoritos
 │   │   │   │   ├── ImageUpload.tsx
 │   │   │   │   ├── Input.tsx
 │   │   │   │   └── Spinner.tsx
+│   │   │   ├── dashboard/               # Componentes dashboard
+│   │   │   │   └── FavoritesSection.tsx # Sección de favoritos
 │   │   │   └── user/                     # Componentes del área de usuario
 │   │   │       ├── DeleteAccountModal.tsx
 │   │   │       └── layout/
 │   │   │           └── UserPageContent.tsx
 │   │   ├── stores/                       # Zustand stores
 │   │   │   ├── useAuthStore.ts            # Estado de autenticación
+│   │   │   ├── useFavoritesStore.ts       # Estado de favoritos
 │   │   │   └── useUiStore.ts             # Estado de UI
 │   │   ├── lib/                          # Servicios y utilidades
 │   │   │   ├── api/                       # Servicios de API
 │   │   │   │   ├── authService.ts
 │   │   │   │   ├── contactService.ts
+│   │   │   │   ├── favoritesApi.ts        # API favoritos
 │   │   │   │   ├── imageService.ts
 │   │   │   │   ├── projectService.ts      # Servicio para gestión de proyectos
 │   │   │   │   └── userService.ts
@@ -574,6 +579,7 @@ Plataforma-inversion/
 │   │   ├── types/                        # TypeScript interfaces
 │   │   │   ├── auth.ts
 │   │   │   ├── blog.ts
+│   │   │   ├── favorite.types.ts         # Tipos para favoritos
 │   │   │   ├── index.ts
 │   │   │   ├── project.ts                 # Tipos para proyectos
 │   │   │   └── user.ts
@@ -669,6 +675,7 @@ Plataforma-inversion/
 │       │   │   ├── account.py            # Perfil, contacto, reset password
 │       │   │   ├── articles.py           # CRUD artículos blog
 │       │   │   ├── auth.py               # Login, logout, signup
+│       │   │   ├── favorites.py          # API favoritos
 │       │   │   ├── images.py             # Upload Cloudinary
 │       │   │   ├── projects.py           # CRUD proyectos de inversión
 │       │   │   ├── routes.py             # Rutas generales
@@ -682,12 +689,14 @@ Plataforma-inversion/
 │       │   ├── models/                   # Modelos SQLAlchemy
 │       │   │   ├── __init__.py
 │       │   │   ├── article.py
+│       │   │   ├── favorite.py           # Modelo de favoritos
 │       │   │   ├── project.py            # Modelo de proyectos
 │       │   │   └── user.py
 │       │   ├── schemas/                  # Validación y serialización
 │       │   │   ├── __init__.py
 │       │   │   ├── article_schema.py
 │       │   │   ├── contact_schema.py
+│       │   │   ├── favorite_schema.py    # Schemas para favoritos
 │       │   │   ├── project_schema.py     # Schemas para proyectos
 │       │   │   └── user.py
 │       │   ├── scripts/                  # Scripts de utilidad
@@ -716,6 +725,7 @@ Plataforma-inversion/
 │       │   │   ├── test_account.py
 │       │   │   ├── test_articles_api.py
 │       │   │   ├── test_auth.py
+│       │   │   ├── test_favorites_api.py # Tests de API de favoritos
 │       │   │   ├── test_images_api.py
 │       │   │   ├── test_projects_api.py  # Tests de API de proyectos
 │       │   │   ├── test_routes_api.py
@@ -729,6 +739,7 @@ Plataforma-inversion/
 │       │   ├── schemas/                  # Test de validación con Marshmallow
 │       │   │   ├── test_article_schema.py
 │       │   │   ├── test_contact_schema.py
+│       │   │   ├── test_favorite_schema.py # Tests de schemas de favoritos
 │       │   │   └── test_user_schema.py
 │       │   ├── scripts/                  # Test de comandos Flask CLI
 │       │   │   └── test_manage_admin.py
@@ -1033,6 +1044,7 @@ El backend utiliza un sistema modular para la gestión de proyectos:
 * ✅ Recuperación de contraseña por email con ResetPasswordForm
 * ✅ CRUD completo de artículos desde el panel admin
 * ✅ **Sistema completo de gestión de proyectos de inversión**
+* ✅ **Sistema de favoritos híbrido (Zustand + Backend)**
 * ✅ Editor HTML manual con slug automático y SEO
 * ✅ Sistema de imágenes con Cloudinary y drag & drop
 * ✅ Dashboard privado para usuarios registrados
@@ -1210,6 +1222,239 @@ El sistema incluye un proyecto de ejemplo en `src/backend/app/data/projects/five
 - **Tests específicos para proyectos**: `test_projects_api.py`
 - **Validación de esquemas**: Tests para `ProjectSchema` y `ProjectInputSchema`
 - **Tests de autorización**: Verificación de permisos de administrador
+
+## ❤️ Sistema de Favoritos Híbrido
+
+### Arquitectura Híbrida (Zustand + Backend)
+
+El sistema de favoritos implementa una arquitectura híbrida que combina lo mejor de ambos mundos:
+
+- **Persistencia local**: Zustand con localStorage como fallback
+- **Sincronización backend**: API REST para persistencia en servidor
+- **Optimistic updates**: UI instantánea con rollback automático
+- **Sincronización automática**: Al login/logout se sincroniza con el backend
+
+### Características Técnicas
+
+#### Frontend (React + Zustand)
+```typescript
+// Store híbrido con sincronización backend
+const useFavoritesStore = create<FavoritesState>()(
+    persist(
+        (set, get) => ({
+            // Estado local + sincronización backend
+            fetchFavorites: async () => {
+                const response = await favoritesApi.getFavorites();
+                set({ favorites: response.map(fav => fav.project) });
+            },
+            
+            // Toggle con optimistic update + sync
+            toggleFavorite: async (project) => {
+                // 1. Optimistic update (UI instantánea)
+                if (wasFavorite) {
+                    set({ favorites: favorites.filter(fav => fav.slug !== project.slug) });
+                } else {
+                    set({ favorites: [...favorites, project] });
+                }
+                
+                // 2. Sincronización con backend
+                try {
+                    if (wasFavorite) {
+                        await favoritesApi.removeFavorite(project.id);
+                    } else {
+                        await favoritesApi.addFavorite(project.id);
+                    }
+                } catch (error) {
+                    // 3. Rollback en caso de error
+                    // ... código de rollback
+                }
+            }
+        }),
+        {
+            name: "favorites-storage",
+            storage: createJSONStorage(() => localStorage)
+        }
+    )
+);
+```
+
+#### Backend (Flask + SQLAlchemy)
+```python
+# Modelo de favoritos
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relaciones
+    user = db.relationship('User', backref='favorites')
+    project = db.relationship('Project', backref='favorites')
+
+# API Endpoints
+@app.route('/api/favorites/', methods=['GET'])
+@jwt_required()
+def get_favorites():
+    """Obtener favoritos del usuario autenticado"""
+    user_id = get_jwt_identity()
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    return jsonify([favorite.to_dict() for favorite in favorites])
+
+@app.route('/api/favorites/', methods=['POST'])
+@jwt_required()
+def add_favorite():
+    """Añadir proyecto a favoritos"""
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    project_id = data.get('project_id')
+    
+    # Verificar que no existe ya
+    existing = Favorite.query.filter_by(user_id=user_id, project_id=project_id).first()
+    if existing:
+        return jsonify({'error': 'Proyecto ya está en favoritos'}), 400
+    
+    favorite = Favorite(user_id=user_id, project_id=project_id)
+    db.session.add(favorite)
+    db.session.commit()
+    
+    return jsonify(favorite.to_dict()), 201
+
+@app.route('/api/favorites/<int:project_id>', methods=['DELETE'])
+@jwt_required()
+def remove_favorite(project_id):
+    """Eliminar proyecto de favoritos"""
+    user_id = get_jwt_identity()
+    favorite = Favorite.query.filter_by(user_id=user_id, project_id=project_id).first()
+    
+    if not favorite:
+        return jsonify({'error': 'Favorito no encontrado'}), 404
+    
+    db.session.delete(favorite)
+    db.session.commit()
+    
+    return jsonify({'message': 'Favorito eliminado'}), 200
+```
+
+### Flujo de Sincronización
+
+#### 1. Login del Usuario
+```typescript
+// useAuthStore.ts
+login: async (credentials) => {
+    const user = await authService.login(credentials);
+    
+    // ✅ SINCRONIZAR FAVORITOS DEL BACKEND
+    try {
+        const { fetchFavorites } = useFavoritesStore.getState();
+        await fetchFavorites();
+    } catch (error) {
+        console.error("Error al cargar favoritos:", error);
+    }
+    
+    return user;
+}
+```
+
+#### 2. Toggle de Favorito
+```typescript
+// FavoriteButton.tsx
+const handleClick = () => {
+    if (!isAuthenticated) {
+        openAuthModal();
+        return;
+    }
+    
+    // Toggle con sincronización automática
+    toggleFavorite(project);
+};
+```
+
+#### 3. Logout del Usuario
+```typescript
+// useAuthStore.ts
+logout: async () => {
+    await authService.logout();
+    
+    // ✅ LIMPIAR FAVORITOS (estado + localStorage)
+    const { clearFavorites } = useFavoritesStore.getState();
+    clearFavorites();
+    
+    set({ user: null, isAuthenticated: false });
+}
+```
+
+### Componentes del Sistema
+
+#### FavoriteButton.tsx
+- **Estados visuales**: Verde cuando es favorito, borde cuando no
+- **Toggle funcional**: Añadir/remover favoritos
+- **Toast notifications**: Mensajes de confirmación
+- **Accesibilidad**: ARIA labels y títulos
+- **Responsive**: Tamaños configurables (sm, md, lg)
+
+#### FavoritesSection.tsx
+- **Grid responsive**: Muestra proyectos favoritos
+- **Estado vacío**: Mensaje y CTA cuando no hay favoritos
+- **Navegación**: Enlaces a explorar más proyectos
+- **Integración**: Compatible con ProjectCard existente
+
+#### useFavoritesStore.ts
+- **Persistencia local**: Zustand con localStorage
+- **Sincronización backend**: API REST automática
+- **Optimistic updates**: UI instantánea
+- **Rollback automático**: En caso de error de sincronización
+- **Limpieza en logout**: Estado + localStorage
+
+### API Endpoints
+
+```bash
+# Obtener favoritos del usuario autenticado
+GET /api/favorites/
+Headers: Cookie: access_token_cookie={jwt_token}
+
+# Añadir proyecto a favoritos
+POST /api/favorites/
+Headers: Cookie: access_token_cookie={jwt_token}
+Body: { "project_id": 123 }
+
+# Eliminar proyecto de favoritos
+DELETE /api/favorites/{project_id}
+Headers: Cookie: access_token_cookie={jwt_token}
+```
+
+### Ventajas de la Arquitectura Híbrida
+
+1. **UX Instantánea**: Respuesta inmediata del botón
+2. **Persistencia Robusta**: Backend como fuente de verdad
+3. **Offline First**: Funciona sin conexión (localStorage)
+4. **Sincronización Automática**: Se mantiene actualizado
+5. **Manejo de Errores**: Rollback automático si falla
+6. **Performance**: No bloquea la UI durante sincronización
+
+### Testing del Sistema
+
+- **Tests de API**: `test_favorites_api.py` (backend)
+- **Tests de Store**: `useFavoritesStore.test.ts` (frontend)
+- **Tests de Componente**: `FavoriteButton.test.tsx` (frontend)
+- **Tests de Integración**: Flujo completo login → toggle → logout
+
+### Archivos del Sistema
+
+```
+src/frontend/
+├── components/ui/FavoriteButton.tsx          # Botón de favoritos
+├── components/dashboard/FavoritesSection.tsx # Sección de favoritos
+├── stores/useFavoritesStore.ts                # Store Zustand
+├── lib/api/favoritesApi.ts                   # API service
+├── types/favorite.types.ts                   # Tipos TypeScript
+└── __tests__/ui/FavoriteButton.test.tsx      # Tests
+
+src/backend/
+├── app/api/favorites.py                      # Endpoints API
+├── app/models/favorite.py                    # Modelo SQLAlchemy
+├── app/schemas/favorite_schema.py            # Validación Marshmallow
+└── tests/api/test_favorites_api.py           # Tests backend
+```
 
 ## Arquitectura de Testing
 
