@@ -10,7 +10,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 
 # Inicializar las extensiones sin aplicación
-db = SQLAlchemy()
+# Se añade reconexión automática al pool para evitar errores con Neon (SSL connection closed)
+db = SQLAlchemy(engine_options={
+    "pool_pre_ping": True,   # Verifica la conexión antes de cada uso
+    "pool_recycle": 280      # Recicla conexiones cada 280 segundos para evitar expiración
+})
 migrate = Migrate()
 jwt = JWTManager()
 ma = Marshmallow()
