@@ -9,7 +9,6 @@
 # ------------------------------------------------------------
 
 from flask import Flask
-from flask_cors import CORS
 from app.api.auth import auth_bp
 from app.api.users import users_bp
 from app.api.routes import routes
@@ -18,39 +17,45 @@ from app.api.images import images_bp
 from app.api.account import account_bp
 from app.api.projects import projects_bp
 from app.api.favorites import favorites_bp
-from app.config import config_class
+from app.config import config
 from app.extensions import cors, db, init_app, jwt, ma, migrate
 from app.services.image_service import ImageService
 import os
 import json
+import logging
 from time import sleep
 from sqlalchemy import inspect
 
+# Configuración de logging global
+logging.basicConfig(level=logging.INFO)
 
-def create_app(config_object=config_class):
+def create_app():
     """
     Función fábrica para crear la aplicación Flask.
-    - Carga configuración según entorno.
-    - Inicializa extensiones (DB, JWT, CORS, migraciones, etc.).
-    - Inicializa Cloudinary para subir imágenes.
-    - Registra todos los blueprints.
-    - Inyecta automáticamente admin, artículos y proyectos si la BD está vacía.
+    Carga configuración dinámica según entorno (FLASK_ENV).
     """
 
-    # Crear la instancia Flask
     app = Flask(__name__)
+
+    # DEBUG: Verificar variables de entorno
+    print(f"[DEBUG] Variables de entorno disponibles: {list(os.environ.keys())}")
+    print(f"[DEBUG] FLASK_ENV en os.environ: {os.environ.get('FLASK_ENV', 'NO ENCONTRADO')}")
+    print(f"[DEBUG] FLASK_ENV en os.getenv: {os.getenv('FLASK_ENV', 'NO ENCONTRADO')}")
     
-    # Configurar nivel de logging
-    import logging
-    app.logger.setLevel(logging.INFO)
+    # Determinar entorno dinámicamente (no estático)
+    env = os.getenv("FLASK_ENV", "development")
+    config_class = config.get(env, config["development"])
+    app.config.from_object(config_class)
 
-    # Cargar configuración según entorno
-    app.config.from_object(config_object)
+    # LOG opcional para verificar configuración activa
+    app.logger.info(f"[CONFIG] Entorno Flask activo: {env}")
+    app.logger.info(f"[CONFIG] Clase de configuración activa: {config_class.__name__}")
+    app.logger.info(f"[CONFIG] CORS_ORIGINS: {app.config.get('CORS_ORIGINS')}")
 
-    # Log del entorno y configuración activa
-    print(f"[CONFIG] Entorno Flask activo: {app.config.get('ENV', 'no definido')}")
-    print(f"[CONFIG] Clase de configuración activa: {app.config.__class__.__name__}")
-    print(f"[CONFIG] CORS_ORIGINS: {app.config.get('CORS_ORIGINS')}")
+    # A partir de aquí puedes mantener tu inicialización normal:
+    # init_extensions(app)
+    # register_blueprints(app)
+    # etc.
 
     # Inicializar extensiones (db, jwt, mail, etc.)
     init_app(app)
