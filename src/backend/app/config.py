@@ -6,10 +6,11 @@ import os
 from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo adecuado
+# override=False permite que las variables del sistema (systemd) tengan prioridad
 if os.path.exists(".env.docker") and "DOCKER" in os.environ:
-    load_dotenv(".env.docker")
+    load_dotenv(".env.docker", override=False)
 else:
-    load_dotenv()
+    load_dotenv(override=False)
 
 class Config:
     """Configuración base de la aplicación."""

@@ -39,9 +39,18 @@ def create_app(config_object=config_class):
 
     # Crear la instancia Flask
     app = Flask(__name__)
+    
+    # Configurar nivel de logging
+    import logging
+    app.logger.setLevel(logging.INFO)
 
     # Cargar configuración según entorno
     app.config.from_object(config_object)
+
+    # Log del entorno y configuración activa
+    print(f"[CONFIG] Entorno Flask activo: {app.config.get('ENV', 'no definido')}")
+    print(f"[CONFIG] Clase de configuración activa: {app.config.__class__.__name__}")
+    print(f"[CONFIG] CORS_ORIGINS: {app.config.get('CORS_ORIGINS')}")
 
     # Inicializar extensiones (db, jwt, mail, etc.)
     init_app(app)

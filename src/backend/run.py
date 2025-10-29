@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from app import create_app
 
 # Cargar variables de entorno desde .env
-load_dotenv()
+load_dotenv(override=False)
 
 # Crear la instancia de Flask desde la función factory
 app = create_app()

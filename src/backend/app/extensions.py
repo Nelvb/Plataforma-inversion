@@ -32,18 +32,23 @@ def init_app(app):
     jwt.init_app(app)
     ma.init_app(app)
     
-    # Configuración completa de CORS
-    cors.init_app(app, 
+        # Configuración completa de CORS
+    cors.init_app(app,
         resources={
             r"/api/*": {
                 "origins": [
+                    # Entorno local
                     "http://localhost:3000",
-                    "https://boost-a-project.vercel.app"
+                    # Dominio de producción en Vercel (anterior)
+                    "https://boost-a-project.vercel.app",
+                    # Nuevos dominios oficiales
+                    "https://boostaproject.es",
+                    "https://www.boostaproject.es",
                 ],
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": [
-                    "Content-Type", 
-                    "Authorization", 
+                    "Content-Type",
+                    "Authorization",
                     "X-CSRF-TOKEN",
                     "X-Requested-With"
                 ],
@@ -53,6 +58,7 @@ def init_app(app):
         },
         supports_credentials=True
     )
+
     
     mail.init_app(app)
 

@@ -7,7 +7,6 @@
 
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
-from flask_cors import CORS
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 from app.extensions import db
@@ -15,18 +14,13 @@ from app.models.user import User
 from app.schemas.contact_schema import ContactSchema
 from app.services.email_service import send_email_with_limit
 
-# Definición del blueprint y aplicación de CORS solo a este módulo
+# Definición del blueprint
 account_bp = Blueprint("account", __name__)
-CORS(account_bp, origins=["http://localhost:3000", "https://boost-a-project.vercel.app"], supports_credentials=True)
 
 
 @account_bp.route("/update-profile", methods=["OPTIONS"])
 def update_profile_options():
     response = jsonify({})
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-CSRF-TOKEN')
-    response.headers.add('Access-Control-Allow-Methods', 'PUT,POST,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
 
 @account_bp.route("/update-profile", methods=["PUT"])
