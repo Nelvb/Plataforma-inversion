@@ -32,19 +32,24 @@ def init_app(app):
     jwt.init_app(app)
     ma.init_app(app)
     
-        # Configuración completa de CORS
+    # Configuración CORS dinámica según entorno
+    if app.config.get('DEBUG', False):  # Desarrollo
+        cors_origins = [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
+        ]
+        app.logger.info(f"[CORS] Configuración DESARROLLO: {cors_origins}")
+    else:  # Producción
+        cors_origins = [
+            "https://boostaproject.es",
+            "https://www.boostaproject.es"
+        ]
+        app.logger.info(f"[CORS] Configuración PRODUCCIÓN: {cors_origins}")
+    
     cors.init_app(app,
         resources={
             r"/api/*": {
-                "origins": [
-                    # Entorno local
-                    "http://localhost:3000",
-                    # Dominio de producción en Vercel (anterior)
-                    "https://boost-a-project.vercel.app",
-                    # Nuevos dominios oficiales
-                    "https://boostaproject.es",
-                    "https://www.boostaproject.es",
-                ],
+                "origins": cors_origins,
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": [
                     "Content-Type",
