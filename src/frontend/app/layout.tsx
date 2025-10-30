@@ -32,6 +32,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// ⚠️ ESTO FALTA - AÑÁDELO:
+export const metadata: Metadata = {
+  title: "Boost A Project | Plataforma de inversión inmobiliaria",
+  description:
+    "Invierte de forma clara y segura. Boost A Project te acompaña en cada paso para que tomes decisiones informadas con transparencia y confianza.",
+  // Next.js detectará automáticamente app/icon.ico
+};
 
 export default function RootLayout({
   children,
