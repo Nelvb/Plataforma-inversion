@@ -37,7 +37,13 @@ export const metadata: Metadata = {
   description:
     "Invierte de forma clara y segura. Boost A Project te acompaña en cada paso para que tomes decisiones informadas con transparencia y confianza.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/favicon.ico", sizes: "16x16", type: "image/x-icon" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
