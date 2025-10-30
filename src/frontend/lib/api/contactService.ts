@@ -22,7 +22,8 @@ export async function sendContact(data: ContactPayload) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-    credentials: "include",
+    // Envío anónimo: no enviar cookies para evitar requisito de CSRF cuando no hay sesión
+    credentials: "omit",
   });
 
   if (!res.ok) throw new Error("Error al enviar el mensaje de contacto");
