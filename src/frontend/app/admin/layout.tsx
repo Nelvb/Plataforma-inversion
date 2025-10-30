@@ -13,8 +13,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+// Navbar y Footer se gestionan desde ClientLayout
 import AdminPageContent from "@/components/admin/layout/AdminPageContent";
 
 export default function AdminLayout({
@@ -25,16 +24,14 @@ export default function AdminLayout({
     const pathname = usePathname();
 
     // Definir las rutas donde SÍ se muestra Navbar y Footer en el admin
-    const showLayoutFor = ["/admin", "/admin/perfil"];
+    const showLayoutFor = ["/admin", "/admin/perfil"]; // mantenido por coherencia si se amplía
     const shouldShowLayout = showLayoutFor.includes(pathname);
 
     return (
         <div className="min-h-screen bg-white text-gray-800 flex flex-col">
-            {shouldShowLayout && <Navbar />}
             <AdminPageContent>
                 <main className="flex-grow pb-16">{children}</main>
             </AdminPageContent>
-            {shouldShowLayout && <Footer />}
         </div>
     );
 }
