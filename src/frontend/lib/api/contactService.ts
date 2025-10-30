@@ -7,6 +7,7 @@
  */
 
 import { buildApiUrl } from "@/lib/api/baseUrl";
+import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
 
 export interface ContactPayload {
   name: string;
@@ -30,6 +31,17 @@ export async function sendContact(data: ContactPayload) {
 
 export const contactService = {
   send: sendContact,
-  // Compatibilidad hacia atrás: algunos consumidores llaman sendMessage(payload, isAuthenticated)
-  sendMessage: (data: ContactPayload, _isAuthenticated?: boolean) => sendContact(data),
+  // Compatibilidad hacia atrás: si está autenticado, usar fetchWithAuth para aportar X-CSRF-TOKEN automáticamente
+  sendMessage: async (data: ContactPayload, isAuthenticated?: boolean) => {
+    if (isAuthenticated) {
+      const res = await fetchWithAuth(buildApiUrl("/api/account/contact"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Error al enviar el mensaje de contacto");
+      return await res.json();
+    }
+    return sendContact(data);
+  },
 };
