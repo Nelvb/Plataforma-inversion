@@ -18,7 +18,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { useUiStore } from "@/stores/useUiStore";
@@ -39,19 +39,20 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     className = ""
 }) => {
     const { isAuthenticated } = useAuthStore();
-    const { isFavorite, toggleFavorite } = useFavoritesStore();
-    const { openAuthModal } = useUiStore();
+    const { isFavorite, toggleFavorite, addFavorite, removeFavorite } = useFavoritesStore();
+    const { openAuthModal, showAuthModal } = useUiStore();
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
+
+    // Guardar favorito pendiente cuando no hay sesión
+    const pendingFavoriteSlugRef = useRef<string | null>(null);
 
     // Verificar si el proyecto es favorito
     const isProjectFavorite = isFavorite(project.slug);
 
     // FORZAR ACTUALIZACIÓN cuando cambie la autenticación
     useEffect(() => {
-        // Si no está autenticado, forzar re-render para limpiar estado visual
         if (!isAuthenticated) {
-            // El store ya debería estar limpio, pero forzamos re-render
             const { favorites } = useFavoritesStore.getState();
             if (favorites.length > 0) {
                 console.warn("⚠️ Favoritos persistentes detectados después del logout");
@@ -59,10 +60,23 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         }
     }, [isAuthenticated]);
 
+    // Si el modal de auth se cierra y el usuario sigue sin autenticarse, revertir marcado optimista
+    useEffect(() => {
+        if (!showAuthModal && !isAuthenticated && pendingFavoriteSlugRef.current) {
+            removeFavorite(pendingFavoriteSlugRef.current);
+            pendingFavoriteSlugRef.current = null;
+        }
+    }, [showAuthModal, isAuthenticated, removeFavorite]);
+
     // Manejar clic en el botón
     const handleClick = () => {
         if (!isAuthenticated) {
-            // Si no está autenticado, usar callback si existe, sino modal
+            // Marcar optimista y abrir modal
+            if (!isProjectFavorite) {
+                addFavorite(project);
+                pendingFavoriteSlugRef.current = project.slug;
+            }
+
             if (onLoginRequired) {
                 onLoginRequired();
             } else {
@@ -75,7 +89,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         const wasFavorite = isProjectFavorite;
         toggleFavorite(project);
         
-        // Mostrar toast con el mensaje correcto
         if (wasFavorite) {
             setToastMessage("Eliminado de favoritos");
         } else {
