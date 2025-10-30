@@ -7,7 +7,8 @@
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
 import type { SignupData } from "@/types/auth";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// Cambiado para test directo:
+const API_BASE_URL = "https://api.boostaproject.es/api";
 
 if (!API_BASE_URL) {
     throw new Error("Falta la variable de entorno NEXT_PUBLIC_API_URL");

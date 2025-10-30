@@ -18,7 +18,8 @@
 import { Project, ProjectInput } from "@/types/project"
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+// Cambiado para test directo:
+const API_URL = "https://api.boostaproject.es/api";
 
 /**
  * Obtiene la lista completa de proyectos desde el backend.
