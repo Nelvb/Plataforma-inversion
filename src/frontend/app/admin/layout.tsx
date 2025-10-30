@@ -32,7 +32,7 @@ export default function AdminLayout({
         <div className="min-h-screen bg-white text-gray-800 flex flex-col">
             {shouldShowLayout && <Navbar />}
             <AdminPageContent>
-                <main className="flex-grow">{children}</main>
+                <main className="flex-grow pb-16">{children}</main>
             </AdminPageContent>
             {shouldShowLayout && <Footer />}
         </div>
