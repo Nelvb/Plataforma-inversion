@@ -23,6 +23,7 @@ import type {
     SignupData,
     AuthState
 } from "@/types/auth";
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
 export const useAuthStore = create<AuthState>()(
     persist(
@@ -159,7 +160,7 @@ export const useAuthStore = create<AuthState>()(
             refreshUser: async (): Promise<void> => {
                 try {
                     const response = await fetchWithAuth(
-                        `${process.env.NEXT_PUBLIC_API_URL}/auth/profile`,
+                        buildApiUrl("/api/auth/profile"),
                         { method: "GET" }
                     );
 

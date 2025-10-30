@@ -40,6 +40,8 @@ const getCookie = (name: string): string => {
     return "";
 };
 
+import { buildApiUrl } from "@/lib/api/baseUrl";
+
 interface FetchWithAuthOptions extends RequestInit {
     retry?: boolean;
 }
@@ -101,11 +103,11 @@ export const fetchWithAuth = async (
         // Obtener CSRF token para refresh
         let refreshCSRF = localStorage.getItem("csrf_token");
         if (!refreshCSRF) {
-            refreshCSRF = getCSRFToken(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`);
+            refreshCSRF = getCSRFToken(buildApiUrl("/api/auth/refresh"));
         }
 
         const refreshResponse = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+            buildApiUrl("/api/auth/refresh"),
             {
                 method: "POST",
                 credentials: "include",

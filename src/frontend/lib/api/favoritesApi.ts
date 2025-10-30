@@ -18,13 +18,7 @@
 
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
 import type { Project } from "@/types/project";
-
-// Cambiado para test directo:
-const API_URL = "https://api.boostaproject.es/api";
-
-if (!API_URL) {
-    throw new Error("Falta la variable de entorno NEXT_PUBLIC_API_URL");
-}
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
 export interface FavoriteResponse {
     id: number;
@@ -40,7 +34,7 @@ export const favoritesApi = {
      * Devuelve array de favoritos con información completa del proyecto.
      */
     getFavorites: async (): Promise<FavoriteResponse[]> => {
-        const response = await fetchWithAuth(`${API_URL}/favorites/`);
+        const response = await fetchWithAuth(buildApiUrl("/api/favorites/"));
         
         if (!response.ok) {
             throw new Error("Error al obtener favoritos");
@@ -54,7 +48,7 @@ export const favoritesApi = {
      * @param projectId - ID del proyecto a añadir
      */
     addFavorite: async (projectId: number): Promise<FavoriteResponse> => {
-        const response = await fetchWithAuth(`${API_URL}/favorites/`, {
+        const response = await fetchWithAuth(buildApiUrl("/api/favorites/"), {
             method: "POST",
             body: JSON.stringify({ project_id: projectId }),
         });
@@ -73,7 +67,7 @@ export const favoritesApi = {
      * @param projectId - ID del proyecto a eliminar
      */
     removeFavorite: async (projectId: number): Promise<void> => {
-        const response = await fetchWithAuth(`${API_URL}/favorites/${projectId}`, {
+        const response = await fetchWithAuth(buildApiUrl(`/api/favorites/${projectId}`), {
             method: "DELETE",
         });
 

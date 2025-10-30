@@ -6,13 +6,7 @@
 
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
 import type { SignupData } from "@/types/auth";
-
-// Cambiado para test directo:
-const API_BASE_URL = "https://api.boostaproject.es/api";
-
-if (!API_BASE_URL) {
-    throw new Error("Falta la variable de entorno NEXT_PUBLIC_API_URL");
-}
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
 export const authService = {
     /**
@@ -22,7 +16,7 @@ export const authService = {
     signup: async (userData: SignupData) => {
         const { username, last_name, email, password } = userData;
 
-        const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+        const response = await fetch(buildApiUrl("/api/auth/signup"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, last_name, email, password }),
@@ -43,7 +37,7 @@ export const authService = {
      * Envía cookie segura con JWT.
      */
     login: async (credentials: { email: string; password: string }) => {
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        const response = await fetch(buildApiUrl("/api/auth/login"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -73,7 +67,7 @@ export const authService = {
      */
     logout: async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+            const response = await fetch(buildApiUrl("/api/auth/logout"), {
                 method: "POST",
                 credentials: "include",
             });
@@ -92,7 +86,7 @@ export const authService = {
      * Obtiene el perfil del usuario autenticado (requiere cookie JWT).
      */
     profile: async () => {
-        const response = await fetchWithAuth(`${API_BASE_URL}/auth/profile`, {
+        const response = await fetchWithAuth(buildApiUrl("/api/auth/profile"), {
             method: "GET",
         });
 

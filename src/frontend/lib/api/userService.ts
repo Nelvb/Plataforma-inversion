@@ -8,13 +8,15 @@
  */
 
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
-// Cambiado para test directo:
-const API_URL = "https://api.boostaproject.es/api";
+// Cambiado para usar helper central
+const API_URL = {
+    profile: buildApiUrl("/api/auth/profile"),
+    users: (id?: number | string) => buildApiUrl(id ? `/api/users/${id}` : "/api/users"),
+};
 
-if (!API_URL) {
-    throw new Error("Falta la variable de entorno NEXT_PUBLIC_API_URL");
-}
+export { API_URL };
 
 export const userService = {
     /**
@@ -27,7 +29,7 @@ export const userService = {
         email?: string;
         current_password: string;
     }) => {
-        const response = await fetchWithAuth(`${API_URL}/account/update-profile`, {
+        const response = await fetchWithAuth(`${API_URL.profile}`, {
             method: "PUT",
             body: JSON.stringify(data),
         });
@@ -42,7 +44,7 @@ export const userService = {
      * Requiere contraseña actual y nueva contraseña.
      */
     changePassword: async (data: { current_password: string; new_password: string }) => {
-        const response = await fetchWithAuth(`${API_URL}/account/change-password`, {
+        const response = await fetchWithAuth(`${API_URL.profile}/change-password`, {
             method: "PUT",
             body: JSON.stringify(data),
         });
@@ -57,7 +59,7 @@ export const userService = {
      * Solo requiere el correo electrónico del usuario.
      */
     requestPasswordReset: async (email: string) => {
-        const response = await fetch(`${API_URL}/account/request-password-reset`, {
+        const response = await fetch(`${API_URL.profile}/request-password-reset`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
@@ -85,7 +87,7 @@ export const userService = {
      * El token lo proporciona el backend por email.
      */
     resetPassword: async (data: { token: string; new_password: string }) => {
-        const response = await fetch(`${API_URL}/account/reset-password`, {
+        const response = await fetch(`${API_URL.profile}/reset-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -101,7 +103,7 @@ export const userService = {
      * Requiere CSRF y sesión activa.
      */
     deleteAccount: async (): Promise<void> => {
-        const response = await fetchWithAuth(`${API_URL}/users/delete`, {
+        const response = await fetchWithAuth(`${API_URL.users()}`, {
             method: "DELETE",
         });
 

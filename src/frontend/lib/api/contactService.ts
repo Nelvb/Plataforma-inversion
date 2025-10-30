@@ -6,44 +6,18 @@
  * - Si no está autenticado, usa fetch normal sin cabeceras CSRF.
  */
 
-import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
-// Cambiado para test directo:
-const API_URL = "https://api.boostaproject.es/api";
+const API_URL = buildApiUrl("/api/account/contact");
 
-if (!API_URL) {
-    throw new Error("Falta la variable de entorno NEXT_PUBLIC_API_URL");
+export async function sendContact(data: unknown) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Error enviando contacto");
+  return await res.json();
 }
-
-interface ContactData {
-    name: string;
-    last_name?: string;
-    subject: string;
-    message: string;
-    email?: string;
-}
-
-export const contactService = {
-    sendMessage: async (data: ContactData, isAuthenticated: boolean): Promise<void> => {
-        const url = `${API_URL}/account/contact`;
-
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include" as RequestCredentials,
-            body: JSON.stringify(data),
-        };
-
-        const response = isAuthenticated
-            ? await fetchWithAuth(url, config)
-            : await fetch(url, config);
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(result?.msg || "Error al enviar el mensaje.");
-        }
-    },
-};
