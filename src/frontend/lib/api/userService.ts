@@ -62,7 +62,7 @@ export const userService = {
      * Solo requiere el correo electrónico del usuario.
      */
     requestPasswordReset: async (email: string) => {
-        const response = await fetch(`${API_URL.profile}/request-password-reset`, {
+        const response = await fetch(buildApiUrl(`/api/account/request-password-reset`), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
@@ -94,7 +94,7 @@ export const userService = {
      * El token lo proporciona el backend por email.
      */
     resetPassword: async (data: { token: string; new_password: string }) => {
-        const response = await fetch(`${API_URL.profile}/reset-password`, {
+        const response = await fetch(buildApiUrl(`/api/account/reset-password`), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
