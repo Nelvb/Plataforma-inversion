@@ -55,12 +55,12 @@ export const useAuthStore = create<AuthState>()(
                         error: null
                     });
 
-                    // SINCRONIZAR FAVORITOS DEL BACKEND
+                    // Sincronizar cola de favoritos pendientes y refrescar
                     try {
-                        const { fetchFavorites } = useFavoritesStore.getState();
-                        await fetchFavorites();
+                        const { syncPendingWithBackend } = useFavoritesStore.getState();
+                        await syncPendingWithBackend();
                     } catch (error) {
-                        console.error("Error al cargar favoritos:", error);
+                        console.error("Error sincronizando favoritos pendientes:", error);
                         // No fallar el login por esto
                     }
 
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthState>()(
                         password: data.password
                     });
 
-                    // ✅ fetchFavorites() ya se llama dentro de login()
+                    // ✅ syncPendingWithBackend() ya se llama dentro de login()
 
                     return user;
                 } catch (error) {

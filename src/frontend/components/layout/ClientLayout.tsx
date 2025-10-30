@@ -57,7 +57,7 @@ interface ClientLayoutProps {
 
 const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuthStore();
+  useAuthStore();
   const [showContent, setShowContent] = useState(false);
 
   const isStrictlyAdminHomeOrProfile =

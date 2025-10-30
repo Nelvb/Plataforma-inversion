@@ -73,7 +73,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, initialData }) => {
 
   // Estados de error para cada campo
   const [titleError, setTitleError] = useState(false)
-  const [descriptionError, setDescriptionError] = useState(false)
+  const [descriptionError] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [totalInvestmentError, setTotalInvestmentError] = useState(false)
   const [locationError, setLocationError] = useState(false)

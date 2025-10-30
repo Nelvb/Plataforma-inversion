@@ -8,16 +8,28 @@
 
 import { buildApiUrl } from "@/lib/api/baseUrl";
 
-const API_URL = buildApiUrl("/api/account/contact");
+export interface ContactPayload {
+  name: string;
+  last_name?: string;
+  email?: string;
+  subject: string;
+  message: string;
+}
 
-export async function sendContact(data: unknown) {
-  const res = await fetch(API_URL, {
+export async function sendContact(data: ContactPayload) {
+  const res = await fetch(buildApiUrl("/api/account/contact"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
     credentials: "include",
   });
 
-  if (!res.ok) throw new Error("Error enviando contacto");
+  if (!res.ok) throw new Error("Error al enviar el mensaje de contacto");
   return await res.json();
 }
+
+export const contactService = {
+  send: sendContact,
+  // Compatibilidad hacia atrás: algunos consumidores llaman sendMessage(payload, isAuthenticated)
+  sendMessage: (data: ContactPayload, _isAuthenticated?: boolean) => sendContact(data),
+};

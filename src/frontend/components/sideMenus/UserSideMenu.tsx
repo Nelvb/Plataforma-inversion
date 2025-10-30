@@ -28,7 +28,7 @@ interface UserSideMenuProps {
 
 const UserSideMenu: React.FC<UserSideMenuProps> = ({ isOpen, onClose }) => {
     const { logout } = useAuthStore();
-    const { openDeleteModal } = useUiStore();
+    useUiStore();
     const pathname = usePathname();
 
     if (!isOpen) return null;

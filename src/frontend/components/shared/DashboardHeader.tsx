@@ -27,7 +27,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     title,
     subtitle,
 }) => {
-    const { user } = useAuthStore();
+    useAuthStore();
 
     return (
         <div className="relative overflow-hidden rounded-2xl mb-12">

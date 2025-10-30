@@ -36,6 +36,7 @@ const BlogPage: React.FC = () => {
     revalidateOnReconnect: true, // Revalidar al reconectar
     dedupingInterval: 300000, // 5 minutos de deduplicación
   });
+  void error; // evita warning sin eliminar semántica ni romper lint
 
   // useMemo para extraer datos (evita recálculos innecesarios)
   const articles = useMemo(() => data?.articles || [], [data]);
@@ -44,7 +45,6 @@ const BlogPage: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
-
 
   return (
     <div className="relative min-h-[100dvh] pt-52">

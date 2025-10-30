@@ -25,7 +25,7 @@ interface DropdownBaseProps {
 
 const DropdownBase: React.FC<DropdownBaseProps> = ({
     isOpen,
-    onClose,
+    onClose: _onClose,
     title,
     width = 256,
     children,

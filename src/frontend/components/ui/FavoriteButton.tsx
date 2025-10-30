@@ -39,7 +39,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     className = ""
 }) => {
     const { isAuthenticated } = useAuthStore();
-    const { isFavorite, toggleFavorite, addFavorite, removeFavorite } = useFavoritesStore();
+    const { isFavorite, toggleFavorite, addFavorite, removeFavorite, addPending, removePending } = useFavoritesStore();
     const { openAuthModal, showAuthModal } = useUiStore();
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
@@ -64,6 +64,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     useEffect(() => {
         if (!showAuthModal && !isAuthenticated && pendingFavoriteSlugRef.current) {
             removeFavorite(pendingFavoriteSlugRef.current);
+            // También eliminar de cola pendiente si existiera el id (no lo tenemos aquí)
             pendingFavoriteSlugRef.current = null;
         }
     }, [showAuthModal, isAuthenticated, removeFavorite]);
@@ -74,6 +75,8 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
             // Marcar optimista y abrir modal
             if (!isProjectFavorite) {
                 addFavorite(project);
+                // Guardar en cola de pendientes por id
+                addPending(project.id);
                 pendingFavoriteSlugRef.current = project.slug;
             }
 

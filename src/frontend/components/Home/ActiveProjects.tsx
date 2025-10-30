@@ -12,7 +12,7 @@ import ProjectsBanner from "@/components/shared/ProjectsBanner";
 import { getProjects } from "@/lib/api/projectService";
 
 // SWR fetcher function para cache automático
-const fetcher = function fetcher(url: string) {
+const fetcher = function fetcher(_url: string) {
   return getProjects();
 };
 

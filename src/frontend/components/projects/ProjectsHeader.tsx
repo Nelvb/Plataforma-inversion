@@ -23,7 +23,7 @@ interface ProjectsHeaderProps {
     count: number;
 }
 
-const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({ count }) => {
+const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({ count: _count }) => {
     return (
         <div className="relative overflow-hidden rounded-2xl mb-12 shadow-md">
             {/* Fondo con gradiente corporativo */}

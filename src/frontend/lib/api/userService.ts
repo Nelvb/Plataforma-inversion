@@ -5,12 +5,15 @@
  * Todas las llamadas se autentican usando cookies HttpOnly.
  * Usa fetchWithAuth para renovar automáticamente el token JWT si ha expirado.
  * Añade automáticamente el token CSRF desde cookies para métodos sensibles.
+ *
+ * @author Boost A Project
+ * @since v2.6.4
  */
 
 import { fetchWithAuth } from "@/lib/utils/fetchWithAuth";
 import { buildApiUrl } from "@/lib/api/baseUrl";
 
-// Cambiado para usar helper central
+// Construcción centralizada de URLs
 const API_URL = {
     profile: buildApiUrl("/api/auth/profile"),
     users: (id?: number | string) => buildApiUrl(id ? `/api/users/${id}` : "/api/users"),
@@ -66,17 +69,21 @@ export const userService = {
         });
 
         const text = await response.text();
-        let result;
+        let result: Record<string, unknown> = {};
 
         try {
             result = text ? JSON.parse(text) : {};
-        } catch (e) {
+        } catch {
             console.error("Error parsing response:", text);
             result = { msg: "Error de formato en la respuesta" };
         }
 
         if (!response.ok) {
-            throw new Error(result?.msg || `Error ${response.status}: ${response.statusText}`);
+            const msg =
+                typeof (result as { msg?: unknown }).msg === "string"
+                    ? (result as { msg: string }).msg
+                    : `Error ${response.status}: ${response.statusText}`;
+            throw new Error(msg);
         }
 
         return result;

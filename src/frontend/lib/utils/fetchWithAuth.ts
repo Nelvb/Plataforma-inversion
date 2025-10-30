@@ -4,8 +4,14 @@
  * Wrapper centralizado para fetch autenticado.
  * - Añade automáticamente CSRF Token para métodos sensibles (POST, PUT, PATCH, DELETE).
  * - Reintenta una vez si el token ha expirado (401), intentando renovar con /auth/refresh.
- * - Si la renovación falla, devuelve error "SessionExpired" para manejo controlado.
+ * - Si la renovación falla, devuelve error "SessionExpired" y redirige a /login.
+ *
+ * @author Boost A Project
+ * @since v2.6.5
  */
+
+import { redirect } from "next/navigation";
+import { buildApiUrl } from "@/lib/api/baseUrl";
 
 /**
  * Extrae el CSRF token desde las cookies del navegador.
@@ -25,22 +31,6 @@ const getCSRFToken = (url: string): string => {
 
     return "";
 };
-
-/**
- * Obtiene una cookie específica del navegador.
- */
-const getCookie = (name: string): string => {
-    const cookies = document.cookie.split(";");
-    for (const c of cookies) {
-        const cookie = c.trim();
-        if (cookie.startsWith(`${name}=`)) {
-            return cookie.substring(name.length + 1);
-        }
-    }
-    return "";
-};
-
-import { buildApiUrl } from "@/lib/api/baseUrl";
 
 interface FetchWithAuthOptions extends RequestInit {
     retry?: boolean;
@@ -65,18 +55,18 @@ export const fetchWithAuth = async (
     if (!csrfToken) {
         csrfToken = getCSRFToken(url);
     }
-    
+
     if (!csrfToken && needsCSRF) {
         console.warn("CSRF token missing. User session may have expired.");
         throw new Error("SessionExpired");
     }
 
     // Logging para depuración
-    console.debug("fetchWithAuth:", { 
-        url, 
-        method, 
-        needsCSRF, 
-        hasCSRF: !!csrfToken 
+    console.debug("fetchWithAuth:", {
+        url,
+        method,
+        needsCSRF,
+        hasCSRF: !!csrfToken,
     });
 
     const headers = {
@@ -106,29 +96,24 @@ export const fetchWithAuth = async (
             refreshCSRF = getCSRFToken(buildApiUrl("/api/auth/refresh"));
         }
 
-        const refreshResponse = await fetch(
-            buildApiUrl("/api/auth/refresh"),
-            {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "X-CSRF-TOKEN": refreshCSRF,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const refreshResponse = await fetch(buildApiUrl("/api/auth/refresh"), {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "X-CSRF-TOKEN": refreshCSRF,
+                "Content-Type": "application/json",
+            },
+        });
 
         if (!refreshResponse.ok) {
             console.error("Fallo al renovar token. Sesión expirada.");
             localStorage.removeItem("user");
             localStorage.removeItem("token");
             localStorage.removeItem("csrf_token");
-            
-            // Redirigir a login
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const { default: router } = require("next/router");
-            router.push("/login");
-            
+
+            // Redirigir de forma nativa (sin require)
+            redirect("/login");
+
             throw new Error("SessionExpired");
         }
 

@@ -25,6 +25,7 @@ interface FavoritesState {
     favorites: Project[];
     isLoading: boolean;
     error: string | null;
+    pendingFavoriteIds: number[];
     
     // Acciones
     fetchFavorites: () => Promise<void>;
@@ -33,6 +34,10 @@ interface FavoritesState {
     toggleFavorite: (project: Project) => Promise<void>;
     isFavorite: (slug: string) => boolean;
     clearFavorites: () => void;
+    addPending: (projectId: number) => void;
+    removePending: (projectId: number) => void;
+    clearPending: () => void;
+    syncPendingWithBackend: () => Promise<void>;
     debugFavorites: () => { memory: Project[]; localStorage: string | null; count: number };
 }
 
@@ -43,6 +48,7 @@ export const useFavoritesStore = create<FavoritesState>()(
             favorites: [],
             isLoading: false,
             error: null,
+            pendingFavoriteIds: [],
 
             // Obtener favoritos del backend
             fetchFavorites: async () => {
@@ -156,6 +162,44 @@ export const useFavoritesStore = create<FavoritesState>()(
                 console.log("✅ Favoritos limpiados completamente");
             },
 
+            // Gestionar cola de favoritos pendientes
+            addPending: (projectId: number) => {
+                set((state) => {
+                    if (state.pendingFavoriteIds.includes(projectId)) return state;
+                    const next = [...state.pendingFavoriteIds, projectId];
+                    localStorage.setItem("pending-favorites", JSON.stringify(next));
+                    return { pendingFavoriteIds: next } as Partial<FavoritesState> as FavoritesState;
+                });
+            },
+            removePending: (projectId: number) => {
+                set((state) => {
+                    const next = state.pendingFavoriteIds.filter(id => id !== projectId);
+                    localStorage.setItem("pending-favorites", JSON.stringify(next));
+                    return { pendingFavoriteIds: next } as Partial<FavoritesState> as FavoritesState;
+                });
+            },
+            clearPending: () => {
+                localStorage.removeItem("pending-favorites");
+                set({ pendingFavoriteIds: [] });
+            },
+
+            // Sincronizar cola de favoritos pendientes con el backend tras login
+            syncPendingWithBackend: async () => {
+                const { pendingFavoriteIds } = get();
+                if (!pendingFavoriteIds || pendingFavoriteIds.length === 0) return;
+                for (const projectId of pendingFavoriteIds) {
+                    try {
+                        await favoritesApi.addFavorite(projectId);
+                    } catch (err: unknown) {
+                        // Ignorar duplicados u otros errores transitorios
+                        console.warn("syncPendingWithBackend error:", err);
+                    }
+                }
+                // Limpiar cola y refrescar desde backend
+                get().clearPending();
+                await get().fetchFavorites();
+            },
+
             // Función de debugging para inspeccionar el estado
             debugFavorites: () => {
                 const { favorites } = get();
@@ -186,7 +230,8 @@ export const useFavoritesStore = create<FavoritesState>()(
             },
             
             partialize: (state) => ({ 
-                favorites: state.favorites 
+                favorites: state.favorites,
+                pendingFavoriteIds: state.pendingFavoriteIds,
             })
         }
     )
