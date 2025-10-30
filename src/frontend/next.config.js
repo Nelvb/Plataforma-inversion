@@ -3,10 +3,12 @@
  *
  * Características:
  * - reactStrictMode: Activa el modo estricto de React para detectar errores potenciales.
- * - env: Define variables de entorno accesibles en el frontend.
  * - images: Configura patrones remotos permitidos para cargar imágenes.
- * - rewrites: Redirige automáticamente las rutas `/api/...` al backend.
+ * - rewrites: Redirige automáticamente las rutas `/api/...` al backend en desarrollo.
  * - experimental.forceSwcTransforms: Asegura el uso de SWC para compilación.
+ *
+ * @author Boost A Project
+ * @since v1.0.0
  */
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -15,27 +17,13 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
-  // Configuración para resolver el warning de múltiples lockfiles
-  // Especifica que el directorio de trabajo es src/frontend
+
   outputFileTracingRoot: __dirname,
-  
-  // Configuración para asegurar que SWC se use para todas las transformaciones,
-  // incluso cuando existe un archivo de configuración de Babel en el proyecto
+
   experimental: {
     forceSwcTransforms: true,
-    // Otras configuraciones experimentales que puedas necesitar
   },
-  
-  // Variables de entorno
-  env: {
-    NEXT_PUBLIC_API_URL:
-      process.env.NODE_ENV === "production"
-        ? "https://boost-a-project-backend.onrender.com/api"
-        : "http://localhost:5000/api",
-  },
-  
-  // Configuración de imágenes remotas
+
   images: {
     remotePatterns: [
       {
@@ -45,8 +33,8 @@ const nextConfig = {
       },
     ],
   },
-  
-  // Configuración de rewrites para el backend
+
+  // Rewrites solo para desarrollo local
   async rewrites() {
     return [
       {
